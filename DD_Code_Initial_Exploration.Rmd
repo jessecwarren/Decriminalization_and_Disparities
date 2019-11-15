@@ -1,0 +1,73 @@
+---
+title: "DD_Code_Marijuana"
+author: "Jesse Warren"
+date: "10/20/2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+```
+
+```{r load national NIBRS data, cache=TRUE}
+#Load 2016 NIBRS Data
+
+NIBRS_Arrest_Data_2016_filepath <- "Data/NIBRS/ICPSR_37066 - 2016/DS0004/37066-0004-Data.rda"
+
+
+NIBRS_Arrest_Data_2016 <- load(NIBRS_Arrest_Data_2016_filepath)
+NIBRS_Arrest_Data_2016_raw <- da37066.0004
+
+
+```
+
+```{r filter NIBRS data by individual states}
+#filter by WA state only
+WA_NIBRS_Data_2016_raw <- NIBRS_Arrest_Data_2016_raw %>% 
+  filter(STATE == "(46) WA")
+
+#Select race, offense type, drug type
+WA_NIBRS_Data_2016_raw_selected <- WA_NIBRS_Data_2016_raw %>% 
+  select(V50091, V50092, V50093, V50111, V50112, V50113, V40071, V40081, V40091, V40101, V40111, V40121, V40131, V40141, V40151, V40161, V30121, V30122, V30123, V30161, V30162, V30163, V30201, V30202, V30203) 
+
+```
+
+
+
+```{r load crime data explorer data}
+cde_arrests_national_adults <- read_csv("Data/Crime_Data_Explorer/arrests_national_adults.csv")
+
+WA_2016_NIBRS_arrestee <- read_csv("Data/NIBRS/WA-2016/WA/NIBRS_ARRESTEE.csv")
+
+```
+
+```{r load UCR data}
+#Load 2013 UCR data
+UCR_Data_2013_filepath <- "Data/UCR/ICPSR_36116/DS0001/36116-0001-Data.rda"
+
+
+UCR_Data_2013_raw <- load(UCR_Data_2013_filepath)
+UCR_Data_2013_raw <- da36116.0001
+```
+
+```{r Look at UCR Marijuana data}
+
+
+UCR_Data_2013_WA_clean <- UCR_Data_2013_raw %>% 
+  select(STATE, ORI, YEAR, REPORT, ADJUST, POP, COUNTY, AGENCY, CARD1, CARD2, CARD3, OFFENSE, JW, JB, JI, JA, JH, JN, AW, AB, AI, AA, AH, AN) %>% 
+  filter(STATE == "(46) Washington") %>% #only include WA
+  filter(OFFENSE == 182 | OFFENSE == 187) #only include marijuana sale (182) or marijuana possession (187)
+  
+UCR_Data_2013_AK_clean <- UCR_Data_2013_raw %>% 
+  select(STATE, ORI, YEAR, REPORT, ADJUST, POP, COUNTY, AGENCY, CARD1, CARD2, CARD3, OFFENSE, JW, JB, JI, JA, JH, JN, AW, AB, AI, AA, AH, AN) %>% 
+  filter(STATE == "(50) Alaska") %>% #only include AK
+  filter(OFFENSE == 182 | OFFENSE == 187) #only include marijuana sale (182) or marijuana possession (187)  
+  
+
+#summarize number of marijuana arrests in AK
+
+table(UCR_Data_2013_AK_clean$AB)
+```
+

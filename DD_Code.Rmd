@@ -1,0 +1,48 @@
+---
+title: "DD_Code"
+author: "Jesse Warren"
+date: "10/20/2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+```
+
+
+```{r load UCR data}
+#define function to load individual UCR data
+load_individual_year_UCR_data <- function(year, filepath){
+  
+}
+
+
+#Load 2013 UCR data
+UCR_Data_2013_filepath <- "Data/UCR/ICPSR_36116/DS0001/36116-0001-Data.rda"
+
+
+UCR_Data_2013_raw <- load(UCR_Data_2013_filepath)
+UCR_Data_2013_raw <- da36116.0001
+```
+
+```{r Look at UCR Marijuana data}
+
+
+UCR_Data_2013_WA_clean <- UCR_Data_2013_raw %>% 
+  select(STATE, ORI, YEAR, REPORT, ADJUST, POP, COUNTY, AGENCY, CARD1, CARD2, CARD3, OFFENSE, JW, JB, JI, JA, JH, JN, AW, AB, AI, AA, AH, AN) %>% 
+  filter(STATE == "(46) Washington") %>% #only include WA
+  filter(OFFENSE == 182 | OFFENSE == 187) #only include marijuana sale (182) or marijuana possession (187)
+  
+UCR_Data_2013_AK_clean <- UCR_Data_2013_raw %>% 
+  select(STATE, ORI, YEAR, REPORT, ADJUST, POP, COUNTY, AGENCY, CARD1, CARD2, CARD3, OFFENSE, JW, JB, JI, JA, JH, JN, AW, AB, AI, AA, AH, AN) %>% 
+  filter(STATE == "(50) Alaska") %>% #only include AK
+  filter(OFFENSE == 182 | OFFENSE == 187) #only include marijuana sale (182) or marijuana possession (187)  
+  
+
+#summarize number of marijuana arrests in AK
+
+table(UCR_Data_2013_AK_clean$AB)
+```
+
