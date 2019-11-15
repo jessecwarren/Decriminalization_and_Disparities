@@ -13,19 +13,49 @@ library(tidyverse)
 
 
 ```{r load UCR data}
-#define function to load individual UCR data
-load_individual_year_UCR_data <- function(year, filepath){
-  
+#loop to load data
+UCR_files <- list.files("Data/UCR", pattern = ".tsv$", recursive = TRUE)
+UCR_files <- UCR_files[-which(str_detect(UCR_files, "UCR_2015"))] #remove 2015, because it doesnt have yearly summarized data, and needs to be dealt with separately
+UCR_data_list <- vector("list", length(UCR_files))
+UCR_data_names <- stringr::str_sub(UCR_files, 1, 8)
+names(UCR_data_list) <- UCR_data_names
+for (i in seq_along(UCR_files)){
+  UCR_data_list[[UCR_data_names[i]]] <- read_tsv(paste0("Data/UCR/", UCR_files[i]))
 }
+head(UCR_data_list[[1]])
+
+#check that colnames are the same
+colnames(UCR_data_list[[1]]) == colnames(UCR_data_list[[2]])
 
 
-#Load 2013 UCR data
-UCR_Data_2013_filepath <- "Data/UCR/ICPSR_36116/DS0001/36116-0001-Data.rda"
+#load 2015 separately, calculate
 
 
-UCR_Data_2013_raw <- load(UCR_Data_2013_filepath)
-UCR_Data_2013_raw <- da36116.0001
+
 ```
+
+```{r calculate statewide arrest totals}
+
+#calculate % of total arrests that are african american, white
+UCR_data_list$UCR_2016 %>% 
+  group_by(STNAME) %>% 
+  filter(OFFENSE != 998, OFFENSE != 000) %>% 
+  summarize(total_arrests_race_data = (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
+            pct_African_American_arrests = (sum(AB) + sum(JB)) / (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
+            pct_White_arrests = (sum(AW)+ sum(JW)) / (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)))
+
+
+#calculate % of marijuana arrests that are african american, white
+UCR_data_list$UCR_2016 %>% 
+  group_by(STNAME) %>% 
+  filter(OFFENSE == 182 | OFFENSE == 187) %>%  #only include marijuana sale (182) or marijuana possession (187) 
+  summarize(total_marijuana_arrests_race_data = (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
+            pct_African_American_marijuana_arrests = (sum(AB) + sum(JB)) / (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
+            pct_White_marijuana_arrests = (sum(AW) + sum(JW)) / (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)))
+  
+```
+
+
 
 ```{r Look at UCR Marijuana data}
 
