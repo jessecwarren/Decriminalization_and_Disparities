@@ -52,6 +52,21 @@ UCR_data_list$UCR_2016 %>%
   summarize(total_marijuana_arrests_race_data = (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
             pct_African_American_marijuana_arrests = (sum(AB) + sum(JB)) / (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
             pct_White_marijuana_arrests = (sum(AW) + sum(JW)) / (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)))
+
+#calculate % of non-violent, non-drug related misdemeanor arrests that are african american, white. These include:
+  #140 = Vandalism
+  #220 = Liquor Laws
+  #230 = Drunkennes
+  #240 = Disorderly Conduct
+  #250 = Vagrancy
+  #270 = Suspicion
+  #280 = Curfew and loitering violations
+UCR_data_list$UCR_2016 %>% 
+  group_by(STNAME) %>% 
+  filter(OFFENSE == 140 | OFFENSE == 220 | OFFENSE == 230 | OFFENSE == 240 | OFFENSE == 250 | OFFENSE == 270 | OFFENSE == 280) %>%
+  summarize(total_non_violent_non_drug_misdemeanor_arrests_race_data = (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
+            pct_African_American_non_violent_non_drug_misdemeano_arrests = (sum(AB) + sum(JB)) / (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
+            pct_White_non_violent_non_drug_misdemeano_arrests = (sum(AW) + sum(JW)) / (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)))
   
 ```
 
