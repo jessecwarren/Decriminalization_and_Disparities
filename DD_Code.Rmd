@@ -9,10 +9,11 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
+library(tidycensus)
 ```
 
 
-```{r load UCR data}
+```{r load UCR data, cache=TRUE}
 #loop to load data
 UCR_files <- list.files("Data/UCR", pattern = ".tsv$", recursive = TRUE)
 UCR_files <- UCR_files[-which(str_detect(UCR_files, "UCR_2015"))] #remove 2015, because it doesnt have yearly summarized data, and needs to be dealt with separately
@@ -31,12 +32,27 @@ colnames(UCR_data_list[[1]]) == colnames(UCR_data_list[[2]])
 #load 2015 separately, calculate
 
 
-
 ```
 
-```{r calculate statewide arrest totals}
+```{r load ACS state population data, cache=TRUE}
 
-#calculate % of total arrests that are african american, white
+#load variable list
+vlist <- load_variables(2016, "acs5", cache = TRUE)
+
+#load ACS state population data
+pop_ACS_years <- lst(2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016)
+
+ACS_stat_pops <- map_dfr(
+  pop_ACS_years, 
+  ~ get_acs(geography = "state", variables = c(total_pop = "B03002_001", white_pop = "B03002_003", black_pop = "B03002_004"),
+            year = .x, output = "wide"),
+  .id = "year") %>% 
+  select(-total_popM) %>% 
+  arrange(year, GEOID)
+```
+
+
+```{r calculate statewide arrest totals and rates for one year}
 UCR_data_list$UCR_2016 %>% 
   group_by(STNAME) %>% 
   filter(OFFENSE != 998, OFFENSE != 000) %>% 
@@ -67,10 +83,58 @@ UCR_data_list$UCR_2016 %>%
   summarize(total_non_violent_non_drug_misdemeanor_arrests_race_data = (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
             pct_African_American_non_violent_non_drug_misdemeano_arrests = (sum(AB) + sum(JB)) / (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
             pct_White_non_violent_non_drug_misdemeano_arrests = (sum(AW) + sum(JW)) / (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)))
-  
 ```
 
 
+```{r calculate statewide arrest totals and rates for all years and loop into list}
+#state arrest totals and rates list
+UCR_arrest_totals_and_rates <- vector("list", length(UCR_data_list))
+names(UCR_arrest_totals_and_rates) <- names(UCR_data_list)
+
+for(i in 1:length(UCR_data_list)){
+  #calculate % of total arrests that are african american, white
+  UCR_arrest_totals_and_rates[[i]] <- UCR_data_list[[i]] %>% 
+    group_by(STNAME, STATE) %>% 
+    filter(OFFENSE != 998, OFFENSE != 000) %>% 
+    summarize(total_arrests_race_data = (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
+              pct_African_American_arrests = (sum(AB) + sum(JB)) / (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
+              pct_White_arrests = (sum(AW)+ sum(JW)) / (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA))) %>%
+    arrange(STATE)
+    
+  
+  #calculate % of marijuana arrests that are african american, white
+  UCR_arrest_totals_and_rates[[i]] <- full_join(UCR_arrest_totals_and_rates[[i]],
+    UCR_data_list$UCR_2016 %>% 
+      group_by(STATE) %>% 
+      filter(OFFENSE == 182 | OFFENSE == 187) %>%  #only include marijuana sale (182) or marijuana possession (187) 
+      summarize(total_marijuana_arrests_race_data = (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
+                pct_African_American_marijuana_arrests = (sum(AB) + sum(JB)) / (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
+                pct_White_marijuana_arrests = (sum(AW) + sum(JW)) / (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA))) %>% 
+      arrange(STATE), 
+    by = "STATE")
+  
+  #calculate % of non-violent, non-drug related misdemeanor arrests that are african american, white. These include:
+    #140 = Vandalism
+    #220 = Liquor Laws
+    #230 = Drunkennes
+    #240 = Disorderly Conduct
+    #250 = Vagrancy
+    #270 = Suspicion
+    #280 = Curfew and loitering violations
+  UCR_arrest_totals_and_rates[[i]] <- full_join(UCR_arrest_totals_and_rates[[i]],
+    UCR_data_list$UCR_2016 %>% 
+      group_by(STATE) %>% 
+      filter(OFFENSE == 140 | OFFENSE == 220 | OFFENSE == 230 | OFFENSE == 240 | OFFENSE == 250 | OFFENSE == 270 | OFFENSE == 280) %>%
+      summarize(total_non_violent_non_drug_misdemeanor_arrests_race_data = (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
+                pct_African_American_non_violent_non_drug_misdemeano_arrests = (sum(AB) + sum(JB)) / (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
+                pct_White_non_violent_non_drug_misdemeano_arrests = (sum(AW) + sum(JW)) / (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA))) %>% 
+      arrange(STATE), 
+    by = "STATE")
+}  
+
+#bind into one df
+UCR_arrest_totals_and_rates <- bind_rows(UCR_arrest_totals_and_rates, .id = "column_label")
+```
 
 ```{r Look at UCR Marijuana data}
 
