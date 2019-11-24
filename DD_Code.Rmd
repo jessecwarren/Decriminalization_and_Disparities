@@ -52,6 +52,7 @@ ACS_state_pops <- map_dfr(
   arrange(year, GEOID)
 ```
 
+
 ```{r Explore UCR Marijuana data}
 
 
@@ -241,6 +242,69 @@ UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>%
   mutate(white_non_drug_misdemeanor_arrest_rate = total_White_non_drug_misdemeanor_arrests / white_popE) %>% 
   mutate(black_non_drug_misdemeanor_arrest_rate = total_African_American_non_drug_misdemeanor_arrests / black_popE)
 ```
+
+```{r Load common support ACS data}
+vlist11 <- load_variables(2011, "acs5", cache = TRUE)
+
+#select common support regression year
+common_support_regression_year <- 2011
+
+#load ACS data for common support regression
+ACS_common_support_data <- get_acs(geography = "state", variables = c(total_pop = "B03002_001",
+                                               white_pop = "B03002_003",
+                                               black_pop = "B03002_004",
+                                               total_pop_employment = "B23025_001",
+                                               in_labor_force = "B23025_002",
+                                               not_in_labor_force = "B23025_007",
+                                               total_pop_education = "B23006_001",
+                                               high_school_grad_or_higher = "B23006_009",
+                                               bachelors_or_higher = "B23006_023",
+                                               total_pop_poverty_status = "B17001_001",
+                                               income_below_poverty_level_last_12_months = "B17001_002",
+                                               total_pop_geographic_mobility = "B07003_001",
+                                               moved_from_different_county_in_same_state_in_past_year = "B07003_010",
+                                               moved_from_different_state_in_past_year = "B07003_013",
+                                               median_hhincome = "B19013_001"),
+            year = common_support_regression_year)
+
+#calculate summary statistics for common support regression
+ACS_common_support_data <- ACS_common_support_data %>% 
+  select(-moe) %>% 
+  spread(variable, estimate) %>% 
+  mutate(pct_white = white_pop / total_pop,
+        pct_black = black_pop / total_pop,
+        total_population = total_pop,
+        unemployment_rate = not_in_labor_force / total_pop_employment,
+        pct_bachelors_or_higher = bachelors_or_higher / total_pop_education,
+        pct_high_school_diploma_or_higher = high_school_grad_or_higher / total_pop_education,
+        pct_in_poverty = income_below_poverty_level_last_12_months / total_pop_poverty_status,
+        pct_moved_from_different_county_in_same_state_in_past_year = moved_from_different_county_in_same_state_in_past_year / total_pop_geographic_mobility,
+        pct_moved_from_different_state_in_past_year = moved_from_different_state_in_past_year / total_pop_geographic_mobility,
+        median_household_income = median_hhincome) %>% 
+  filter(!NAME == "Puerto Rico") %>% 
+  select(-c(3:17))
+
+#merge with marijuana legalization data
+ACS_common_support_data <- legalization_status_one_equals_any_legalization_in_year %>% 
+  filter(year == 2016) %>% 
+  left_join(ACS_common_support_data,  by = "NAME") %>% 
+  rename(legalized_by_end_of_2016 = legalization_status_one_equals_any_legalization_in_year) %>% 
+  select(-year)
+
+#run Common Support regression
+lm(legalized_by_end_of_2016 ~ pct_white +
+        pct_black +
+        total_population +
+        unemployment_rate +
+        pct_bachelors_or_higher +
+        pct_high_school_diploma_or_higher +
+        pct_in_poverty +
+        pct_moved_from_different_county_in_same_state_in_past_year +
+        pct_moved_from_different_state_in_past_year +
+        median_household_income, data = ACS_common_support_data)
+```
+
+
 
 ```{r conduct difference in differences}
 
