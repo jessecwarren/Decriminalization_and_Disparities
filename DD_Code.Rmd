@@ -13,6 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(tidycensus)
 library(readxl)
+library(knitr)
 ```
 
 
@@ -190,6 +191,16 @@ for(i in 1:length(UCR_data_list)){
 UCR_arrest_totals_and_rates <- bind_rows(UCR_arrest_totals_and_rates, .id = "column_label") %>% arrange(column_label)
 ```
 
+```{r Calculate disparities}
+
+#calculate disparities
+
+
+
+
+```
+
+
 ```{r Combine state pop and arrest data}
 #load sheet with matched names
 state_name_matching_key <- read_excel("State_Name_Matching.xlsx")
@@ -213,6 +224,7 @@ UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>%
 ```
 
 ```{r add legalization status}
+
 #load legalization status spreadsheets
 legalization_status_one_equals_any_legalization_in_year <- read_excel("Marijuana_Legalization_Status_One_Equals_Any_Legalization_In_Year.xlsx") %>% 
   gather(year, legalization_status_one_equals_any_legalization_in_year, -NAME)
@@ -227,6 +239,13 @@ UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>%
   left_join(legalization_status_one_equals_any_legalization_in_year, by = c("NAME", "year")) %>% 
   left_join(legalization_status_one_equals_legalization_entire_year, by = c("NAME", "year")) %>% 
   left_join(legalization_status_fraction_of_year_legalized, by = c("NAME", "year"))
+
+#create vector of states that legalized by end of 2016
+states_that_legalized_by_end_of_2016_vector <- UCR_arrest_totals_and_rates_with_pop %>% 
+  filter(year == 2016) %>% 
+  filter(legalization_status_one_equals_any_legalization_in_year == 1) %>% 
+  pull(NAME)
+
 ```
 
 ```{r convert columns to correct types and rename}
@@ -260,7 +279,7 @@ vlist11 <- load_variables(2011, "acs5", cache = TRUE)
 #select common support regression year
 common_support_regression_year <- 2011
 
-#load ACS data for common support regression
+#load ACS data for common support regression - CHANGE TO 2010 CENSUS DATA
 ACS_common_support_data <- get_acs(geography = "state", variables = c(total_pop = "B03002_001",
                                                white_pop = "B03002_003",
                                                black_pop = "B03002_004",
@@ -302,29 +321,58 @@ ACS_common_support_data <- legalization_status_one_equals_any_legalization_in_ye
   rename(legalized_by_end_of_2016 = legalization_status_one_equals_any_legalization_in_year) %>% 
   select(-year)
 
+
+
 #run Common Support regression
 common_support_regression <- lm(legalized_by_end_of_2016 ~ pct_white +
                                                            pct_black +
                                                            total_population +
                                                            unemployment_rate +
-                                                           pct_bachelors_or_higher +
                                                            pct_high_school_diploma_or_higher +
                                                            pct_in_poverty +
-                                                           pct_moved_from_different_county_in_same_state_in_past_year +
-                                                           pct_moved_from_different_state_in_past_year +
-                                                           median_household_income,
+                                                           #median_hhincome +
+                                                           pct_moved_from_different_state_in_past_year,
                                 data = ACS_common_support_data)
 summary(common_support_regression)
 
-predict.lm(common_support_regression)
+
+#add column with common support regression prediction results
+ACS_common_support_data <- cbind(ACS_common_support_data, as.data.frame(predict.lm(common_support_regression))) %>%
+  rename(probability_of_legalization_log_odds = `predict.lm(common_support_regression)`) %>% 
+  mutate(probability_of_legalization = plogis(probability_of_legalization_log_odds))
+
+
+#select common support states
+max_probability_of_non_legalized_state <- max(ACS_common_support_data$probability_of_legalization[ACS_common_support_data$legalized == 0])   
+min_probability_of_legalized_state <- min(ACS_common_support_data$probability_of_legalization[ACS_common_support_data$legalized == 1])
+
+common_support_states <- ACS_common_support_data %>% 
+  filter(probability_of_legalization >= min_probability_of_legalized_state & probability_of_legalization <= max_probability_of_non_legalized_state) %>% 
+  pull(NAME)
+
 ```
 
 
 
 ```{r conduct difference in differences}
 
-model <- lm(marijuana_arrest_rate ~ legalization_status_fraction_of_year_legalized, data = UCR_arrest_totals_and_rates_with_pop)
-summary(model)
+#marijuana arrest rate, run on just common support states
+UCR_arrest_totals_and_rates_with_pop %>% 
+  filter(State %in% common_support_states) %>% 
+  lm(marijuana_arrest_rate ~ legalization_status_fraction_of_year_legalized + factor(State) + factor(Year),
+     data = .) %>% 
+  summary()
+
+#black marijuana arrest rate, run on just common support states
+UCR_arrest_totals_and_rates_with_pop %>% 
+  filter(State %in% common_support_states) %>% 
+  lm(black_marijuana_arrest_rate ~ legalization_status_fraction_of_year_legalized + factor(State) + factor(Year),
+     data = .) %>% 
+  summary()
+
+
+
+
 ```
 
 ```{r graph changes in marijuana arrest rate}
@@ -335,14 +383,17 @@ UCR_arrest_totals_and_rates_with_pop %>%
   facet_wrap(~State)
 
 UCR_arrest_totals_and_rates_with_pop %>% 
-  filter(State %in% c("California", "Washington", "Oregon", "Colorado", "District of Columbia", "Alaska")) %>% 
+  filter(State %in% states_that_legalized_by_end_of_2016_vector) %>% 
   ggplot(aes(x = Year, y = marijuana_arrest_rate, group = State)) +
   geom_line() +
   facet_wrap(~State)
 
-
 UCR_arrest_totals_and_rates_with_pop %>% 
-  filter(State == "Colorado")
+  filter(!State %in% states_that_legalized_by_end_of_2016_vector) %>% 
+  ggplot(aes(x = Year, y = marijuana_arrest_rate, group = State)) +
+  geom_line() +
+  facet_wrap(~State)
+
 ```
 
 
