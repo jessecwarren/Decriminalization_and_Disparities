@@ -3,6 +3,8 @@ title: "DD_Code"
 author: "Jesse Warren"
 date: "10/20/2019"
 output: pdf_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -30,8 +32,32 @@ head(UCR_data_list[[1]])
 colnames(UCR_data_list[[1]]) == colnames(UCR_data_list[[2]])
 
 
-#load 2015 separately, calculate
+#load 2015 separately because there is no yearly summarized data, just data broken down by month
+UCR_2015 <- read_tsv("Data/UCR/UCR_2015/DS0001/36794-0001-Data.tsv")
 
+#replace all 99999, 99998 values, which code as missing, with NAs
+UCR_2015[UCR_2015 == 99999] <- 0
+UCR_2015[UCR_2015 == 99998] <- 0
+UCR_2015[is.na(UCR_2015)] <- 0
+
+#adjust UCR 2015 offense codes to match other years
+UCR_2015$OFFENSE[UCR_2015$OFFENSE == "18F"] <-  "187"
+UCR_2015$OFFENSE[UCR_2015$OFFENSE == "18B"] <-  "182"
+UCR_2015$OFFENSE[UCR_2015$OFFENSE == "14"] <-  "140"
+UCR_2015$OFFENSE[UCR_2015$OFFENSE == "22"] <-  "220"
+UCR_2015$OFFENSE[UCR_2015$OFFENSE == "23"] <-  "230"
+UCR_2015$OFFENSE[UCR_2015$OFFENSE == "24"] <-  "240"
+UCR_2015$OFFENSE[UCR_2015$OFFENSE == "25"] <-  "250"
+UCR_2015$OFFENSE[UCR_2015$OFFENSE == "27"] <-  "270"
+UCR_2015$OFFENSE[UCR_2015$OFFENSE == "28"] <-  "280"
+
+
+
+#get 2015 yearly summary
+UCR_data_list$UCR_2015 <- UCR_2015 %>%
+  select(STATE, STNAME, OFFENSE, 34:89) %>% 
+  group_by(STATE, STNAME, OFFENSE) %>%
+  summarise_each(funs(sum))
 
 ```
 
@@ -53,24 +79,9 @@ ACS_state_pops <- map_dfr(
 ```
 
 
-```{r Explore UCR Marijuana data}
-
-
-UCR_Data_2013_raw %>% 
-  select(STATE, ORI, YEAR, REPORT, ADJUST, POP, COUNTY, AGENCY, CARD1, CARD2, CARD3, OFFENSE, JW, JB, JI, JA, JH, JN, AW, AB, AI, AA, AH, AN) %>% 
-  filter(STATE == "(46) Washington") %>% #only include WA
-  filter(OFFENSE == 182 | OFFENSE == 187) %>%  #only include marijuana sale (182) or marijuana possession (187)
-  head()
-
-UCR_Data_2013_raw %>% 
-  select(STATE, ORI, YEAR, REPORT, ADJUST, POP, COUNTY, AGENCY, CARD1, CARD2, CARD3, OFFENSE, JW, JB, JI, JA, JH, JN, AW, AB, AI, AA, AH, AN) %>% 
-  filter(STATE == "(50) Alaska") %>% #only include AK
-  filter(OFFENSE == 182 | OFFENSE == 187) %>%  #only include marijuana sale (182) or marijuana possession (187) 
-  head()
-```
 
 ```{r Explore statewide arrest totals and rates for one year}
-UCR_data_list$UCR_2016 %>% 
+UCR_data_list$UCR_2015 %>% 
   group_by(STNAME) %>% 
   filter(OFFENSE != 998, OFFENSE != 000) %>% 
   summarize(total_arrests_race_data = (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
@@ -79,7 +90,7 @@ UCR_data_list$UCR_2016 %>%
 
 
 #calculate % of marijuana arrests that are african american, white
-UCR_data_list$UCR_2016 %>% 
+UCR_data_list$UCR_2015 %>% 
   group_by(STNAME) %>% 
   filter(OFFENSE == 182 | OFFENSE == 187) %>%  #only include marijuana sale (182) or marijuana possession (187) 
   summarize(total_marijuana_arrests_race_data = (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
@@ -94,7 +105,7 @@ UCR_data_list$UCR_2016 %>%
   #250 = Vagrancy
   #270 = Suspicion
   #280 = Curfew and loitering violations
-UCR_data_list$UCR_2016 %>% 
+UCR_data_list$UCR_2015 %>% 
   group_by(STNAME) %>% 
   filter(OFFENSE == 140 | OFFENSE == 220 | OFFENSE == 230 | OFFENSE == 240 | OFFENSE == 250 | OFFENSE == 270 | OFFENSE == 280) %>%
   summarize(total_non_violent_non_drug_misdemeanor_arrests_race_data = (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
@@ -176,7 +187,7 @@ for(i in 1:length(UCR_data_list)){
 }  
 
 #bind into one df
-UCR_arrest_totals_and_rates <- bind_rows(UCR_arrest_totals_and_rates, .id = "column_label")
+UCR_arrest_totals_and_rates <- bind_rows(UCR_arrest_totals_and_rates, .id = "column_label") %>% arrange(column_label)
 ```
 
 ```{r Combine state pop and arrest data}
@@ -292,16 +303,20 @@ ACS_common_support_data <- legalization_status_one_equals_any_legalization_in_ye
   select(-year)
 
 #run Common Support regression
-lm(legalized_by_end_of_2016 ~ pct_white +
-        pct_black +
-        total_population +
-        unemployment_rate +
-        pct_bachelors_or_higher +
-        pct_high_school_diploma_or_higher +
-        pct_in_poverty +
-        pct_moved_from_different_county_in_same_state_in_past_year +
-        pct_moved_from_different_state_in_past_year +
-        median_household_income, data = ACS_common_support_data)
+common_support_regression <- lm(legalized_by_end_of_2016 ~ pct_white +
+                                                           pct_black +
+                                                           total_population +
+                                                           unemployment_rate +
+                                                           pct_bachelors_or_higher +
+                                                           pct_high_school_diploma_or_higher +
+                                                           pct_in_poverty +
+                                                           pct_moved_from_different_county_in_same_state_in_past_year +
+                                                           pct_moved_from_different_state_in_past_year +
+                                                           median_household_income,
+                                data = ACS_common_support_data)
+summary(common_support_regression)
+
+predict.lm(common_support_regression)
 ```
 
 
