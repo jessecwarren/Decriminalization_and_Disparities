@@ -26,6 +26,7 @@ library(readxl)
 library(knitr)
 library(broom)
 library(foreign)
+library(fuzzyjoin)
 
 options(scipen=999)
 ```
@@ -42,7 +43,6 @@ names(UCR_data_list) <- UCR_data_names
 for (i in seq_along(UCR_files)){
   UCR_data_list[[UCR_data_names[i]]] <- read_tsv(paste0("Data/UCR/", UCR_files[i]))
 }
-head(UCR_data_list[[1]])
 
 #check that colnames are the same
 colnames(UCR_data_list[[1]]) == colnames(UCR_data_list[[2]])
@@ -71,31 +71,61 @@ UCR_2015$OFFENSE[UCR_2015$OFFENSE == "28"] <-  "280"
 
 
 
-#get 2015 yearly summary
+#get 2015 yearly summary, but only include larger agencies
+agency_population_to_filter_by <- 200000
+
 UCR_data_list$UCR_2015 <- UCR_2015 %>%
-  dplyr::select(STATE, STNAME, COUNTY, OFFENSE, POP, 34:89) %>% 
-  group_by(STATE, STNAME, COUNTY, OFFENSE, POP) %>%
+  dplyr::select(STATE, STNAME, COUNTY, AGENCY, GROUP, OFFENSE, POP, 34:89) %>% 
+  filter(POP > agency_population_to_filter_by) %>% 
+  group_by(STATE, STNAME, COUNTY, AGENCY, OFFENSE, GROUP, POP) %>%
   summarise_each(funs(sum))
 
 ```
 
-```{r load ACS state and county population data, cache=TRUE}
+```{r load ACS city population data, cache=TRUE}
 
 #load variable list
 vlist <- load_variables(2016, "acs5", cache = TRUE)
 
-#load ACS state population data
-pop_ACS_years <- lst(2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016)
+#load ACS city population data
+pop_ACS_years <- lst(2010, 2011, 2012, 2013, 2014, 2015, 2016)
 
-ACS_state_pops <- map_dfr(
+ACS_city_pops <- map_dfr(
   pop_ACS_years, 
-  ~ get_acs(geography = "state", variables = c(total_pop = "B03002_001", white_pop = "B03002_003", black_pop = "B03002_004"),
+  ~ get_acs(geography = "place", variables = c(total_pop = "B03002_001", white_pop = "B03002_003", black_pop = "B03002_004"),
             year = .x, output = "wide"),
   .id = "year") %>% 
   dplyr::select(-total_popM) %>% 
   arrange(year, GEOID)
 
-#Load county population data from here https://www.census.gov/newsroom/press-kits/2018/estimates-characteristics.html
+
+#info on UCR population tallies https://www.ucrdatatool.gov/faq.cfm
+
+# UCR_data_list$UCR_2011 %>%
+#   filter(GROUP == "1A" | GROUP == "1B" | GROUP == "1C") %>%
+#   filter(OFFENSE == "187") %>%
+#   arrange(desc(POP))
+# 
+# ACS_city_pops %>%
+#   filter(year == 2011) %>%
+#   arrange(desc(total_popE))
+
+
+#add state variable to city population data
+ACS_city_pops <- ACS_city_pops %>% 
+  mutate(State = str_extract(NAME, '\\b[^,]+$')) 
+
+ACS_city_pops <- ACS_city_pops %>% 
+  mutate(City = str_extract(NAME, '^[^,]*')) %>% #remove commas
+  mutate(City = str_remove(City, "city")) %>% #remove city
+  mutate(City = str_remove(City, "municipality")) %>% #remove  "municipality"
+  mutate(City = str_remove(City, "metro")) %>% #remove  "metro"
+  mutate(City = trimws(City, "right")) %>%  #remove trailing whitespace
+  rename(ACS_city_name = City)
+
+#remove smaller cities to make df easier to work with
+ACS_city_pops <- ACS_city_pops %>% 
+  filter(total_popE > 150000)
 
 ```
 
@@ -138,7 +168,7 @@ ACS_state_pops <- map_dfr(
 
 
 
-```{r calculate countywide arrest totals and rates for all years and loop into list, cache=TRUE}
+```{r calculate citywide arrest totals and rates for all years and loop into list, cache=TRUE}
 
 #race categories
   # AW = Adult White
@@ -156,14 +186,37 @@ ACS_state_pops <- map_dfr(
   # JN = Juvenile Non-Hispanic
 
 
+#remove all small population areas to speed up processing
+for(i in 1:length(UCR_data_list)){
+  UCR_data_list[[i]] <- UCR_data_list[[i]] %>% 
+    filter(POP > agency_population_to_filter_by)
+}
 
-#state arrest totals and rates list
+#get list of cities to include, all of which must have had populations over 250,000 in 2010
+sample_cities_df <- vector("list", length(UCR_data_list))
+names(sample_cities_df) <- names(UCR_data_list)
+
+for(i in 1:length(UCR_data_list)){
+  sample_cities_df[[i]] <- UCR_data_list[[i]] %>% 
+    ungroup() %>% 
+    dplyr::select(AGENCY, POP, GROUP) %>%
+    unique()
+}
+sample_cities_df <- bind_rows(sample_cities_df, .id = "column_label") %>%
+  arrange(column_label) %>% 
+  filter(column_label == "UCR_2010") %>% 
+  filter(GROUP == "1A" | GROUP == "1B" | GROUP == "1C")
+
+sample_cities_vec <- sample_cities_df %>%
+  pull(AGENCY)
+  
+
+#city arrest totals and rates list
 UCR_arrest_totals_and_rates <- vector("list", length(UCR_data_list))
 names(UCR_arrest_totals_and_rates) <- names(UCR_data_list)
 
 #progress bar
 p <- progress_estimated(length(UCR_data_list))
-
 
 
 #loop over all
@@ -174,31 +227,34 @@ for(i in 1:length(UCR_data_list)){
   UCR_data_list[[i]][UCR_data_list[[i]] == 999998] <- 0
   UCR_data_list[[i]][is.na(UCR_data_list[[i]])] <- 0
   
+
   
   #calculate % of total arrests that are african american, white
   UCR_arrest_totals_and_rates[[i]] <- UCR_data_list[[i]] %>% 
-    group_by(STNAME, STATE, COUNTY) %>% 
+    filter(AGENCY %in% sample_cities_vec) %>% 
+    group_by(STNAME, AGENCY, POP, GROUP) %>% 
     filter(OFFENSE != 998, OFFENSE != 000) %>% 
     summarize(total_arrests_race_data = (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
               total_White_arrests = (sum(AW) + sum(JW)),
               total_African_American_arrests = (sum(AB) + sum(JB)),
               pct_arrests_White = total_White_arrests / total_arrests_race_data,
               pct_arrests_African_American = total_African_American_arrests / total_arrests_race_data) %>%
-    arrange(STATE)
+    arrange(STNAME, AGENCY)
     
   
   #calculate % of marijuana arrests that are african american, white
   UCR_arrest_totals_and_rates[[i]] <- full_join(UCR_arrest_totals_and_rates[[i]],
     UCR_data_list[[i]] %>% 
-      group_by(STATE, COUNTY) %>% 
+      filter(AGENCY %in% sample_cities_vec) %>% 
+      group_by(STNAME, AGENCY, POP, GROUP) %>% 
       filter(OFFENSE == 187) %>%  #only include marijuana possession (187) 
       summarize(total_marijuana_arrests_race_data = (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
                 total_White_marijuana_arrests = (sum(AW) + sum(JW)),
                 total_African_American_marijuana_arrests = (sum(AB) + sum(JB)),
                 pct_marijuana_arrests_White = total_White_marijuana_arrests / total_marijuana_arrests_race_data,
                 pct_marijuana_arrests_African_American = total_African_American_marijuana_arrests / total_marijuana_arrests_race_data) %>% 
-      arrange(STATE), 
-    by = c("STATE", "COUNTY"))
+      arrange(STNAME, AGENCY), 
+    by = c("STNAME", "AGENCY", "POP", "GROUP"))
   
   #calculate % of non-violent, non-drug related misdemeanor arrests that are african american, white. These include:
     #140 = Vandalism
@@ -210,91 +266,115 @@ for(i in 1:length(UCR_data_list)){
     #280 = Curfew and loitering violations
   UCR_arrest_totals_and_rates[[i]] <- full_join(UCR_arrest_totals_and_rates[[i]],
     UCR_data_list[[i]] %>% 
-      group_by(STATE, COUNTY) %>% 
+      filter(AGENCY %in% sample_cities_vec) %>% 
+      group_by(STNAME, AGENCY, POP, GROUP) %>% 
       filter(OFFENSE == 140 | OFFENSE == 220 | OFFENSE == 230 | OFFENSE == 240 | OFFENSE == 250 | OFFENSE == 270 | OFFENSE == 280) %>%
       summarize(total_non_violent_non_drug_misdemeanor_arrests_race_data = (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
                 total_White_non_drug_misdemeanor_arrests = (sum(AW) + sum(JW)),
                 total_African_American_non_drug_misdemeanor_arrests = (sum(AB) + sum(JB)),
                 pct_non_violent_non_drug_misdemeano_arrests_White = total_White_non_drug_misdemeanor_arrests / total_non_violent_non_drug_misdemeanor_arrests_race_data,
                 pct_non_violent_non_drug_misdemeano_arrests_African_American = total_African_American_non_drug_misdemeanor_arrests / total_non_violent_non_drug_misdemeanor_arrests_race_data) %>% 
-      arrange(STATE), 
-    by = c("STATE", "COUNTY"))
+      arrange(STNAME, AGENCY), 
+    by = c("STNAME", "AGENCY", "POP", "GROUP"))
   
   
 }  
 
 #bind into one df
-UCR_arrest_totals_and_rates <- bind_rows(UCR_arrest_totals_and_rates, .id = "column_label") %>% arrange(column_label)
+UCR_arrest_totals_and_rates <- bind_rows(UCR_arrest_totals_and_rates, .id = "column_label") %>% 
+  arrange(column_label)
+
+#remove MSA County and non MSA County observations to just get city agencies
+UCR_arrest_totals_and_rates <- UCR_arrest_totals_and_rates %>% 
+  filter(GROUP != "2") %>% 
+  filter(GROUP != "9A")
+
+#check there are 7 observations for each agency
+UCR_arrest_totals_and_rates %>% 
+  group_by(AGENCY) %>% 
+  summarise(count = n()) %>% 
+  filter(count < 7)
+
+#get list of agencies with missing years of data, exclude these from sample
+agencies_with_missing_years <- UCR_arrest_totals_and_rates %>% 
+  group_by(AGENCY) %>% 
+  summarise(count = n()) %>% 
+  filter(count < 7) %>% 
+  pull(AGENCY)
+
+UCR_arrest_totals_and_rates <- UCR_arrest_totals_and_rates %>% 
+  filter(!AGENCY %in% agencies_with_missing_years)
+
+#update sample cities vector to not include agencies with 1 or more year of missing data
+sample_cities_vec <- as.data.frame(sample_cities_vec) %>% 
+  filter(!sample_cities_vec %in% agencies_with_missing_years) %>% 
+  pull(sample_cities_vec) %>% 
+  as.character()
 
 #save to csv if needed later
-write_csv(UCR_arrest_totals_and_rates, "Calculated_UCR_Data.csv")
+write_csv(UCR_arrest_totals_and_rates, "Calculated_UCR_Citywide_Data.csv")
 ```
 
-```{r create df of just county population data}
-#create empty list
-UCR_county_population_data <- vector("list", length(UCR_data_list))
-names(UCR_county_population_data) <- names(UCR_data_list)
-
-for(i in 1:length(UCR_data_list)){
-  #calculate county population data
-  UCR_county_population_data[[i]] <- UCR_data_list[[1]] %>%
-    dplyr::select(STNAME, STATE, COUNTY, AGENCY, POP) %>% 
-    unique() %>% 
-    group_by(STNAME, STATE, COUNTY) %>% 
-    summarise(POP = sum(POP))
-}  
-
-#bind into one df
-UCR_county_population_data <- bind_rows(UCR_county_population_data, .id = "column_label") %>%
-  arrange(column_label) %>% 
-  mutate(year = str_sub(column_label, start = -4)) %>% 
-  dplyr::select(-column_label)
-```
 
 
 ```{r Load UCR county codes}
-#Load UCR Crosswalk with UCR to FIPS County and State Codes
-UCR_crosswalk <- read_tsv("Data/UCR_State_County_Codes/UCR_Crosswalk/DS0001/35158-0001-Data.tsv") %>% 
-  dplyr::select(FIPS_ST, FIPS_COUNTY, U_STATENO, U_CNTY)
-
-#merge with UCR data
-UCR_arrest_totals_and_rates <- UCR_arrest_totals_and_rates %>% 
-  left_join(UCR_crosswalk, by = c("STATE" = "U_STATENO", "COUNTY" = "U_CNTY"))
-
-#remove NA columns that we can't place with County crosswalk data
-UCR_arrest_totals_and_rates <- UCR_arrest_totals_and_rates %>% 
-  filter(!is.na(FIPS_COUNTY))
+# #Load UCR Crosswalk with UCR to FIPS County and State Codes
+# UCR_crosswalk <- read_tsv("Data/UCR_State_County_Codes/UCR_Crosswalk/DS0001/35158-0001-Data.tsv") %>% 
+#   dplyr::select(FIPS_ST, FIPS_COUNTY, U_STATENO, U_CNTY)
+# 
+# #merge with UCR data
+# UCR_arrest_totals_and_rates <- UCR_arrest_totals_and_rates %>% 
+#   left_join(UCR_crosswalk, by = c("STATE" = "U_STATENO", "COUNTY" = "U_CNTY"))
+# 
+# #remove NA columns that we can't place with County crosswalk data
+# UCR_arrest_totals_and_rates <- UCR_arrest_totals_and_rates %>% 
+#   filter(!is.na(FIPS_COUNTY))
 
 ```
 
 
-```{r Combine state pop and arrest data}
+```{r Combine city pop and arrest data}
 #create year column
 UCR_arrest_totals_and_rates <- UCR_arrest_totals_and_rates %>% 
   mutate(year = str_sub(column_label, start = -4)) %>% 
   dplyr::select(-column_label)
-
-#add county population data back in
-UCR_arrest_totals_and_rates <- UCR_arrest_totals_and_rates %>% 
-  left_join(UCR_county_population_data, by = c("STNAME", "STATE", "COUNTY", "year"))
 
 #load sheet with matched names
 state_name_matching_key <- read_excel("State_Name_Matching.xlsx")
-UCR_arrest_totals_and_rates <- full_join(UCR_arrest_totals_and_rates, state_name_matching_key, by = "STNAME")
+UCR_arrest_totals_and_rates <- full_join(UCR_arrest_totals_and_rates, state_name_matching_key, by = "STNAME") %>% 
+  rename(State = NAME)
 
-#create year column
+#format UCR data to facilitate matching with ACS city pop data
 UCR_arrest_totals_and_rates <- UCR_arrest_totals_and_rates %>% 
-  mutate(year = str_sub(column_label, start = -4)) %>% 
-  dplyr::select(-column_label)
+  mutate(City = str_to_sentence(AGENCY))
 
-#add state population data
-UCR_arrest_totals_and_rates_with_pop <- left_join(UCR_arrest_totals_and_rates, ACS_state_pops, by = c("NAME", "year"))
+#remove NA rows in UCR_arrest_totals_and_rates
+UCR_arrest_totals_and_rates <- na.omit(UCR_arrest_totals_and_rates)
+
+
+#get just column of ACS city names to match on
+ACS_city_pops_names <- ACS_city_pops %>% 
+  select(ACS_city_name) %>% 
+  unique()
+
+#fuzzy match to add ACS_city_names
+UCR_arrest_totals_and_rates <- UCR_arrest_totals_and_rates %>% 
+  stringdist_left_join(ACS_city_pops_names, by = c("City" = "ACS_city_name"), max_dist = 1, distance_col = "fuzzy_distance") 
+
+#join with ACS city population data
+UCR_arrest_totals_and_rates <- UCR_arrest_totals_and_rates %>% 
+  left_join(ACS_city_pops, by = c("year", "State", "ACS_city_name")) %>% 
+  mutate(UCR_to_ACS_pop_ratio = POP / total_popE)
+
+#filter out cities with no matched names from ACS data - Louisville, Charlotte, Las Vegas, Indianapolis
+UCR_arrest_totals_and_rates <- UCR_arrest_totals_and_rates %>% 
+  filter(!is.na(ACS_city_name))
 
 #rearrange column order, drop unnecessary columns
-UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>% 
+UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates %>% 
   ungroup() %>% 
-  dplyr::select(-STNAME, -STATE) %>% 
-  dplyr::select(NAME, year, GEOID, total_popE, white_popE, white_popM, black_popE, black_popM, 1:15)
+  dplyr::select(-STNAME) %>% 
+  dplyr::select(year, State, City, ACS_city_name, AGENCY, GROUP, GEOID, UCR_pop = POP, total_popE, white_popE, white_popM, black_popE, black_popM, UCR_to_ACS_pop_ratio, 5:19)
 
 
 ```
@@ -554,10 +634,6 @@ UCR_arrest_totals_and_rates_with_pop %>%
   filter(!State %in% states_that_legalized_by_end_of_2016_vector) %>% 
   ggplot(aes(x = Year, y = marijuana_arrest_rate_disparity, group = State)) +
   geom_line() +
-  facet_wrap(~State) 
-
-test1
-
 ```
 
 
