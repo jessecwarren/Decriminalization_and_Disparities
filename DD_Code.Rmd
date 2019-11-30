@@ -374,7 +374,7 @@ UCR_arrest_totals_and_rates <- UCR_arrest_totals_and_rates %>%
 UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates %>% 
   ungroup() %>% 
   dplyr::select(-STNAME) %>% 
-  dplyr::select(year, State, City, ACS_city_name, AGENCY, GROUP, GEOID, UCR_pop = POP, total_popE, white_popE, white_popM, black_popE, black_popM, UCR_to_ACS_pop_ratio, 5:19)
+  dplyr::select(year, State, City, ACS_city_name, AGENCY, GROUP, GEOID, UCR_pop = POP, total_popE, white_popE, white_popM, black_popE, black_popM, UCR_to_ACS_pop_ratio, 4:19)
 
 
 ```
@@ -383,34 +383,36 @@ UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates %>%
 
 #load legalization status spreadsheets
 legalization_status_one_equals_any_legalization_in_year <- read_excel("Marijuana_Legalization_Status_One_Equals_Any_Legalization_In_Year.xlsx") %>% 
-  gather(year, legalization_status_one_equals_any_legalization_in_year, -NAME)
+  gather(year, legalization_status_one_equals_any_legalization_in_year, -State)
 
 legalization_status_one_equals_legalization_entire_year <- read_excel("Marijuana_Legalization_Status_One_Equals_Legalization_Entire_Year.xlsx") %>% 
-  gather(year, legalization_status_one_equals_entire_year, -NAME)
+  gather(year, legalization_status_one_equals_entire_year, -State)
 
 legalization_status_fraction_of_year_legalized <- read_excel("Marijuana_Legalization_Status_Fraction_Of_Year_Legalized.xlsx") %>% 
-  gather(year, legalization_status_fraction_of_year_legalized, -NAME)
+  gather(year, legalization_status_fraction_of_year_legalized, -State)
 
 UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>% 
-  left_join(legalization_status_one_equals_any_legalization_in_year, by = c("NAME", "year")) %>% 
-  left_join(legalization_status_one_equals_legalization_entire_year, by = c("NAME", "year")) %>% 
-  left_join(legalization_status_fraction_of_year_legalized, by = c("NAME", "year"))
+  left_join(legalization_status_one_equals_any_legalization_in_year, by = c("State", "year")) %>% 
+  left_join(legalization_status_one_equals_legalization_entire_year, by = c("State", "year")) %>% 
+  left_join(legalization_status_fraction_of_year_legalized, by = c("State", "year"))
 
 #create vector of states that legalized by end of 2016
 states_that_legalized_by_end_of_2016_vector <- UCR_arrest_totals_and_rates_with_pop %>% 
   filter(year == 2016) %>% 
   filter(legalization_status_one_equals_any_legalization_in_year == 1) %>% 
-  pull(NAME)
+  select(State) %>% 
+  unique() %>% 
+  pull(State)
 
 ```
 
 ```{r convert columns to correct types and rename}
 UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>% 
-  rename(State = NAME,
-         Year = year) %>% 
+  rename(Year = year) %>% 
   mutate(State = as.factor(State),
          Year = as.factor(Year),
-         GEOID = as.factor(GEOID))
+         GEOID = as.factor(GEOID),
+         City = as.factor(City))
 
 ```
 
@@ -427,11 +429,11 @@ UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>%
   mutate(black_non_drug_misdemeanor_arrest_rate = total_African_American_non_drug_misdemeanor_arrests / black_popE)
 
 
-#calculate disparities - positive number indicates higher black arrest rates, negative indicates higher white arrest rates
+#calculate arrest rate disparity ratios - 1 indicates same arrest rate. higher than 1 indicates higher black arrest rate, lower than 1 indicates higher white arrest rate
 UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>% 
-  mutate(total_arrest_rate_disparity = black_arrest_rate - white_arrest_rate,
-         marijuana_arrest_rate_disparity = black_marijuana_arrest_rate - white_marijuana_arrest_rate,
-         non_drug_misdemeanor_arrest_rate_disparity = black_non_drug_misdemeanor_arrest_rate - white_non_drug_misdemeanor_arrest_rate)
+  mutate(total_arrest_rate_disparity = black_arrest_rate / white_arrest_rate,
+         marijuana_arrest_rate_disparity = black_marijuana_arrest_rate / white_marijuana_arrest_rate,
+         non_drug_misdemeanor_arrest_rate_disparity = black_non_drug_misdemeanor_arrest_rate / white_non_drug_misdemeanor_arrest_rate)
 
 
 ```
@@ -492,7 +494,7 @@ ACS_common_support_data <- ACS_common_support_data %>%
 #merge with marijuana legalization data
 ACS_common_support_data <- legalization_status_one_equals_any_legalization_in_year %>% 
   filter(year == 2016) %>% 
-  left_join(ACS_common_support_data,  by = "NAME") %>% 
+  left_join(ACS_common_support_data,  by = ("State" = "NAME")) %>% 
   rename(legalized_by_end_of_2016 = legalization_status_one_equals_any_legalization_in_year) %>% 
   dplyr::select(-year)
 
