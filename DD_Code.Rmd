@@ -14,6 +14,7 @@ editor_options:
   #Add decriminilization info
   #check UCR % reporting
   #calculate county coverage ratios, impute where they are below 100
+  #fix issue with UCR crosswalk having duplicate counties
 ```
 
 
@@ -73,8 +74,8 @@ UCR_2015$OFFENSE[UCR_2015$OFFENSE == "28"] <-  "280"
 
 #get 2015 yearly summary
 UCR_data_list$UCR_2015 <- UCR_2015 %>%
-  dplyr::select(STATE, STNAME, COUNTY, OFFENSE, POP, 34:89) %>% 
-  group_by(STATE, STNAME, COUNTY, OFFENSE, POP) %>%
+  dplyr::select(STATE, STNAME, COUNTY, OFFENSE, AGENCY, POP, 34:89) %>% 
+  group_by(STATE, STNAME, COUNTY, OFFENSE, AGENCY, POP) %>%
   summarise_each(funs(sum))
 
 ```
@@ -89,13 +90,39 @@ pop_ACS_years <- lst(2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016)
 
 ACS_state_pops <- map_dfr(
   pop_ACS_years, 
-  ~ get_acs(geography = "state", variables = c(total_pop = "B03002_001", white_pop = "B03002_003", black_pop = "B03002_004"),
+  ~ get_acs(geography = "state", variables = c(state_total_pop = "B03002_001", state_white_pop = "B03002_003", state_black_pop = "B03002_004"),
             year = .x, output = "wide"),
   .id = "year") %>% 
-  dplyr::select(-total_popM) %>% 
+  dplyr::select(-state_total_popM) %>% 
   arrange(year, GEOID)
 
-#Load county population data from here https://www.census.gov/newsroom/press-kits/2018/estimates-characteristics.html
+#Load census county population data found here https://www.census.gov/newsroom/press-kits/2018/estimates-characteristics.html
+ACS_county_pops <- read_csv("Data/County_Population_Data/cc-est2017-alldata.csv") %>% 
+  filter(AGEGRP == 0)
+
+ACS_county_pops <- ACS_county_pops %>% 
+  dplyr::select(STATE, COUNTY, STNAME, CTYNAME, YEAR,
+                COUNTY_TOT_POP = TOT_POP,
+                COUNTY_TOT_MALE = TOT_MALE,
+                COUNTY_TOT_FEMALE = TOT_FEMALE,
+                COUNTY_WA_MALE = WA_MALE,
+                COUNTY_WA_FEMALE = WA_FEMALE,
+                COUNTY_BA_MALE = BA_MALE,
+                COUNTY_BA_FEMALE = BA_FEMALE) %>% 
+  filter(YEAR == 3 | YEAR == 4 |YEAR == 5 | YEAR == 6 | YEAR == 7 | YEAR == 8 | YEAR == 9) %>% 
+  mutate(STATE = as.numeric(STATE),
+         COUNTY = as.numeric(COUNTY))
+
+#recode year variable based on codebook
+ACS_county_pops$YEAR[ACS_county_pops$YEAR == 3] <- 2010
+ACS_county_pops$YEAR[ACS_county_pops$YEAR == 4] <- 2011
+ACS_county_pops$YEAR[ACS_county_pops$YEAR == 5] <- 2012
+ACS_county_pops$YEAR[ACS_county_pops$YEAR == 6] <- 2013
+ACS_county_pops$YEAR[ACS_county_pops$YEAR == 7] <- 2014
+ACS_county_pops$YEAR[ACS_county_pops$YEAR == 8] <- 2015
+ACS_county_pops$YEAR[ACS_county_pops$YEAR == 9] <- 2016
+
+ACS_county_pops$YEAR <- as.character(ACS_county_pops$YEAR)
 
 ```
 
@@ -164,8 +191,6 @@ names(UCR_arrest_totals_and_rates) <- names(UCR_data_list)
 #progress bar
 p <- progress_estimated(length(UCR_data_list))
 
-
-
 #loop over all
 for(i in 1:length(UCR_data_list)){
   p$tick()$print()
@@ -224,10 +249,13 @@ for(i in 1:length(UCR_data_list)){
 }  
 
 #bind into one df
-UCR_arrest_totals_and_rates <- bind_rows(UCR_arrest_totals_and_rates, .id = "column_label") %>% arrange(column_label)
+UCR_arrest_totals_and_rates_raw <- bind_rows(UCR_arrest_totals_and_rates, .id = "column_label") %>% arrange(column_label)
 
-#save to csv if needed later
-write_csv(UCR_arrest_totals_and_rates, "Calculated_UCR_Data.csv")
+#save to csv to view later
+write_csv(UCR_arrest_totals_and_rates_raw, "Calculated_UCR_Data.csv")
+
+#create copy of df to manipulate while still preserving original
+UCR_arrest_totals_and_rates <- UCR_arrest_totals_and_rates_raw
 ```
 
 ```{r create df of just county population data}
@@ -235,35 +263,51 @@ write_csv(UCR_arrest_totals_and_rates, "Calculated_UCR_Data.csv")
 UCR_county_population_data <- vector("list", length(UCR_data_list))
 names(UCR_county_population_data) <- names(UCR_data_list)
 
+
 for(i in 1:length(UCR_data_list)){
   #calculate county population data
-  UCR_county_population_data[[i]] <- UCR_data_list[[1]] %>%
+  UCR_county_population_data[[i]] <- UCR_data_list[[i]] %>%
+    ungroup() %>% 
     dplyr::select(STNAME, STATE, COUNTY, AGENCY, POP) %>% 
     unique() %>% 
     group_by(STNAME, STATE, COUNTY) %>% 
     summarise(POP = sum(POP))
 }  
 
+
 #bind into one df
 UCR_county_population_data <- bind_rows(UCR_county_population_data, .id = "column_label") %>%
   arrange(column_label) %>% 
   mutate(year = str_sub(column_label, start = -4)) %>% 
   dplyr::select(-column_label)
+
+
 ```
 
 
 ```{r Load UCR county codes}
-#Load UCR Crosswalk with UCR to FIPS County and State Codes
-UCR_crosswalk <- read_tsv("Data/UCR_State_County_Codes/UCR_Crosswalk/DS0001/35158-0001-Data.tsv") %>% 
-  dplyr::select(FIPS_ST, FIPS_COUNTY, U_STATENO, U_CNTY)
+#Load UCR County Codes to FIPS County and State Codes
+UCR_County_Codes <- read.dta("Data/UCR_State_County_Codes/UCR_1990_County_Codes/DS0001/02565-0001-Data.dta") %>% 
+  dplyr::select(ST_UCR, CTY_UCR, ST_FIPS, CTY_FIPS, CTYNAME)
 
 #merge with UCR data
 UCR_arrest_totals_and_rates <- UCR_arrest_totals_and_rates %>% 
-  left_join(UCR_crosswalk, by = c("STATE" = "U_STATENO", "COUNTY" = "U_CNTY"))
+  left_join(UCR_County_Codes, by = c("STATE" = "ST_UCR", "COUNTY" = "CTY_UCR"))
+
+#option 2
+# #Load UCR Crosswalk with UCR to FIPS County and State Codes
+# UCR_crosswalk <- read_tsv("Data/UCR_State_County_Codes/UCR_Crosswalk/DS0001/35158-0001-Data.tsv") %>% 
+#   dplyr::select(FIPS_ST, FIPS_COUNTY, U_STATENO, U_CNTY) %>% 
+#   unique() %>% 
+#   filter(U_STATENO >=0 & U_CNTY >0)
+# 
+# #merge with UCR data
+# UCR_arrest_totals_and_rates <- UCR_arrest_totals_and_rates %>% 
+#   left_join(UCR_crosswalk, by = c("STATE" = "U_STATENO", "COUNTY" = "U_CNTY"))
 
 #remove NA columns that we can't place with County crosswalk data
 UCR_arrest_totals_and_rates <- UCR_arrest_totals_and_rates %>% 
-  filter(!is.na(FIPS_COUNTY))
+  filter(!is.na(CTY_FIPS))
 
 ```
 
@@ -282,20 +326,48 @@ UCR_arrest_totals_and_rates <- UCR_arrest_totals_and_rates %>%
 state_name_matching_key <- read_excel("State_Name_Matching.xlsx")
 UCR_arrest_totals_and_rates <- full_join(UCR_arrest_totals_and_rates, state_name_matching_key, by = "STNAME")
 
-#create year column
-UCR_arrest_totals_and_rates <- UCR_arrest_totals_and_rates %>% 
-  mutate(year = str_sub(column_label, start = -4)) %>% 
-  dplyr::select(-column_label)
-
 #add state population data
 UCR_arrest_totals_and_rates_with_pop <- left_join(UCR_arrest_totals_and_rates, ACS_state_pops, by = c("NAME", "year"))
+
+#add county population data
+UCR_arrest_totals_and_rates_with_pop <- left_join(UCR_arrest_totals_and_rates_with_pop, ACS_county_pops, by = c("ST_FIPS" = "STATE", "CTY_FIPS" = "COUNTY", "year" = "YEAR"))
+
 
 #rearrange column order, drop unnecessary columns
 UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>% 
   ungroup() %>% 
-  dplyr::select(-STNAME, -STATE) %>% 
-  dplyr::select(NAME, year, GEOID, total_popE, white_popE, white_popM, black_popE, black_popM, 1:15)
+  dplyr::select(year,
+                ST_FIPS,
+                CTY_FIPS,
+                NAME,
+                County = CTYNAME.y,
+                UCR_Population = POP, 
+                26:30,
+                33:39,
+                4:18)
+              
+```
 
+```{r remove states that don't report to UCR or have low percentage of agencies reporting in each county}
+#certain states dont report to UCR or underreport significantly. Remove these states
+states_that_dont_report_to_UCR_or_underreport <- c("Illinois", "Florida", "District of Columbia", "New York")
+
+UCR_arrest_totals_and_rates_with_pop_filtered <- UCR_arrest_totals_and_rates_with_pop %>% 
+  filter(!NAME %in% states_that_dont_report_to_UCR_or_underreport)
+
+#calculate coverage ratio variable to find counties with low numbers of agencies reporting
+UCR_arrest_totals_and_rates_with_pop_filtered <- UCR_arrest_totals_and_rates_with_pop %>% 
+  mutate(county_coverage_ratio = UCR_Population / COUNTY_TOT_POP)
+
+#remove counties with coverage ratio below 99%
+counties_with_low_coverage_ratios_in_2011 <- UCR_arrest_totals_and_rates_with_pop_filtered %>% 
+  filter(year == 2011) %>% 
+  filter(county_coverage_ratio < .99)  %>% 
+  pull(County)
+
+
+UCR_arrest_totals_and_rates_with_pop_filtered <- UCR_arrest_totals_and_rates_with_pop_filtered %>% 
+  filter(!County %in% counties_with_low_coverage_ratios_in_2011)
 
 ```
 
@@ -311,44 +383,54 @@ legalization_status_one_equals_legalization_entire_year <- read_excel("Marijuana
 legalization_status_fraction_of_year_legalized <- read_excel("Marijuana_Legalization_Status_Fraction_Of_Year_Legalized.xlsx") %>% 
   gather(year, legalization_status_fraction_of_year_legalized, -NAME)
 
-UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>% 
+UCR_arrest_totals_and_rates_with_pop_filtered <- UCR_arrest_totals_and_rates_with_pop_filtered %>% 
   left_join(legalization_status_one_equals_any_legalization_in_year, by = c("NAME", "year")) %>% 
   left_join(legalization_status_one_equals_legalization_entire_year, by = c("NAME", "year")) %>% 
   left_join(legalization_status_fraction_of_year_legalized, by = c("NAME", "year"))
 
 #create vector of states that legalized by end of 2016
-states_that_legalized_by_end_of_2016_vector <- UCR_arrest_totals_and_rates_with_pop %>% 
+states_that_legalized_by_end_of_2016_vector <- UCR_arrest_totals_and_rates_with_pop_filtered %>% 
   filter(year == 2016) %>% 
   filter(legalization_status_one_equals_any_legalization_in_year == 1) %>% 
+  dplyr::select(NAME) %>% 
+  unique() %>% 
   pull(NAME)
+states_that_legalized_by_end_of_2016_vector
 
+#create vector of counties that legalized by end of 2016
+counties_that_legalized_by_end_of_2016_vector <- UCR_arrest_totals_and_rates_with_pop_filtered %>% 
+  filter(year == 2016) %>% 
+  filter(legalization_status_one_equals_any_legalization_in_year == 1) %>% 
+  dplyr::select(County) %>% 
+  unique() %>% 
+  pull(County)
+counties_that_legalized_by_end_of_2016_vector
 ```
 
 ```{r convert columns to correct types and rename}
-UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>% 
+UCR_arrest_totals_and_rates_with_pop_filtered <- UCR_arrest_totals_and_rates_with_pop_filtered %>% 
   rename(State = NAME,
          Year = year) %>% 
   mutate(State = as.factor(State),
-         Year = as.factor(Year),
-         GEOID = as.factor(GEOID))
+         Year = as.factor(Year))
 
 ```
 
 ```{r calculate arrest rates for each race}
-UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>% 
-  mutate(total_arrest_rate = total_arrests_race_data / total_popE) %>% 
-  mutate(marijuana_arrest_rate = total_marijuana_arrests_race_data / total_popE) %>% 
-  mutate(white_arrest_rate = total_White_arrests / white_popE) %>% 
-  mutate(black_arrest_rate = total_African_American_arrests / black_popE) %>% 
-  mutate(white_marijuana_arrest_rate = total_White_marijuana_arrests / white_popE) %>% 
-  mutate(black_marijuana_arrest_rate = total_African_American_marijuana_arrests / black_popE) %>% 
-  mutate(non_drug_misdemeanor_arrest_rate = total_non_violent_non_drug_misdemeanor_arrests_race_data / total_popE) %>% 
-  mutate(white_non_drug_misdemeanor_arrest_rate = total_White_non_drug_misdemeanor_arrests / white_popE) %>% 
-  mutate(black_non_drug_misdemeanor_arrest_rate = total_African_American_non_drug_misdemeanor_arrests / black_popE)
+UCR_arrest_totals_and_rates_with_pop_filtered <- UCR_arrest_totals_and_rates_with_pop_filtered %>% 
+  mutate(total_arrest_rate = total_arrests_race_data / COUNTY_TOT_POP) %>% 
+  mutate(marijuana_arrest_rate = total_marijuana_arrests_race_data / COUNTY_TOT_POP) %>% 
+  mutate(white_arrest_rate = total_White_arrests / sum(COUNTY_WA_MALE + COUNTY_WA_FEMALE)) %>% 
+  mutate(black_arrest_rate = total_African_American_arrests / sum(COUNTY_BA_MALE + COUNTY_BA_FEMALE)) %>% 
+  mutate(white_marijuana_arrest_rate = total_White_marijuana_arrests / sum(COUNTY_WA_MALE + COUNTY_WA_FEMALE)) %>% 
+  mutate(black_marijuana_arrest_rate = total_African_American_marijuana_arrests / sum(COUNTY_BA_MALE + COUNTY_BA_FEMALE)) %>% 
+  mutate(non_drug_misdemeanor_arrest_rate = total_non_violent_non_drug_misdemeanor_arrests_race_data / COUNTY_TOT_POP) %>% 
+  mutate(white_non_drug_misdemeanor_arrest_rate = total_White_non_drug_misdemeanor_arrests / sum(COUNTY_WA_MALE + COUNTY_WA_FEMALE)) %>% 
+  mutate(black_non_drug_misdemeanor_arrest_rate = total_African_American_non_drug_misdemeanor_arrests / sum(COUNTY_BA_MALE + COUNTY_BA_FEMALE))
 
 
 #calculate disparities - positive number indicates higher black arrest rates, negative indicates higher white arrest rates
-UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>% 
+UCR_arrest_totals_and_rates_with_pop_filtered <- UCR_arrest_totals_and_rates_with_pop_filtered %>% 
   mutate(total_arrest_rate_disparity = black_arrest_rate - white_arrest_rate,
          marijuana_arrest_rate_disparity = black_marijuana_arrest_rate - white_marijuana_arrest_rate,
          non_drug_misdemeanor_arrest_rate_disparity = black_non_drug_misdemeanor_arrest_rate - white_non_drug_misdemeanor_arrest_rate)
@@ -356,14 +438,7 @@ UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>%
 
 ```
 
-```{r remove states that don't report to UCR}
-#certain states dont report to UCR or underreport significantly. Remove these states
-states_that_dont_report_to_UCR_or_underreport <- c("Illinois", "Florida", "District of Columbia", "New York")
 
-UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>% 
-  filter(!State %in% states_that_dont_report_to_UCR_or_underreport)
-
-```
 
 
 ```{r Load common support ACS data}
@@ -480,7 +555,7 @@ ACS_control_data <- ACS_control_data %>%
   dplyr::select(NAME, year, pct_black, unemployment_rate, pct_high_school_diploma_or_higher, pct_in_poverty)
 
 #merge with UCR data
-UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>% 
+UCR_arrest_totals_and_rates_with_pop_filtered <- UCR_arrest_totals_and_rates_with_pop_filtered %>% 
   left_join(ACS_control_data, by = c("State" = "NAME", "Year" = "year"))
 ```
 
@@ -488,7 +563,7 @@ UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>%
 ```{r conduct difference in differences}
 
 #marijuana arrest rate, run on just common support states
-UCR_arrest_totals_and_rates_with_pop %>% 
+UCR_arrest_totals_and_rates_with_pop_filtered %>% 
   filter(State %in% common_support_states) %>% 
   lm(marijuana_arrest_rate ~ legalization_status_fraction_of_year_legalized +
        factor(State) +
@@ -501,7 +576,7 @@ UCR_arrest_totals_and_rates_with_pop %>%
   summary()
 
 #marijuana arrest rate disparity, run on just common support states
-UCR_arrest_totals_and_rates_with_pop %>% 
+UCR_arrest_totals_and_rates_with_pop_filtered %>% 
   filter(State %in% common_support_states) %>% 
   lm(marijuana_arrest_rate_disparity ~ legalization_status_fraction_of_year_legalized +
        factor(State) +
@@ -514,7 +589,7 @@ UCR_arrest_totals_and_rates_with_pop %>%
   summary()
 
 #black marijuana arrest rate, run on just common support states
-UCR_arrest_totals_and_rates_with_pop %>% 
+UCR_arrest_totals_and_rates_with_pop_filtered %>% 
   filter(State %in% common_support_states) %>% 
   lm(black_marijuana_arrest_rate ~ legalization_status_fraction_of_year_legalized + 
        factor(State) +
@@ -533,24 +608,23 @@ UCR_arrest_totals_and_rates_with_pop %>%
 
 ```{r graph changes in marijuana arrest rate}
 
-UCR_arrest_totals_and_rates_with_pop %>% 
+UCR_arrest_totals_and_rates_with_pop_filtered %>% 
   ggplot(aes(x = Year, y = marijuana_arrest_rate, group = State)) +
   geom_line() +
   facet_wrap(~State)
 
-UCR_arrest_totals_and_rates_with_pop %>% 
-  filter(State %in% states_that_legalized_by_end_of_2016_vector) %>% 
-  ggplot(aes(x = Year, y = marijuana_arrest_rate, group = State)) +
-  geom_line() +
-  facet_wrap(~State)
+UCR_arrest_totals_and_rates_with_pop_filtered %>% 
+  #filter(County %in% counties_that_legalized_by_end_of_2016_vector) %>% 
+  ggplot(aes(x = Year, y = marijuana_arrest_rate)) +
+  geom_line(aes(group = County))
 
-UCR_arrest_totals_and_rates_with_pop %>% 
+UCR_arrest_totals_and_rates_with_pop_filtered %>% 
   filter(!State %in% states_that_legalized_by_end_of_2016_vector) %>% 
   ggplot(aes(x = Year, y = marijuana_arrest_rate, group = State)) +
   geom_line() +
   facet_wrap(~State)
 
-UCR_arrest_totals_and_rates_with_pop %>% 
+UCR_arrest_totals_and_rates_with_pop_filtered %>% 
   filter(!State %in% states_that_legalized_by_end_of_2016_vector) %>% 
   ggplot(aes(x = Year, y = marijuana_arrest_rate_disparity, group = State)) +
   geom_line() +
@@ -560,6 +634,30 @@ UCR_arrest_totals_and_rates_with_pop %>%
 
 
 
+```{r examine county pops delete later}
+UCR_data_list$UCR_2011 %>% 
+  filter(STNAME == "WASH", AGENCY == "KING" | AGENCY == "SEATTLE") %>% 
+  view()
+
+UCR_data_list$UCR_2014 %>% 
+  filter(STNAME == "WASH", COUNTY == 17) %>% 
+  dplyr::select(COUNTY, AGENCY, POP) %>% 
+  unique() %>% 
+  group_by(COUNTY) %>% 
+  summarise(pop = sum(POP))
+
+ACS_county_pops %>% 
+  filter(STNAME == "Washington", CTYNAME == "King County")
+
+head(UCR_data_list$UCR_2011)
+
+
+
+UCR_data_list$UCR_2011 %>% 
+  filter(GROUP == "1A" | GROUP == "1B" | GROUP == "1C") %>% 
+  filter(OFFENSE == 187) %>% 
+  view()
+```
 
 
 
