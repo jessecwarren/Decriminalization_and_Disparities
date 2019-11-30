@@ -554,7 +554,9 @@ UCR_arrest_totals_and_rates_with_pop %>%
   filter(!State %in% states_that_legalized_by_end_of_2016_vector) %>% 
   ggplot(aes(x = Year, y = marijuana_arrest_rate_disparity, group = State)) +
   geom_line() +
-  facet_wrap(~State)
+  facet_wrap(~State) 
+
+test1
 
 ```
 
