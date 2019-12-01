@@ -10,10 +10,8 @@ editor_options:
 ```{r}
 #To Do
   #Use 2010 Census for Common Support data
-  #Only use possession, not sales as these arent legal
+  #Only use possession, not sales as these arent legal - Consider this
   #Add decriminilization info
-  #check UCR % reporting
-  #calculate county coverage ratios, impute where they are below 100
 ```
 
 
@@ -570,7 +568,7 @@ UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>%
 
 
 ```{r conduct difference in differences}
-
+sink("regression_results.txt")
 #marijuana arrest rate, run on just common support cities
 UCR_arrest_totals_and_rates_with_pop %>% 
   filter(ACS_city_name %in% common_support_cities) %>% 
@@ -580,7 +578,8 @@ UCR_arrest_totals_and_rates_with_pop %>%
        pct_black +
        pct_in_poverty,
      data = .) %>% 
-  summary()
+  summary() %>% 
+  print()
 
 #marijuana arrest rate disparity, run on just common support cities
 UCR_arrest_totals_and_rates_with_pop %>% 
@@ -591,7 +590,8 @@ UCR_arrest_totals_and_rates_with_pop %>%
        pct_black +
        pct_in_poverty,
      data = .) %>% 
-  summary()
+  summary() %>% 
+  print()
 
 #black marijuana arrest rate, run on just common support cities
 UCR_arrest_totals_and_rates_with_pop %>% 
@@ -602,7 +602,8 @@ UCR_arrest_totals_and_rates_with_pop %>%
        pct_black +
        pct_in_poverty,
      data = .) %>% 
-  summary()
+  summary() %>% 
+  print()
 
 #nondrug misdemeanor arrest rate, run on just common support cities
 UCR_arrest_totals_and_rates_with_pop %>% 
@@ -613,7 +614,8 @@ UCR_arrest_totals_and_rates_with_pop %>%
        pct_black +
        pct_in_poverty,
      data = .) %>% 
-  summary()
+  summary() %>% 
+  print()
 
 #black nondrug  misdemeanor arrest rate, run on just common support cities
 UCR_arrest_totals_and_rates_with_pop %>% 
@@ -624,7 +626,8 @@ UCR_arrest_totals_and_rates_with_pop %>%
        pct_black +
        pct_in_poverty,
      data = .) %>% 
-  summary()
+  summary() %>% 
+  print()
 
 #nondrug misdemeanor arrest rate disparity, run on just common support cities
 UCR_arrest_totals_and_rates_with_pop %>% 
@@ -635,8 +638,11 @@ UCR_arrest_totals_and_rates_with_pop %>%
        pct_black +
        pct_in_poverty,
      data = .) %>% 
-  summary()
+  summary() %>% 
+  print()
 
+
+sink()
 ```
 
 ```{r graph changes in marijuana arrest rate}

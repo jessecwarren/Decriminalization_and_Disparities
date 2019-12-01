@@ -1,0 +1,342 @@
+
+Call:
+lm(formula = marijuana_arrest_rate ~ decriminilization_status_fraction_of_year_legalized + 
+    factor(City) + factor(Year) + pct_black + pct_in_poverty, 
+    data = .)
+
+Residuals:
+       Min         1Q     Median         3Q        Max 
+-0.0025997 -0.0002893 -0.0000180  0.0002409  0.0036589 
+
+Coefficients:
+                                                      Estimate Std. Error t value             Pr(>|t|)    
+(Intercept)                                          0.0033032  0.0011778   2.805             0.005644 ** 
+decriminilization_status_fraction_of_year_legalized -0.0002455  0.0002427  -1.012             0.313247    
+factor(City)Anchorage                                0.0009270  0.0008297   1.117             0.265531    
+factor(City)Arlington                                0.0092760  0.0026089   3.556             0.000492 ***
+factor(City)Atlanta                                  0.0249951  0.0079665   3.138             0.002018 ** 
+factor(City)Aurora                                   0.0056747  0.0020202   2.809             0.005570 ** 
+factor(City)Bakersfield                              0.0024313  0.0009300   2.614             0.009771 ** 
+factor(City)Boston                                   0.0075690  0.0032144   2.355             0.019713 *  
+factor(City)Colorado springs                         0.0014333  0.0006950   2.062             0.040748 *  
+factor(City)Dallas                                   0.0092092  0.0034433   2.675             0.008236 ** 
+factor(City)Denver                                   0.0029999  0.0011714   2.561             0.011332 *  
+factor(City)El paso                                  0.0032707  0.0004714   6.938   0.0000000000860329 ***
+factor(City)Fort worth                               0.0068796  0.0025271   2.722             0.007178 ** 
+factor(City)Fresno                                   0.0035478  0.0011086   3.200             0.001647 ** 
+factor(City)Greensboro                               0.0166465  0.0059156   2.814             0.005488 ** 
+factor(City)Henderson                                0.0012574  0.0007741   1.624             0.106219    
+factor(City)Houston                                  0.0094386  0.0032443   2.909             0.004122 ** 
+factor(City)Lincoln                                  0.0039946  0.0004306   9.276 < 0.0000000000000002 ***
+factor(City)Long beach                               0.0045009  0.0016784   2.682             0.008069 ** 
+factor(City)Mesa                                     0.0026874  0.0004189   6.416   0.0000000014219319 ***
+factor(City)Minneapolis                              0.0075987  0.0024103   3.153             0.001923 ** 
+factor(City)Oklahoma city                            0.0064150  0.0018497   3.468             0.000669 ***
+factor(City)Phoenix                                  0.0029265  0.0007181   4.076   0.0000711998083517 ***
+factor(City)Riverside                                0.0013993  0.0006865   2.038             0.043125 *  
+factor(City)Sacramento                               0.0047289  0.0017556   2.694             0.007798 ** 
+factor(City)San antonio                              0.0052199  0.0006977   7.481   0.0000000000041498 ***
+factor(City)St. Paul                                 0.0059663  0.0019928   2.994             0.003178 ** 
+factor(City)Stockton                                 0.0035370  0.0014417   2.453             0.015193 *  
+factor(City)Tucson                                   0.0052549  0.0006181   8.502   0.0000000000000106 ***
+factor(City)Virginia beach                           0.0069093  0.0026006   2.657             0.008662 ** 
+factor(Year)2011                                    -0.0005824  0.0001971  -2.955             0.003586 ** 
+factor(Year)2012                                    -0.0002631  0.0002111  -1.246             0.214370    
+factor(Year)2013                                    -0.0004557  0.0002362  -1.929             0.055441 .  
+factor(Year)2014                                    -0.0005001  0.0002437  -2.052             0.041722 *  
+factor(Year)2015                                    -0.0008826  0.0002360  -3.739             0.000254 ***
+factor(Year)2016                                    -0.0010331  0.0002231  -4.630   0.0000073876235558 ***
+pct_black                                           -0.0339678  0.0158607  -2.142             0.033690 *  
+pct_in_poverty                                      -0.0089060  0.0063682  -1.399             0.163834    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.0007091 on 165 degrees of freedom
+Multiple R-squared:  0.875,	Adjusted R-sq
+Call:
+lm(formula = non_drug_misdemeanor_arrest_rate_disparity ~ decriminilization_status_fraction_of_year_legalized + 
+    factor(City) + factor(Year) + pct_black + pct_in_poverty, 
+    data = .)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.1807 -0.1499  0.0243  0.1235  3.3922 
+
+Coefficients:
+                                                    Estimate Std. Error t value             Pr(>|t|)    
+(Intercept)                                          1.47421    0.80962   1.821             0.070438 .  
+decriminilization_status_fraction_of_year_legalized  0.30151    0.16686   1.807             0.072585 .  
+factor(City)Anchorage                                1.58327    0.57036   2.776             0.006141 ** 
+factor(City)Arlington                               -0.93696    1.79333  -0.522             0.602046    
+factor(City)Atlanta                                  1.12876    5.47614   0.206             0.836949    
+factor(City)Aurora                                   0.70592    1.38868   0.508             0.611897    
+factor(City)Bakersfield                             -0.54456    0.63931  -0.852             0.395562    
+factor(City)Boston                                   0.39173    2.20956   0.177             0.859499    
+factor(City)Colorado springs                         1.61038    0.47775   3.371             0.000934 ***
+factor(City)Dallas                                  -1.23106    2.36689  -0.520             0.603678    
+factor(City)Denver                                  -0.03393    0.80520  -0.042             0.966440    
+factor(City)El paso                                 -1.05698    0.32404  -3.262             0.001345 ** 
+factor(City)Fort worth                              -0.90271    1.73710  -0.520             0.603992    
+factor(City)Fresno                                  -0.64202    0.76204  -0.843             0.400727    
+factor(City)Greensboro                               0.05535    4.06637   0.014             0.989156    
+factor(City)Henderson                                0.55582    0.53214   1.044             0.297785    
+factor(City)Houston                                 -0.97324    2.23014  -0.436             0.663114    
+factor(City)Lincoln                                  3.99211    0.29602  13.486 < 0.0000000000000002 ***
+factor(City)Long beach                              -1.05712    1.15372  -0.916             0.360858    
+factor(City)Mesa                                     1.32061    0.28794   4.586           0.00000888 ***
+factor(City)Minneapolis                              4.41687    1.65685   2.666             0.008444 ** 
+factor(City)Oklahoma city                            0.71276    1.27149   0.561             0.575853    
+factor(City)Phoenix                                  0.16396    0.49360   0.332             0.740179    
+factor(City)Riverside                               -0.65810    0.47191  -1.395             0.165024    
+factor(City)Sacramento                              -0.81020    1.20678  -0.671             0.502921    
+factor(City)San antonio                             -0.97696    0.47961  -2.037             0.043249 *  
+factor(City)St. Paul                                 4.92522    1.36983   3.595             0.000427 ***
+factor(City)Stockton                                -0.96880    0.99102  -0.978             0.329716    
+factor(City)Tucson                                   0.20885    0.42485   0.492             0.623666    
+factor(City)Virginia beach                          -0.28601    1.78763  -0.160             0.873079    
+factor(Year)2011                                    -0.07160    0.13549  -0.528             0.597875    
+factor(Year)2012                                    -0.02723    0.14509  -0.188             0.851337    
+factor(Year)2013                                    -0.03276    0.16237  -0.202             0.840345    
+factor(Year)2014                                    -0.04085    0.16750  -0.244             0.807628    
+factor(Year)2015                                     0.08245    0.16224   0.508             0.612009    
+factor(Year)2016                                     0.28611    0.15339   1.865             0.063920 .  
+pct_black                                            3.04032   10.90261   0.279             0.780701    
+pct_in_poverty                                      -1.38730    4.37750  -0.317             0.751708    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.4875 on 165 degrees of freedom
+Multiple R-squared:  0.9317,	Adjusted R-squared:  0.9163 
+F-statistic: 60.79 on 37 and 165 DF,  p-value: < 0.00000000000000022
+
+ared:  0.9517,	Adjusted R-squared:  0.9409 
+F-statistic: 87.85 on 37 and 165 DF,  p-value: < 0.00000000000000022
+
+
+Call:
+lm(formula = black_marijuana_arrest_rate ~ decriminilization_status_fraction_of_year_legalized + 
+    factor(City) + factor(Year) + pct_black + pct_in_poverty, 
+    data = .)
+
+Residuals:
+       Min         1Q     Median         3Q        Max 
+-0.0071553 -0.0008551  0.0000177  0.0007871  0.0103986 
+
+Coefficients:
+                                                      Estimate Std. Error t value             Pr(>|t|)    
+(Intercept)                                          0.0081931  0.0035668   2.297             0.022872 *  
+decriminilization_status_fraction_of_year_legalized -0.0018765  0.0007351  -2.553             0.011595 *  
+factor(City)Anchorage                                0.0033468  0.0025127   1.332             0.184720    
+factor(City)Arlington                                0.0246784  0.0079006   3.124             0.002110 ** 
+factor(City)Atlanta                                  0.0614729  0.0241253   2.548             0.011745 *  
+factor(City)Aurora                                   0.0165938  0.0061179   2.712             0.007389 ** 
+factor(City)Bakersfield                              0.0084485  0.0028165   3.000             0.003122 ** 
+factor(City)Boston                                   0.0208407  0.0097343   2.141             0.033745 *  
+factor(City)Colorado springs                         0.0050154  0.0021047   2.383             0.018313 *  
+factor(City)Dallas                                   0.0249122  0.0104274   2.389             0.018018 *  
+factor(City)Denver                                   0.0088378  0.0035473   2.491             0.013712 *  
+factor(City)El paso                                  0.0086749  0.0014275   6.077     0.00000000820957 ***
+factor(City)Fort worth                               0.0185311  0.0076528   2.421             0.016542 *  
+factor(City)Fresno                                   0.0096328  0.0033572   2.869             0.004652 ** 
+factor(City)Greensboro                               0.0424724  0.0179145   2.371             0.018902 *  
+factor(City)Henderson                                0.0047386  0.0023444   2.021             0.044868 *  
+factor(City)Houston                                  0.0251001  0.0098249   2.555             0.011531 *  
+factor(City)Lincoln                                  0.0240289  0.0013041  18.425 < 0.0000000000000002 ***
+factor(City)Long beach                               0.0136079  0.0050827   2.677             0.008172 ** 
+factor(City)Mesa                                     0.0131690  0.0012685  10.381 < 0.0000000000000002 ***
+factor(City)Minneapolis                              0.0232260  0.0072993   3.182             0.001748 ** 
+factor(City)Oklahoma city                            0.0185257  0.0056016   3.307             0.001157 ** 
+factor(City)Phoenix                                  0.0084677  0.0021746   3.894             0.000143 ***
+factor(City)Riverside                                0.0046990  0.0020790   2.260             0.025116 *  
+factor(City)Sacramento                               0.0143585  0.0053165   2.701             0.007641 ** 
+factor(City)San antonio                              0.0126305  0.0021129   5.978     0.00000001356382 ***
+factor(City)St. Paul                                 0.0188742  0.0060348   3.128             0.002084 ** 
+factor(City)Stockton                                 0.0103949  0.0043660   2.381             0.018411 *  
+factor(City)Tucson                                   0.0143410  0.0018717   7.662     0.00000000000148 ***
+factor(City)Virginia beach                           0.0191182  0.0078754   2.428             0.016276 *  
+factor(Year)2011                                    -0.0014568  0.0005969  -2.441             0.015719 *  
+factor(Year)2012                                    -0.0007268  0.0006392  -1.137             0.257154    
+factor(Year)2013                                    -0.0010521  0.0007153  -1.471             0.143250    
+factor(Year)2014                                    -0.0008333  0.0007379  -1.129             0.260443    
+factor(Year)2015                                    -0.0020210  0.0007148  -2.827             0.005273 ** 
+factor(Year)2016                                    -0.0023848  0.0006758  -3.529             0.000541 ***
+pct_black                                           -0.0951083  0.0480317  -1.980             0.049353 *  
+pct_in_poverty                                      -0.0193016  0.0192852  -1.001             0.318364    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.002148 on 165 degrees of freedom
+Multiple R-squared:  0.8767,	Adjusted R-squared:  0.849 
+F-statistic:  31.7 on 37 and 165 DF,  p-value: < 0.00000000000000022
+
+
+Call:
+lm(formula = non_drug_misdemeanor_arrest_rate ~ decriminilization_status_fraction_of_year_legalized + 
+    factor(City) + factor(Year) + pct_black + pct_in_poverty, 
+    data = .)
+
+Residuals:
+       Min         1Q     Median         3Q        Max 
+-0.0076132 -0.0011528  0.0000509  0.0010330  0.0137267 
+
+Coefficients:
+                                                      Estimate Std. Error t value           Pr(>|t|)    
+(Intercept)                                          0.0105309  0.0038230   2.755            0.00654 ** 
+decriminilization_status_fraction_of_year_legalized  0.0034558  0.0007879   4.386 0.0000205091910652 ***
+factor(City)Anchorage                                0.0011815  0.0026932   0.439            0.66146    
+factor(City)Arlington                                0.0141897  0.0084681   1.676            0.09570 .  
+factor(City)Atlanta                                  0.0505401  0.0258583   1.954            0.05233 .  
+factor(City)Aurora                                   0.0134594  0.0065573   2.053            0.04169 *  
+factor(City)Bakersfield                              0.0032148  0.0030188   1.065            0.28846    
+factor(City)Boston                                   0.0122145  0.0104335   1.171            0.24341    
+factor(City)Colorado springs                        -0.0006120  0.0022559  -0.271            0.78651    
+factor(City)Dallas                                   0.0199813  0.0111764   1.788            0.07564 .  
+factor(City)Denver                                   0.0038201  0.0038022   1.005            0.31651    
+factor(City)El paso                                  0.0011118  0.0015301   0.727            0.46848    
+factor(City)Fort worth                               0.0153707  0.0082026   1.874            0.06271 .  
+factor(City)Fresno                                   0.0011260  0.0035984   0.313            0.75473    
+factor(City)Greensboro                               0.0290457  0.0192014   1.513            0.13227    
+factor(City)Henderson                               -0.0013526  0.0025128  -0.538            0.59111    
+factor(City)Houston                                  0.0174717  0.0105307   1.659            0.09899 .  
+factor(City)Lincoln                                  0.0071790  0.0013978   5.136 0.0000007839111011 ***
+factor(City)Long beach                               0.0052406  0.0054478   0.962            0.33748    
+factor(City)Mesa                                     0.0039258  0.0013597   2.887            0.00441 ** 
+factor(City)Minneapolis                              0.0231632  0.0078236   2.961            0.00352 ** 
+factor(City)Oklahoma city                            0.0100668  0.0060040   1.677            0.09550 .  
+factor(City)Phoenix                                  0.0036089  0.0023308   1.548            0.12345    
+factor(City)Riverside                               -0.0027322  0.0022283  -1.226            0.22191    
+factor(City)Sacramento                               0.0046696  0.0056984   0.819            0.41371    
+factor(City)San antonio                              0.0006662  0.0022647   0.294            0.76899    
+factor(City)St. Paul                                 0.0113519  0.0064684   1.755            0.08112 .  
+factor(City)Stockton                                 0.0038926  0.0046796   0.832            0.40671    
+factor(City)Tucson                                   0.0102940  0.0020062   5.131 0.0000008010006843 ***
+factor(City)Virginia beach                           0.0185322  0.0084412   2.195            0.02953 *  
+factor(Year)2011                                    -0.0021254  0.0006398  -3.322            0.00110 ** 
+factor(Year)2012                                    -0.0019616  0.0006851  -2.863            0.00474 ** 
+factor(Year)2013                                    -0.0035708  0.0007667  -4.657 0.0000065630879296 ***
+factor(Year)2014                                    -0.0046229  0.0007909  -5.845 0.0000000263663374 ***
+factor(Year)2015                                    -0.0053589  0.0007661  -6.995 0.0000000000630709 ***
+factor(Year)2016                                    -0.0059827  0.0007243  -8.260 0.0000000000000451 ***
+pct_black                                           -0.0712224  0.0514821  -1.383            0.16840    
+pct_in_poverty                                      -0.0061933  0.0206705  -0.300            0.76484    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.002302 on 165 degrees of freedom
+Multiple R-squared:  0.8228,	Adjusted R-squared:  0.783 
+F-statistic:  20.7 on 37 and 165 DF,  p-value: < 0.00000000000000022
+
+
+Call:
+lm(formula = black_non_drug_misdemeanor_arrest_rate ~ decriminilization_status_fraction_of_year_legalized + 
+    factor(City) + factor(Year) + pct_black + pct_in_poverty, 
+    data = .)
+
+Residuals:
+      Min        1Q    Median        3Q       Max 
+-0.025441 -0.002608  0.000174  0.002691  0.045005 
+
+Coefficients:
+                                                      Estimate Std. Error t value             Pr(>|t|)    
+(Intercept)                                          0.0243629  0.0107893   2.258             0.025252 *  
+decriminilization_status_fraction_of_year_legalized  0.0077572  0.0022236   3.489             0.000623 ***
+factor(City)Anchorage                                0.0092444  0.0076007   1.216             0.225629    
+factor(City)Arlington                                0.0591423  0.0238985   2.475             0.014345 *  
+factor(City)Atlanta                                  0.1984832  0.0729768   2.720             0.007232 ** 
+factor(City)Aurora                                   0.0623481  0.0185060   3.369             0.000939 ***
+factor(City)Bakersfield                              0.0184745  0.0085197   2.168             0.031556 *  
+factor(City)Boston                                   0.0659046  0.0294453   2.238             0.026546 *  
+factor(City)Colorado springs                         0.0100294  0.0063666   1.575             0.117100    
+factor(City)Dallas                                   0.0788467  0.0315419   2.500             0.013406 *  
+factor(City)Denver                                   0.0237682  0.0107304   2.215             0.028127 *  
+factor(City)El paso                                 -0.0020683  0.0043182  -0.479             0.632589    
+factor(City)Fort worth                               0.0593500  0.0231492   2.564             0.011245 *  
+factor(City)Fresno                                   0.0100456  0.0101552   0.989             0.324008    
+factor(City)Greensboro                               0.1341732  0.0541897   2.476             0.014296 *  
+factor(City)Henderson                                0.0041383  0.0070915   0.584             0.560316    
+factor(City)Houston                                  0.0742896  0.0297196   2.500             0.013408 *  
+factor(City)Lincoln                                  0.0469950  0.0039448  11.913 < 0.0000000000000002 ***
+factor(City)Long beach                               0.0297473  0.0153748   1.935             0.054724 .  
+factor(City)Mesa                                     0.0176405  0.0038372   4.597          0.000008478 ***
+factor(City)Minneapolis                              0.0950429  0.0220797   4.305          0.000028612 ***
+factor(City)Oklahoma city                            0.0456136  0.0169443   2.692             0.007835 ** 
+factor(City)Phoenix                                  0.0145015  0.0065779   2.205             0.028867 *  
+factor(City)Riverside                                0.0005116  0.0062888   0.081             0.935265    
+factor(City)Sacramento                               0.0296468  0.0160820   1.843             0.067053 .  
+factor(City)San antonio                              0.0065172  0.0063914   1.020             0.309371    
+factor(City)St. Paul                                 0.0575235  0.0182548   3.151             0.001932 ** 
+factor(City)Stockton                                 0.0238318  0.0132067   1.805             0.072973 .  
+factor(City)Tucson                                   0.0280421  0.0056617   4.953          0.000001796 ***
+factor(City)Virginia beach                           0.0684460  0.0238225   2.873             0.004598 ** 
+factor(Year)2011                                    -0.0041342  0.0018056  -2.290             0.023306 *  
+factor(Year)2012                                    -0.0026604  0.0019335  -1.376             0.170702    
+factor(Year)2013                                    -0.0068442  0.0021638  -3.163             0.001859 ** 
+factor(Year)2014                                    -0.0088934  0.0022321  -3.984             0.000101 ***
+factor(Year)2015                                    -0.0105894  0.0021621  -4.898          0.000002297 ***
+factor(Year)2016                                    -0.0117092  0.0020441  -5.728          0.000000047 ***
+pct_black                                           -0.3569435  0.1452918  -2.457             0.015056 *  
+pct_in_poverty                                       0.0084729  0.0583359   0.145             0.884696    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.006496 on 165 degrees of freedom
+Multiple R-squared:  0.8319,	Adjusted R-squared:  0.7942 
+F-statistic: 22.07 on 37 and 165 DF,  p-value: < 0.00000000000000022
+
+
+Call:
+lm(formula = non_drug_misdemeanor_arrest_rate_disparity ~ decriminilization_status_fraction_of_year_legalized + 
+    factor(City) + factor(Year) + pct_black + pct_in_poverty, 
+    data = .)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.1807 -0.1499  0.0243  0.1235  3.3922 
+
+Coefficients:
+                                                    Estimate Std. Error t value             Pr(>|t|)    
+(Intercept)                                          1.47421    0.80962   1.821             0.070438 .  
+decriminilization_status_fraction_of_year_legalized  0.30151    0.16686   1.807             0.072585 .  
+factor(City)Anchorage                                1.58327    0.57036   2.776             0.006141 ** 
+factor(City)Arlington                               -0.93696    1.79333  -0.522             0.602046    
+factor(City)Atlanta                                  1.12876    5.47614   0.206             0.836949    
+factor(City)Aurora                                   0.70592    1.38868   0.508             0.611897    
+factor(City)Bakersfield                             -0.54456    0.63931  -0.852             0.395562    
+factor(City)Boston                                   0.39173    2.20956   0.177             0.859499    
+factor(City)Colorado springs                         1.61038    0.47775   3.371             0.000934 ***
+factor(City)Dallas                                  -1.23106    2.36689  -0.520             0.603678    
+factor(City)Denver                                  -0.03393    0.80520  -0.042             0.966440    
+factor(City)El paso                                 -1.05698    0.32404  -3.262             0.001345 ** 
+factor(City)Fort worth                              -0.90271    1.73710  -0.520             0.603992    
+factor(City)Fresno                                  -0.64202    0.76204  -0.843             0.400727    
+factor(City)Greensboro                               0.05535    4.06637   0.014             0.989156    
+factor(City)Henderson                                0.55582    0.53214   1.044             0.297785    
+factor(City)Houston                                 -0.97324    2.23014  -0.436             0.663114    
+factor(City)Lincoln                                  3.99211    0.29602  13.486 < 0.0000000000000002 ***
+factor(City)Long beach                              -1.05712    1.15372  -0.916             0.360858    
+factor(City)Mesa                                     1.32061    0.28794   4.586           0.00000888 ***
+factor(City)Minneapolis                              4.41687    1.65685   2.666             0.008444 ** 
+factor(City)Oklahoma city                            0.71276    1.27149   0.561             0.575853    
+factor(City)Phoenix                                  0.16396    0.49360   0.332             0.740179    
+factor(City)Riverside                               -0.65810    0.47191  -1.395             0.165024    
+factor(City)Sacramento                              -0.81020    1.20678  -0.671             0.502921    
+factor(City)San antonio                             -0.97696    0.47961  -2.037             0.043249 *  
+factor(City)St. Paul                                 4.92522    1.36983   3.595             0.000427 ***
+factor(City)Stockton                                -0.96880    0.99102  -0.978             0.329716    
+factor(City)Tucson                                   0.20885    0.42485   0.492             0.623666    
+factor(City)Virginia beach                          -0.28601    1.78763  -0.160             0.873079    
+factor(Year)2011                                    -0.07160    0.13549  -0.528             0.597875    
+factor(Year)2012                                    -0.02723    0.14509  -0.188             0.851337    
+factor(Year)2013                                    -0.03276    0.16237  -0.202             0.840345    
+factor(Year)2014                                    -0.04085    0.16750  -0.244             0.807628    
+factor(Year)2015                                     0.08245    0.16224   0.508             0.612009    
+factor(Year)2016                                     0.28611    0.15339   1.865             0.063920 .  
+pct_black                                            3.04032   10.90261   0.279             0.780701    
+pct_in_poverty                                      -1.38730    4.37750  -0.317             0.751708    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.4875 on 165 degrees of freedom
+Multiple R-squared:  0.9317,	Adjusted R-squared:  0.9163 
+F-statistic: 60.79 on 37 and 165 DF,  p-value: < 0.00000000000000022
+
