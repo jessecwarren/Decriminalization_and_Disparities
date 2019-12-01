@@ -112,6 +112,19 @@ ACS_city_pops <- map_dfr(
 
 
 #add state variable to city population data
+ACS_city_name_extraction_function <- function(df){
+  df <- df %>% 
+  mutate(State = str_extract(NAME, '\\b[^,]+$')) 
+
+df <- df %>% 
+  mutate(City = str_extract(NAME, '^[^,]*')) %>% #remove commas
+  mutate(City = str_remove(City, "city")) %>% #remove city
+  mutate(City = str_remove(City, "municipality")) %>% #remove  "municipality"
+  mutate(City = str_remove(City, "metro")) %>% #remove  "metro"
+  mutate(City = trimws(City, "right")) %>%  #remove trailing whitespace
+  rename(ACS_city_name = City)
+}
+
 ACS_city_pops <- ACS_city_pops %>% 
   mutate(State = str_extract(NAME, '\\b[^,]+$')) 
 
@@ -128,44 +141,6 @@ ACS_city_pops <- ACS_city_pops %>%
   filter(total_popE > 150000)
 
 ```
-
-
-
-```{r Explore statewide arrest totals and rates for one year}
-# UCR_data_list$UCR_2011 %>% 
-#   group_by(STNAME, STATE, COUNTY) %>% 
-#   filter(OFFENSE != 998, OFFENSE != 000) %>% 
-#   summarize(total_arrests_race_data = (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
-#             pct_African_American_arrests = (sum(AB) + sum(JB)) / (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
-#             pct_White_arrests = (sum(AW)+ sum(JW)) / (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)))
-# 
-# 
-# #calculate % of marijuana arrests that are african american, white
-# UCR_data_list$UCR_2015 %>% 
-#   group_by(STNAME) %>% 
-#   filter(OFFENSE == 187) %>%  #only include marijuana possession (187) 
-#   summarize(total_marijuana_arrests_race_data = (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
-#             pct_African_American_marijuana_arrests = (sum(AB) + sum(JB)) / (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
-#             pct_White_marijuana_arrests = (sum(AW) + sum(JW)) / (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)))
-# 
-# #calculate % of non-violent, non-drug related misdemeanor arrests that are african american, white. These include:
-#   #140 = Vandalism
-#   #220 = Liquor Laws
-#   #230 = Drunkennes
-#   #240 = Disorderly Conduct
-#   #250 = Vagrancy
-#   #270 = Suspicion
-#   #280 = Curfew and loitering violations
-# UCR_data_list$UCR_2015 %>% 
-#   group_by(STNAME) %>% 
-#   filter(OFFENSE == 140 | OFFENSE == 220 | OFFENSE == 230 | OFFENSE == 240 | OFFENSE == 250 | OFFENSE == 270 | OFFENSE == 280) %>%
-#   summarize(total_non_violent_non_drug_misdemeanor_arrests_race_data = (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
-#             pct_African_American_non_violent_non_drug_misdemeano_arrests = (sum(AB) + sum(JB)) / (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
-#             pct_White_non_violent_non_drug_misdemeano_arrests = (sum(AW) + sum(JW)) / (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)))
-# 
-
-```
-
 
 
 ```{r calculate citywide arrest totals and rates for all years and loop into list, cache=TRUE}
@@ -247,7 +222,7 @@ for(i in 1:length(UCR_data_list)){
     UCR_data_list[[i]] %>% 
       filter(AGENCY %in% sample_cities_vec) %>% 
       group_by(STNAME, AGENCY, POP, GROUP) %>% 
-      filter(OFFENSE == 187) %>%  #only include marijuana possession (187) 
+      filter(OFFENSE == 187 | OFFENSE == 182) %>%  #only include marijuana possession (187) or marijuana sale (182)
       summarize(total_marijuana_arrests_race_data = (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
                 total_White_marijuana_arrests = (sum(AW) + sum(JW)),
                 total_African_American_marijuana_arrests = (sum(AB) + sum(JB)),
@@ -396,6 +371,23 @@ UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>%
   left_join(legalization_status_one_equals_legalization_entire_year, by = c("State", "year")) %>% 
   left_join(legalization_status_fraction_of_year_legalized, by = c("State", "year"))
 
+
+#load decriminilization status spreadsheets
+decriminilization_status_one_equals_any_legalization_in_year <- read_excel("Marijuana_Decriminilization_Status_One_Equals_Any_Legalization_In_Year.xlsx") %>% 
+  gather(year, decriminilization_status_one_equals_any_legalization_in_year, -State)
+
+decriminilization_status_one_equals_legalization_entire_year <- read_excel("Marijuana_Decriminilization_Status_One_Equals_Legalization_Entire_Year.xlsx") %>% 
+  gather(year, decriminilization_status_one_equals_entire_year, -State)
+
+decriminilization_status_fraction_of_year_legalized <- read_excel("Marijuana_Decriminilization_Status_Fraction_Of_Year_Legalized.xlsx") %>% 
+  gather(year, decriminilization_status_fraction_of_year_legalized, -State)
+
+UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>% 
+  left_join(decriminilization_status_one_equals_any_legalization_in_year, by = c("State", "year")) %>% 
+  left_join(decriminilization_status_one_equals_legalization_entire_year, by = c("State", "year")) %>% 
+  left_join(decriminilization_status_fraction_of_year_legalized, by = c("State", "year"))
+
+
 #create vector of states that legalized by end of 2016
 states_that_legalized_by_end_of_2016_vector <- UCR_arrest_totals_and_rates_with_pop %>% 
   filter(year == 2016) %>% 
@@ -403,6 +395,14 @@ states_that_legalized_by_end_of_2016_vector <- UCR_arrest_totals_and_rates_with_
   select(State) %>% 
   unique() %>% 
   pull(State)
+
+#create vector of cities that legalized by end of 2016
+cities_that_legalized_by_end_of_2016_vector <- UCR_arrest_totals_and_rates_with_pop %>% 
+  filter(year == 2016) %>% 
+  filter(legalization_status_one_equals_any_legalization_in_year == 1) %>% 
+  select(City) %>% 
+  unique() %>% 
+  pull(City)
 
 ```
 
@@ -449,66 +449,64 @@ UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>%
 
 
 ```{r Load common support ACS data}
-
 #dplyr::select common support regression year
-common_support_regression_year <- 2011
+common_support_regression_year <- 2010
 
 common_support_vlist <- load_variables(common_support_regression_year, "acs5", cache = TRUE)
 
 
-#load ACS data for common support regression - CHANGE TO 2010 CENSUS DATA
-ACS_common_support_data <- get_acs(geography = "state", variables = c(total_pop = "B03002_001",
-                                               white_pop = "B03002_003",
-                                               black_pop = "B03002_004",
-                                               total_pop_employment = "B23025_001",
-                                               in_labor_force = "B23025_002",
-                                               not_in_labor_force = "B23025_007",
-                                               total_pop_education = "B23006_001",
-                                               high_school_grad_or_higher = "B23006_009",
-                                               bachelors_or_higher = "B23006_023",
+#load 2010 ACS data for common support regression
+ACS_common_support_data <- get_acs(geography = "place", variables = c(total_pop = "B03002_001",
                                                total_pop_poverty_status = "B17001_001",
                                                income_below_poverty_level_last_12_months = "B17001_002",
-                                               total_pop_geographic_mobility = "B07003_001",
-                                               moved_from_different_county_in_same_state_in_past_year = "B07003_010",
-                                               moved_from_different_state_in_past_year = "B07003_013",
-                                               median_hhincome = "B19013_001"),
+                                               total_pop_education = "B23006_001",
+                                               high_school_grad_or_higher = "B23006_009",
+                                               total_pop_citizenship = "B05001_001",
+                                               not_US_citizen = "B05001_006"),
+            year = common_support_regression_year)
+
+ACS_common_support_data <- get_decennial(geography = "place", variables = c(total_pop = "B03002_001",
+                                               total_pop_poverty_status = "B17001_001",
+                                               income_below_poverty_level_last_12_months = "B17001_002",
+                                               total_pop_education = "B23006_001",
+                                               high_school_grad_or_higher = "B23006_009",
+                                               total_pop_citizenship = "B05001_001",
+                                               not_US_citizen = "B05001_006"),
             year = common_support_regression_year)
 
 #calculate summary statistics for common support regression
 ACS_common_support_data <- ACS_common_support_data %>% 
   dplyr::select(-moe) %>% 
   spread(variable, estimate) %>% 
-  mutate(pct_white = white_pop / total_pop,
-        pct_black = black_pop / total_pop,
-        total_population = total_pop,
-        unemployment_rate = not_in_labor_force / total_pop_employment,
-        pct_bachelors_or_higher = bachelors_or_higher / total_pop_education,
-        pct_high_school_diploma_or_higher = high_school_grad_or_higher / total_pop_education,
-        pct_in_poverty = income_below_poverty_level_last_12_months / total_pop_poverty_status,
-        pct_moved_from_different_county_in_same_state_in_past_year = moved_from_different_county_in_same_state_in_past_year / total_pop_geographic_mobility,
-        pct_moved_from_different_state_in_past_year = moved_from_different_state_in_past_year / total_pop_geographic_mobility,
-        median_household_income = median_hhincome) %>% 
+  mutate(pct_in_poverty = income_below_poverty_level_last_12_months / total_pop_poverty_status,
+    pct_high_school_diploma_or_higher = high_school_grad_or_higher / total_pop_education,
+        pct_not_US_citizen = not_US_citizen / total_pop_citizenship) %>% 
   filter(NAME != "Puerto Rico") %>% 
-  dplyr::select(-c(3:17))
+  dplyr::select(GEOID, NAME, total_pop, pct_in_poverty, pct_high_school_diploma_or_higher, pct_not_US_citizen)
+
+ACS_common_support_data <- ACS_city_name_extraction_function(ACS_common_support_data)
+
+#remove smaller cities to make df easier to work with
+ACS_common_support_data <- ACS_common_support_data %>% 
+  filter(total_pop > 150000)
 
 #merge with marijuana legalization data
 ACS_common_support_data <- legalization_status_one_equals_any_legalization_in_year %>% 
   filter(year == 2016) %>% 
-  left_join(ACS_common_support_data,  by = ("State" = "NAME")) %>% 
+  left_join(ACS_common_support_data,  by = "State") %>% 
   rename(legalized_by_end_of_2016 = legalization_status_one_equals_any_legalization_in_year) %>% 
   dplyr::select(-year)
+
+#remove NAs for states with no cities
+ACS_common_support_data <- ACS_common_support_data %>% 
+  filter(!is.na(GEOID))
 
 
 
 #run Common Support regression
-common_support_regression <- lm(legalized_by_end_of_2016 ~ pct_white +
-                                                           pct_black +
-                                                           total_population +
-                                                           unemployment_rate +
-                                                           pct_high_school_diploma_or_higher +
-                                                           pct_in_poverty +
-                                                           #median_hhincome +
-                                                           pct_moved_from_different_state_in_past_year,
+common_support_regression <- lm(legalized_by_end_of_2016 ~ pct_high_school_diploma_or_higher +
+                                                           pct_not_US_citizen +
+                                                           pct_in_poverty,
                                 data = ACS_common_support_data)
 summary(common_support_regression)
 
@@ -518,33 +516,35 @@ ACS_common_support_data <- cbind(ACS_common_support_data, as.data.frame(predict.
   mutate(probability_of_legalization = plogis(probability_of_legalization_log_odds))
 
 
-#dplyr::select common support states
-max_probability_of_non_legalized_state <- max(ACS_common_support_data$probability_of_legalization[ACS_common_support_data$legalized == 0])   
-min_probability_of_legalized_state <- min(ACS_common_support_data$probability_of_legalization[ACS_common_support_data$legalized == 1])
+#dplyr::select common support cities
+max_probability_of_non_legalized_city <- max(ACS_common_support_data$probability_of_legalization[ACS_common_support_data$legalized == 0])   
+min_probability_of_legalized_city <- min(ACS_common_support_data$probability_of_legalization[ACS_common_support_data$legalized == 1])
 
-common_support_states <- ACS_common_support_data %>% 
+common_support_cities <- ACS_common_support_data %>% 
   filter(probability_of_legalization >= min_probability_of_legalized_state & probability_of_legalization <= max_probability_of_non_legalized_state) %>% 
-  filter(!NAME %in% states_that_dont_report_to_UCR_or_underreport) %>% 
-  pull(NAME)
+  filter(!State %in% states_that_dont_report_to_UCR_or_underreport) %>% 
+  pull(ACS_city_name)
 
 ```
 
 ```{r Load state control variable data from ACS}
-#dplyr::select years to load controls data for
-controls_years <- lst(2011, 2012, 2013, 2014, 2015, 2016)
+#select years to load controls data for
+controls_years <- lst(2010, 2011, 2012, 2013, 2014, 2015, 2016)
 
-controls_vlist <- load_variables(2011, "acs5", cache = TRUE)
+controls_vlist11 <- load_variables(2011, "acs5", cache = TRUE)
+controls_vlist10 <- load_variables(2010, "acs5", cache = TRUE)
+
 
 #load ACS controls data
 ACS_control_data <- map_dfr(
   controls_years, 
-  ~ get_acs(geography = "state", variables  = c(total_pop = "B03002_001",
+  ~ get_acs(geography = "place", variables  = c(total_pop = "B03002_001",
                                                black_pop = "B03002_004",
-                                               total_pop_employment = "B23025_001",
-                                               in_labor_force = "B23025_002",
-                                               not_in_labor_force = "B23025_007",
-                                               total_pop_education = "B23006_001",
-                                               high_school_grad_or_higher = "B23006_009",
+                                               #total_pop_employment = "B23025_001",
+                                               #in_labor_force = "B23025_002",
+                                               #not_in_labor_force = "B23025_007",
+                                               #total_pop_education = "B23006_001",
+                                               #high_school_grad_or_higher = "B23006_009",
                                                total_pop_poverty_status = "B17001_001",
                                                income_below_poverty_level_last_12_months = "B17001_002"),
             year = .x, output = "wide"),
@@ -552,90 +552,138 @@ ACS_control_data <- map_dfr(
   dplyr::select(-ends_with("M")) %>% 
   arrange(year, GEOID)
 
-#calculate summary statistics for controls
+ACS_control_data <- ACS_city_name_extraction_function(ACS_control_data)
+
+
+#calculate percentage statistics for controls
 ACS_control_data <- ACS_control_data %>% 
   mutate(pct_black = black_popE / total_popE,
-         unemployment_rate = not_in_labor_forceE / total_pop_employmentE,
-         pct_high_school_diploma_or_higher = high_school_grad_or_higherE / total_pop_educationE,
+         #pct_high_school_diploma_or_higher = high_school_grad_or_higherE / total_pop_educationE,
          pct_in_poverty = income_below_poverty_level_last_12_monthsE / total_pop_poverty_statusE) %>% 
   filter(!NAME == "Puerto Rico") %>% 
-  dplyr::select(NAME, year, pct_black, unemployment_rate, pct_high_school_diploma_or_higher, pct_in_poverty)
+  dplyr::select(NAME, year, pct_black, pct_in_poverty)
 
 #merge with UCR data
 UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>% 
-  left_join(ACS_control_data, by = c("State" = "NAME", "Year" = "year"))
+  left_join(ACS_control_data, by = c("State", "ACS_city_name", "Year" = "year"))
 ```
 
 
 ```{r conduct difference in differences}
 
-#marijuana arrest rate, run on just common support states
+#marijuana arrest rate, run on just common support cities
 UCR_arrest_totals_and_rates_with_pop %>% 
-  filter(State %in% common_support_states) %>% 
-  lm(marijuana_arrest_rate ~ legalization_status_fraction_of_year_legalized +
-       factor(State) +
+  filter(ACS_city_name %in% common_support_cities) %>% 
+  lm(marijuana_arrest_rate ~ decriminilization_status_fraction_of_year_legalized +
+       factor(City) +
        factor(Year) +
        pct_black +
-       unemployment_rate +
-       pct_high_school_diploma_or_higher +
        pct_in_poverty,
      data = .) %>% 
   summary()
 
-#marijuana arrest rate disparity, run on just common support states
+#marijuana arrest rate disparity, run on just common support cities
 UCR_arrest_totals_and_rates_with_pop %>% 
-  filter(State %in% common_support_states) %>% 
-  lm(marijuana_arrest_rate_disparity ~ legalization_status_fraction_of_year_legalized +
-       factor(State) +
+  filter(ACS_city_name %in% common_support_cities) %>% 
+  lm(marijuana_arrest_rate_disparity ~ decriminilization_status_fraction_of_year_legalized +
+       factor(City) +
        factor(Year) +
        pct_black +
-       unemployment_rate +
-       pct_high_school_diploma_or_higher +
        pct_in_poverty,
      data = .) %>% 
   summary()
 
-#black marijuana arrest rate, run on just common support states
+#black marijuana arrest rate, run on just common support cities
 UCR_arrest_totals_and_rates_with_pop %>% 
-  filter(State %in% common_support_states) %>% 
-  lm(black_marijuana_arrest_rate ~ legalization_status_fraction_of_year_legalized + 
-       factor(State) +
+  filter(ACS_city_name %in% common_support_cities) %>% 
+  lm(black_marijuana_arrest_rate ~ decriminilization_status_fraction_of_year_legalized +
+       factor(City) +
        factor(Year) +
        pct_black +
-       unemployment_rate +
-       pct_high_school_diploma_or_higher +
        pct_in_poverty,
      data = .) %>% 
   summary()
 
+#nondrug misdemeanor arrest rate, run on just common support cities
+UCR_arrest_totals_and_rates_with_pop %>% 
+  filter(ACS_city_name %in% common_support_cities) %>% 
+  lm(non_drug_misdemeanor_arrest_rate ~ decriminilization_status_fraction_of_year_legalized +
+       factor(City) +
+       factor(Year) +
+       pct_black +
+       pct_in_poverty,
+     data = .) %>% 
+  summary()
 
+#black nondrug  misdemeanor arrest rate, run on just common support cities
+UCR_arrest_totals_and_rates_with_pop %>% 
+  filter(ACS_city_name %in% common_support_cities) %>% 
+  lm(black_non_drug_misdemeanor_arrest_rate ~ decriminilization_status_fraction_of_year_legalized +
+       factor(City) +
+       factor(Year) +
+       pct_black +
+       pct_in_poverty,
+     data = .) %>% 
+  summary()
 
+#nondrug misdemeanor arrest rate disparity, run on just common support cities
+UCR_arrest_totals_and_rates_with_pop %>% 
+  filter(ACS_city_name %in% common_support_cities) %>% 
+  lm(non_drug_misdemeanor_arrest_rate_disparity ~ decriminilization_status_fraction_of_year_legalized +
+       factor(City) +
+       factor(Year) +
+       pct_black +
+       pct_in_poverty,
+     data = .) %>% 
+  summary()
 
 ```
 
 ```{r graph changes in marijuana arrest rate}
 
+#total arrest rates in cities that legalized by 2016
 UCR_arrest_totals_and_rates_with_pop %>% 
-  ggplot(aes(x = Year, y = marijuana_arrest_rate, group = State)) +
-  geom_line() +
+  filter(City %in% cities_that_legalized_by_end_of_2016_vector) %>% 
+  ggplot(aes(x = Year, )) +
+  geom_line(aes(y = total_arrest_rate, group = City)) +
   facet_wrap(~State)
 
+#total arrest rates in cities that did not legalize by 2016
 UCR_arrest_totals_and_rates_with_pop %>% 
-  filter(State %in% states_that_legalized_by_end_of_2016_vector) %>% 
-  ggplot(aes(x = Year, y = marijuana_arrest_rate, group = State)) +
-  geom_line() +
+  filter(!City %in% cities_that_legalized_by_end_of_2016_vector) %>% 
+  ggplot(aes(x = Year, )) +
+  geom_line(aes(y = total_arrest_rate, group = City)) +
   facet_wrap(~State)
 
+#marijuana arrest rates in cities that legalized by 2016
 UCR_arrest_totals_and_rates_with_pop %>% 
-  filter(!State %in% states_that_legalized_by_end_of_2016_vector) %>% 
-  ggplot(aes(x = Year, y = marijuana_arrest_rate, group = State)) +
-  geom_line() +
+  filter(City %in% cities_that_legalized_by_end_of_2016_vector) %>% 
+  ggplot(aes(x = Year, )) +
+  geom_line(aes(y = marijuana_arrest_rate, group = City)) +
   facet_wrap(~State)
 
+#marijuana arrest rates in cities that did not legalize by 2016
 UCR_arrest_totals_and_rates_with_pop %>% 
-  filter(!State %in% states_that_legalized_by_end_of_2016_vector) %>% 
-  ggplot(aes(x = Year, y = marijuana_arrest_rate_disparity, group = State)) +
-  geom_line() +
+  filter(!City %in% cities_that_legalized_by_end_of_2016_vector) %>% 
+  ggplot(aes(x = Year, )) +
+  geom_line(aes(y = marijuana_arrest_rate, group = City)) +
+  facet_wrap(~State)
+
+#nondrug misdemeanor arrest rates in cities that legalized by 2016
+UCR_arrest_totals_and_rates_with_pop %>% 
+  filter(City %in% cities_that_legalized_by_end_of_2016_vector) %>% 
+  ggplot(aes(x = Year, )) +
+  geom_line(aes(y = non_drug_misdemeanor_arrest_rate, group = City)) +
+  facet_wrap(~State)
+
+#nondrug misdemeanor arrest rates in cities that did not legalize by 2016
+UCR_arrest_totals_and_rates_with_pop %>% 
+  filter(!City %in% cities_that_legalized_by_end_of_2016_vector) %>% 
+  ggplot(aes(x = Year, )) +
+  geom_line(aes(y = non_drug_misdemeanor_arrest_rate, group = City)) +
+  facet_wrap(~State)
+
+
 ```
 
 
