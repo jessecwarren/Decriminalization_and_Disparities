@@ -68,7 +68,16 @@ UCR_2015$OFFENSE[UCR_2015$OFFENSE == "24"] <-  "240"
 UCR_2015$OFFENSE[UCR_2015$OFFENSE == "25"] <-  "250"
 UCR_2015$OFFENSE[UCR_2015$OFFENSE == "27"] <-  "270"
 UCR_2015$OFFENSE[UCR_2015$OFFENSE == "28"] <-  "280"
-
+UCR_2015$OFFENSE[UCR_2015$OFFENSE == "01A"] <-  "011"
+UCR_2015$OFFENSE[UCR_2015$OFFENSE == "01B"] <-  "012"
+UCR_2015$OFFENSE[UCR_2015$OFFENSE == "02"] <-  "020"
+UCR_2015$OFFENSE[UCR_2015$OFFENSE == "03"] <-  "030"
+UCR_2015$OFFENSE[UCR_2015$OFFENSE == "04"] <-  "040"
+UCR_2015$OFFENSE[UCR_2015$OFFENSE == "05"] <-  "050"
+UCR_2015$OFFENSE[UCR_2015$OFFENSE == "06"] <-  "060"
+UCR_2015$OFFENSE[UCR_2015$OFFENSE == "07"] <-  "070"
+UCR_2015$OFFENSE[UCR_2015$OFFENSE == "08"] <-  "080"
+UCR_2015$OFFENSE[UCR_2015$OFFENSE == "09"] <-  "090"
 
 
 #get 2015 yearly summary, but only include larger agencies
@@ -208,19 +217,28 @@ for(i in 1:length(UCR_data_list)){
   UCR_arrest_totals_and_rates[[i]] <- UCR_data_list[[i]] %>% 
     filter(AGENCY %in% sample_cities_vec) %>% 
     group_by(STNAME, AGENCY, POP, GROUP) %>% 
-    filter(OFFENSE != 998, OFFENSE != 000) %>% 
+    filter(OFFENSE != "998", OFFENSE != "000") %>% 
     summarize(total_arrests_race_data = (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
               total_White_arrests = (sum(AW) + sum(JW)),
               total_African_American_arrests = (sum(AB) + sum(JB))) %>%
     arrange(STNAME, AGENCY)
     
+  #calculate total violent arrests
+  UCR_arrest_totals_and_rates[[i]] <- full_join(UCR_arrest_totals_and_rates[[i]],
+    UCR_data_list[[i]] %>% 
+      filter(AGENCY %in% sample_cities_vec) %>% 
+      group_by(STNAME, AGENCY, POP, GROUP) %>% 
+      filter(OFFENSE == "011" | OFFENSE == "012" | OFFENSE == "020" | OFFENSE == "030" | OFFENSE == "040" | OFFENSE == "050" | OFFENSE == "060" | OFFENSE == "070" | OFFENSE == "080" | OFFENSE == "090") %>% 
+      summarize(total_violent_arrests = (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA))) %>%
+      arrange(STNAME, AGENCY), 
+    by = c("STNAME", "AGENCY", "POP", "GROUP"))
   
   #calculate % of marijuana possession arrests that are african american, white
   UCR_arrest_totals_and_rates[[i]] <- full_join(UCR_arrest_totals_and_rates[[i]],
     UCR_data_list[[i]] %>% 
       filter(AGENCY %in% sample_cities_vec) %>% 
       group_by(STNAME, AGENCY, POP, GROUP) %>% 
-      filter(OFFENSE == 187) %>%  #only include marijuana possession (187)
+      filter(OFFENSE == "187") %>%  #only include marijuana possession (187)
       summarize(total_marijuana_possession_arrests_race_data = (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
                 total_White_marijuana_possession_arrests = (sum(AW) + sum(JW)),
                 total_African_American_marijuana_possession_arrests = (sum(AB) + sum(JB))) %>% 
@@ -232,7 +250,7 @@ for(i in 1:length(UCR_data_list)){
     UCR_data_list[[i]] %>% 
       filter(AGENCY %in% sample_cities_vec) %>% 
       group_by(STNAME, AGENCY, POP, GROUP) %>% 
-      filter(OFFENSE == 187 | OFFENSE == 182) %>%  #only include marijuana possession (187) or marijuana sale (182)
+      filter(OFFENSE == "187" | OFFENSE == "182") %>%  #only include marijuana possession (187) or marijuana sale (182)
       summarize(total_marijuana_possession_and_sale_arrests_race_data = (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
                 total_White_marijuana_possession_and_sale_arrests = (sum(AW) + sum(JW)),
                 total_African_American_marijuana_possession_and_sale_arrests = (sum(AB) + sum(JB))) %>% 
@@ -251,7 +269,7 @@ for(i in 1:length(UCR_data_list)){
     UCR_data_list[[i]] %>% 
       filter(AGENCY %in% sample_cities_vec) %>% 
       group_by(STNAME, AGENCY, POP, GROUP) %>% 
-      filter(OFFENSE == 140 | OFFENSE == 220 | OFFENSE == 230 | OFFENSE == 240 | OFFENSE == 250 | OFFENSE == 270 | OFFENSE == 280) %>%
+      filter(OFFENSE == "140" | OFFENSE == "220" | OFFENSE == "230" | OFFENSE == "240" | OFFENSE == "250" | OFFENSE == "270" | OFFENSE == "280") %>%
       summarize(total_non_violent_non_drug_misdemeanor_arrests_race_data = (sum(AW) + sum(AB) + sum(AI) + sum(AA) + sum(JW) + sum(JB) + sum(JI) + sum(JA)),
                 total_White_non_drug_misdemeanor_arrests = (sum(AW) + sum(JW)),
                 total_African_American_non_drug_misdemeanor_arrests = (sum(AB) + sum(JB))) %>% 
@@ -355,7 +373,7 @@ UCR_arrest_totals_and_rates <- UCR_arrest_totals_and_rates %>%
 UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates %>% 
   ungroup() %>% 
   dplyr::select(-STNAME) %>% 
-  dplyr::select(year, State, City, ACS_city_name, AGENCY, GROUP, GEOID, UCR_pop = POP, total_popE, white_popE, white_popM, black_popE, black_popM, UCR_to_ACS_pop_ratio, 4:16)
+  dplyr::select(year, State, City, ACS_city_name, AGENCY, GROUP, GEOID, UCR_pop = POP, total_popE, white_popE, white_popM, black_popE, black_popM, UCR_to_ACS_pop_ratio, 4:17)
 
 
 ```
@@ -425,6 +443,7 @@ UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>%
 ```{r calculate arrest rates for each race}
 UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>% 
   mutate(total_arrest_rate = total_arrests_race_data / total_popE) %>% 
+  mutate(total_violent_arrest_rate = total_violent_arrests / total_popE) %>% 
   mutate(marijuana_possession_arrest_rate = total_marijuana_possession_arrests_race_data / total_popE) %>% 
   mutate(marijuana_possession_and_sale_arrest_rate = total_marijuana_possession_and_sale_arrests_race_data / total_popE) %>% 
   mutate(white_arrest_rate = total_White_arrests / white_popE) %>% 
@@ -611,7 +630,7 @@ regression_function_clustered <- function(dependent_variable, common_support, de
   df <- UCR_arrest_totals_and_rates_with_pop %>% 
     filter(ACS_city_name %in% common_support) 
   outcome <- dependent_variable
-  controls <- c(decriminilization, "factor(City)", "factor(Year)", "log_total_pop", "pct_black", "pct_in_poverty")
+  controls <- c(decriminilization, "factor(City)", "factor(Year)", "total_violent_arrest_rate",  "log_total_pop", "pct_black", "pct_in_poverty")
   f <- as.formula(
     paste(outcome, 
           paste(controls, collapse = " + "), 
@@ -629,7 +648,7 @@ regression_function_no_cluster <- function(dependent_variable, common_support, d
   df <- UCR_arrest_totals_and_rates_with_pop %>% 
     filter(ACS_city_name %in% common_support) 
   outcome <- dependent_variable
-  controls <- c(decriminilization, "factor(City)", "factor(Year)", "log_total_pop", "pct_black", "pct_in_poverty")
+  controls <- c(decriminilization, "factor(City)", "factor(Year)", "total_violent_arrest_rate", "log_total_pop", "pct_black", "pct_in_poverty")
   f <- as.formula(
     paste(outcome, 
           paste(controls, collapse = " + "), 
@@ -685,18 +704,6 @@ regression_function_clustered("non_drug_misdemeanor_arrest_rate_disparity", comm
 
 
 sink()
-
-
-
-
-
-
-
-
-
-
-
-
 ```
 
 ```{r graph changes in marijuana arrest rate}
@@ -719,21 +726,21 @@ UCR_arrest_totals_and_rates_with_pop %>%
 UCR_arrest_totals_and_rates_with_pop %>% 
   filter(City %in% cities_that_legalized_by_end_of_2016_vector) %>% 
   ggplot(aes(x = Year, )) +
-  geom_line(aes(y = marijuana_arrest_rate, group = City)) +
+  geom_line(aes(y = marijuana_possession_arrest_rate, group = City)) +
   facet_wrap(~State)
 
 #marijuana arrest rates in cities that did not legalize by 2016
 UCR_arrest_totals_and_rates_with_pop %>% 
   filter(!City %in% cities_that_legalized_by_end_of_2016_vector) %>% 
   ggplot(aes(x = Year, )) +
-  geom_line(aes(y = marijuana_arrest_rate, group = City)) +
+  geom_line(aes(y = marijuana_possession_arrest_rate, group = City)) +
   facet_wrap(~State)
 
 #nondrug misdemeanor arrest rates in cities that legalized by 2016
 UCR_arrest_totals_and_rates_with_pop %>% 
   filter(City %in% cities_that_legalized_by_end_of_2016_vector) %>% 
   ggplot(aes(x = Year, )) +
-  geom_line(aes(y = non_drug_misdemeanor_arrest_rate, group = City)) +
+  geom_line(aes(y = black_non_drug_misdemeanor_arrest_rate, group = City)) +
   facet_wrap(~State)
 
 #nondrug misdemeanor arrest rates in cities that did not legalize by 2016
