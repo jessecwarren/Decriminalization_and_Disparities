@@ -27,6 +27,7 @@ library(foreign)
 library(fuzzyjoin)
 library(lmtest)
 library(multiwayvcov)
+library(stargazer)
 
 options(scipen=999)
 ```
@@ -94,21 +95,27 @@ UCR_data_list$UCR_2015 <- UCR_2015 %>%
 ```{r load ACS city population data, cache=TRUE}
 
 #load variable list
-vlist <- load_variables(2016, "acs5", cache = TRUE)
+vlist1 <- load_variables(2016, "acs5", cache = TRUE)
+vlist2 <- load_variables(2009, "acs5", cache = TRUE)
+
+
 
 #load ACS city population data
-pop_ACS_years <- lst(2010, 2011, 2012, 2013, 2014, 2015, 2016)
+pop_ACS_years <- lst(2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016)
 
 ACS_city_pops <- map_dfr(
   pop_ACS_years, 
-  ~ get_acs(geography = "place", variables = c(total_pop = "B03002_001", white_pop = "B03002_003", black_pop = "B03002_004"),
+  ~ get_acs(geography = "place", variables = c(total_pop = "B03002_001",
+                                               white_pop = "B03002_003",
+                                               black_pop = "B03002_004",
+                                               unweighted_sample_count_of_pop = "B00001_001"),
             year = .x, output = "wide"),
   .id = "year") %>% 
   dplyr::select(-total_popM) %>% 
   arrange(year, GEOID)
 
 
-#info on UCR population tallies https://www.ucrdatatool.gov/faq.cfm
+#info on UCR population tallies - NOT NEEDED https://www.ucrdatatool.gov/faq.cfm
 
 # UCR_data_list$UCR_2011 %>%
 #   filter(GROUP == "1A" | GROUP == "1B" | GROUP == "1C") %>%
@@ -186,14 +193,18 @@ for(i in 1:length(UCR_data_list)){
     dplyr::select(AGENCY, POP, GROUP) %>%
     unique()
 }
+
+inital_year_column_label <- names(UCR_data_list)[1]
+
+
 sample_cities_df <- bind_rows(sample_cities_df, .id = "column_label") %>%
   arrange(column_label) %>% 
-  filter(column_label == "UCR_2010") %>% 
+  filter(column_label == inital_year_column_label) %>% 
   filter(GROUP == "1A" | GROUP == "1B" | GROUP == "1C")
 
 sample_cities_vec <- sample_cities_df %>%
   pull(AGENCY)
-  
+
 
 #city arrest totals and rates list
 UCR_arrest_totals_and_rates <- vector("list", length(UCR_data_list))
@@ -288,17 +299,19 @@ UCR_arrest_totals_and_rates <- UCR_arrest_totals_and_rates %>%
   filter(GROUP != "2") %>% 
   filter(GROUP != "9A")
 
-#check there are 7 observations for each agency
+#check there are observations for each year for each agency
+number_of_observation_years <- length(names(UCR_data_list))
+
 UCR_arrest_totals_and_rates %>% 
   group_by(AGENCY) %>% 
   summarise(count = n()) %>% 
-  filter(count < 7)
+  filter(count < number_of_observation_years)
 
 #get list of agencies with missing years of data, exclude these from sample
 agencies_with_missing_years <- UCR_arrest_totals_and_rates %>% 
   group_by(AGENCY) %>% 
   summarise(count = n()) %>% 
-  filter(count < 7) %>% 
+  filter(count < number_of_observation_years) %>% 
   pull(AGENCY)
 
 UCR_arrest_totals_and_rates <- UCR_arrest_totals_and_rates %>% 
@@ -373,9 +386,14 @@ UCR_arrest_totals_and_rates <- UCR_arrest_totals_and_rates %>%
 UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates %>% 
   ungroup() %>% 
   dplyr::select(-STNAME) %>% 
-  dplyr::select(year, State, City, ACS_city_name, AGENCY, GROUP, GEOID, UCR_pop = POP, total_popE, white_popE, white_popM, black_popE, black_popM, UCR_to_ACS_pop_ratio, 4:17)
+  dplyr::select(year, State, City, ACS_city_name, AGENCY, GROUP, GEOID, UCR_pop = POP, total_popE, white_popE, white_popM, black_popE, black_popM, unweighted_sample_count_of_popE, UCR_to_ACS_pop_ratio, 4:17)
 
-
+#update list of all cities in sample to have ACS city name
+sample_cities_vec <- UCR_arrest_totals_and_rates_with_pop %>% 
+  select(ACS_city_name) %>% 
+  unique() %>% 
+  arrange(ACS_city_name) %>% 
+  pull(ACS_city_name)
 ```
 
 ```{r add legalization status}
@@ -486,9 +504,9 @@ UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>%
 
 ```{r Load common support ACS data}
 #select common support regression year
-common_support_regression_year <- 2010
+common_support_regression_year <- 2009
 
-common_support_vlist <- load_variables(common_support_regression_year, "acs5", cache = TRUE)
+common_support_vlist0 <- load_variables(common_support_regression_year, "acs5", cache = TRUE)
 
 
 #load 2010 ACS data for common support regression
@@ -580,10 +598,12 @@ min_probability_of_decriminalized_city <- min(ACS_common_support_data$probabilit
 common_support_cities <- ACS_common_support_data %>% 
   filter(probability_of_decriminilization >= min_probability_of_decriminalized_city & probability_of_decriminilization <= max_probability_of_non_decriminalized_city) %>% 
   filter(!State %in% states_that_dont_report_to_UCR_or_underreport) %>% 
+  filter(ACS_city_name %in% sample_cities_vec) %>% 
   pull(ACS_city_name)
 
 all_cities <- ACS_common_support_data %>% 
   filter(!State %in% states_that_dont_report_to_UCR_or_underreport) %>% 
+  filter(ACS_city_name %in% sample_cities_vec) %>% 
   pull(ACS_city_name)
 
 #get count of common support cities that decriminalized (1), didnt decriminalize (0) that will be used in regressions
@@ -592,13 +612,24 @@ ACS_common_support_data %>%
   group_by(legalized_by_end_of_2016) %>% 
   summarize(count = n())
 
+#common support city summary stats
+ACS_common_support_data %>% 
+  filter(ACS_city_name %in% common_support_cities) %>% 
+  summarize(mean_pop = mean(total_pop),
+            mean_poverty_rate = mean(pct_in_poverty))
+
+
+
+common_support_cities %>% 
+  as.data.frame() %>% 
+  filter(. %in% sample_cities_vec)
 ```
 
-```{r Load state control variable data from ACS}
+```{r Load city control variable data from ACS}
 #select years to load controls data for
-controls_years <- lst(2010, 2011, 2012, 2013, 2014, 2015, 2016)
+controls_years <- lst(2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016)
 
-controls_vlist11 <- load_variables(2011, "acs5", cache = TRUE)
+controls_vlist09 <- load_variables(2009, "acs5", cache = TRUE)
 controls_vlist10 <- load_variables(2010, "acs5", cache = TRUE)
 
 
@@ -642,14 +673,15 @@ UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>%
 #create function for running regressions, with clustering at state level
 regression_function_clustered <- function(dependent_variable, common_support, decriminilization) {
   df <- UCR_arrest_totals_and_rates_with_pop %>% 
-    filter(ACS_city_name %in% common_support) 
+    filter(ACS_city_name %in% common_support)  %>% 
+    filter(pct_black > 0.02)
   outcome <- dependent_variable
   controls <- c(decriminilization, "factor(City)", "factor(Year)", "total_violent_arrest_rate",  "log_total_pop", "pct_black", "pct_in_poverty")
   f <- as.formula(
     paste(outcome, 
           paste(controls, collapse = " + "), 
           sep = " ~ "))
-  model <- eval(bquote(lm(.(f), data = df)))
+  model <- eval(bquote(lm(.(f), weights = unweighted_sample_count_of_popE, data = df)))
   
   vcov_state <- cluster.vcov(model, ~ State)
   model <- coeftest(model, vcov_state)
@@ -660,14 +692,15 @@ regression_function_clustered <- function(dependent_variable, common_support, de
 
 regression_function_no_cluster <- function(dependent_variable, common_support, decriminilization) {
   df <- UCR_arrest_totals_and_rates_with_pop %>% 
-    filter(ACS_city_name %in% common_support) 
+    filter(ACS_city_name %in% common_support) %>% 
+    filter(pct_black > 0.02)
   outcome <- dependent_variable
   controls <- c(decriminilization, "factor(City)", "factor(Year)", "total_violent_arrest_rate", "log_total_pop", "pct_black", "pct_in_poverty")
   f <- as.formula(
     paste(outcome, 
           paste(controls, collapse = " + "), 
           sep = " ~ "))
-  model <- eval(bquote(lm(.(f), data = df)))
+  model <- eval(bquote(lm(.(f), weights = unweighted_sample_count_of_popE, data = df)))
   
   summary(model) %>% 
     print()
@@ -678,14 +711,16 @@ regression_function_no_cluster <- function(dependent_variable, common_support, d
 #example regression
 UCR_arrest_totals_and_rates_with_pop %>% 
   filter(ACS_city_name %in% common_support_cities) %>% 
+  filter(pct_black > 0.05) %>% 
   lm(marijuana_possession_arrest_rate ~ decriminilization_status_fraction_of_year_legalized_by_city +
        factor(City) +
        factor(Year) +
        pct_black +
        pct_in_poverty,
+     weights = unweighted_sample_count_of_popE,
      data = .) %>% 
   summary() %>% 
-  print()
+  print() 
 
 
 
@@ -694,24 +729,24 @@ UCR_arrest_totals_and_rates_with_pop %>%
 sink("regression_results.txt")
 #marijuana possession arrest rate, run on just common support cities
 print("Marijuana possession arrest rate, just on common support cities")
-regression_function_no_cluster("marijuana_possession_arrest_rate", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+#regression_function_no_cluster("marijuana_possession_arrest_rate", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
 regression_function_clustered("marijuana_possession_arrest_rate", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
 
 #marijuana possession and sale arrest rate, run on just common support cities
 print("Marijuana possession and sale arrest rate, just on common support cities")
-regression_function_no_cluster("marijuana_possession_and_sale_arrest_rate", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+#regression_function_no_cluster("marijuana_possession_and_sale_arrest_rate", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
 regression_function_clustered("marijuana_possession_and_sale_arrest_rate", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
 
 
 
 #marijuana possession arrest rate disparity, run on just common support cities
 print("Marijuana possession arrest rate disparity, just on common support cities")
-regression_function_no_cluster("marijuana_possession_arrest_rate_disparity", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+#regression_function_no_cluster("marijuana_possession_arrest_rate_disparity", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
 regression_function_clustered("marijuana_possession_arrest_rate_disparity", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
 
 #marijuana possession and sale arrest rate disparity, run on just common support cities
 print("Marijuana possession and sale arrest rate disparity, just on common support cities")
-regression_function_no_cluster("marijuana_possession_and_sale_arrest_rate_disparity", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+#regression_function_no_cluster("marijuana_possession_and_sale_arrest_rate_disparity", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
 regression_function_clustered("marijuana_possession_and_sale_arrest_rate_disparity", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
 
 
@@ -719,12 +754,12 @@ regression_function_clustered("marijuana_possession_and_sale_arrest_rate_dispari
 
 #black marijuana posession arrest rate, run on just common support cities
 print("Black marijuana posession arrest rate, run on just common support cities")
-regression_function_no_cluster("black_marijuana_possession_arrest_rate", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+#regression_function_no_cluster("black_marijuana_possession_arrest_rate", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
 regression_function_clustered("black_marijuana_possession_arrest_rate", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
 
 #black marijuana posession and sale arrest rate, run on just common support cities
 print("Black marijuana posession and sale arrest rate, run on just common support cities")
-regression_function_no_cluster("black_marijuana_possession_and_sale_arrest_rate", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+#regression_function_no_cluster("black_marijuana_possession_and_sale_arrest_rate", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
 regression_function_clustered("black_marijuana_possession_and_sale_arrest_rate", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
 
 
@@ -732,7 +767,7 @@ regression_function_clustered("black_marijuana_possession_and_sale_arrest_rate",
 
 #nondrug misdemeanor arrest rate, run on just common support cities
 print("Nondrug misdemeanor arrest rate, run on just common support cities")
-regression_function_no_cluster("non_drug_misdemeanor_arrest_rate", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+#regression_function_no_cluster("non_drug_misdemeanor_arrest_rate", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
 regression_function_clustered("non_drug_misdemeanor_arrest_rate", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
 
 
@@ -741,16 +776,79 @@ regression_function_clustered("non_drug_misdemeanor_arrest_rate", common_support
 
 #black nondrug  misdemeanor arrest rate, run on just common support cities
 print("Black nondrug  misdemeanor arrest rate, run on just common support cities")
-regression_function_no_cluster("black_non_drug_misdemeanor_arrest_rate", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+#regression_function_no_cluster("black_non_drug_misdemeanor_arrest_rate", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
 regression_function_clustered("black_non_drug_misdemeanor_arrest_rate", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
 
 
 
 #nondrug misdemeanor arrest rate disparity, run on just common support cities
 print("Nondrug misdemeanor arrest rate disparity, run on just common support cities")
-regression_function_no_cluster("non_drug_misdemeanor_arrest_rate_disparity", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+#regression_function_no_cluster("non_drug_misdemeanor_arrest_rate_disparity", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
 regression_function_clustered("non_drug_misdemeanor_arrest_rate_disparity", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
 
+
+
+### now use all cities
+
+
+#marijuana possession arrest rate, run on all cities
+print("Marijuana possession arrest rate, all cities")
+#regression_function_no_cluster("marijuana_possession_arrest_rate", all_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+regression_function_clustered("marijuana_possession_arrest_rate", all_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+
+#marijuana possession and sale arrest rate, run on all cities
+print("Marijuana possession and sale arrest rate, all cities")
+#regression_function_no_cluster("marijuana_possession_and_sale_arrest_rate", all_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+regression_function_clustered("marijuana_possession_and_sale_arrest_rate", all_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+
+
+
+#marijuana possession arrest rate disparity, run on all cities
+print("Marijuana possession arrest rate disparity, all cities")
+#regression_function_no_cluster("marijuana_possession_arrest_rate_disparity", all_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+regression_function_clustered("marijuana_possession_arrest_rate_disparity", all_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+
+#marijuana possession and sale arrest rate disparity, run on all cities
+print("Marijuana possession and sale arrest rate disparity, all cities")
+#regression_function_no_cluster("marijuana_possession_and_sale_arrest_rate_disparity", all_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+regression_function_clustered("marijuana_possession_and_sale_arrest_rate_disparity", all_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+
+
+
+
+#black marijuana posession arrest rate, run on all cities
+print("Black marijuana posession arrest rate, run on all cities")
+#regression_function_no_cluster("black_marijuana_possession_arrest_rate", all_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+regression_function_clustered("black_marijuana_possession_arrest_rate", all_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+
+#black marijuana posession and sale arrest rate, run on all cities
+print("Black marijuana posession and sale arrest rate, run on allcities")
+#regression_function_no_cluster("black_marijuana_possession_and_sale_arrest_rate", all_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+regression_function_clustered("black_marijuana_possession_and_sale_arrest_rate", all_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+
+
+
+
+#nondrug misdemeanor arrest rate, run on all cities
+print("Nondrug misdemeanor arrest rate, run on all cities")
+#regression_function_no_cluster("non_drug_misdemeanor_arrest_rate", all_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+regression_function_clustered("non_drug_misdemeanor_arrest_rate", all_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+
+
+
+
+
+#black nondrug  misdemeanor arrest rate, run on all cities
+print("Black nondrug  misdemeanor arrest rate, run on all cities")
+#regression_function_no_cluster("black_non_drug_misdemeanor_arrest_rate", all_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+regression_function_clustered("black_non_drug_misdemeanor_arrest_rate", all_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+
+
+
+#nondrug misdemeanor arrest rate disparity, run on all cities
+print("Nondrug misdemeanor arrest rate disparity, run on all cities")
+#regression_function_no_cluster("non_drug_misdemeanor_arrest_rate_disparity", all_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+regression_function_clustered("non_drug_misdemeanor_arrest_rate_disparity", all_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
 
 sink()
 ```
