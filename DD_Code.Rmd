@@ -28,6 +28,7 @@ library(fuzzyjoin)
 library(lmtest)
 library(multiwayvcov)
 library(stargazer)
+library(ggrepel)
 
 options(scipen=999)
 ```
@@ -428,12 +429,19 @@ decriminilization_status_fraction_of_year_legalized_by_city <-
   read_excel("Marijuana_Decriminilization_Status_Fraction_Of_Year_Legalized_by_city.xlsx") %>% 
   gather(year, decriminilization_status_fraction_of_year_legalized_by_city, -State, -ACS_city_name)
 
+decriminilization_status_one_equals_any_legalization_in_year_by_city <- 
+  read_excel("Marijuana_Decriminilization_Status_One_Equals_Any_Legalization_by_city.xlsx") %>% 
+  gather(year, decriminilization_status_one_equals_any_legalization_in_year_by_city, -State, -ACS_city_name)
+
 
 UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>% 
   left_join(decriminilization_status_one_equals_any_legalization_in_year, by = c("State", "year")) %>% 
   left_join(decriminilization_status_one_equals_legalization_entire_year, by = c("State", "year")) %>% 
   left_join(decriminilization_status_fraction_of_year_legalized, by = c("State", "year")) %>% 
-  left_join(decriminilization_status_fraction_of_year_legalized_by_city, by = c("State", "ACS_city_name", "year"))
+  left_join(decriminilization_status_fraction_of_year_legalized_by_city, by = c("State", "ACS_city_name", "year")) %>% 
+  left_join(decriminilization_status_one_equals_any_legalization_in_year_by_city, by = c("State", "ACS_city_name", "year"))
+
+
 
 #create vector of states that legalized by end of 2016
 states_that_decriminalized_by_end_of_2016_vector <- UCR_arrest_totals_and_rates_with_pop %>% 
@@ -853,64 +861,123 @@ regression_function_clustered("non_drug_misdemeanor_arrest_rate_disparity", all_
 sink()
 ```
 
-```{r graph changes in marijuana arrest rate}
+```{r descriptive graphs of changes in marijuana arrest rate}
 
 #total arrest rates in cities that decriminalized by 2016
 UCR_arrest_totals_and_rates_with_pop %>% 
   filter(City %in% cities_that_decriminalized_by_end_of_2016_vector) %>% 
   ggplot(aes(x = Year, )) +
-  geom_line(aes(y = total_arrest_rate, group = City)) +
-  facet_wrap(~State)
+  geom_line(aes(y = total_arrest_rate,
+                group = City,
+                color = factor(decriminilization_status_one_equals_any_legalization_in_year))) +
+  facet_wrap(~State) +
+  theme(legend.position = "bottom", axis.text.x = element_text(size = 6, angle = 45))
 
 #total arrest rates in cities that did not decriminalize by 2016
 UCR_arrest_totals_and_rates_with_pop %>% 
   filter(!City %in% cities_that_decriminalized_by_end_of_2016_vector) %>% 
   ggplot(aes(x = Year, )) +
   geom_line(aes(y = total_arrest_rate, group = City)) +
-  facet_wrap(~State)
+  facet_wrap(~State) +
+  theme(legend.position = "bottom", axis.text.x = element_text(size = 6, angle = 45))
 
-#marijuana arrest rates in cities that decriminalized by 2016
+#marijuana possession arrest rates in cities that decriminalized by 2016
 UCR_arrest_totals_and_rates_with_pop %>% 
   filter(City %in% cities_that_decriminalized_by_end_of_2016_vector) %>% 
   ggplot(aes(x = Year, )) +
-  geom_line(aes(y = marijuana_possession_arrest_rate, group = City)) +
-  facet_wrap(~State)
+  geom_line(aes(y = marijuana_possession_arrest_rate,
+                group = City,
+                color = factor(decriminilization_status_one_equals_any_legalization_in_year))) +
+  facet_wrap(~State) +
+  theme(legend.position = "bottom", axis.text.x = element_text(size = 6, angle = 45))
+
+
+
+#marijuana possesion and sale arrest rates in cities that decriminalized by 2016
+UCR_arrest_totals_and_rates_with_pop %>% 
+  filter(City %in% cities_that_decriminalized_by_end_of_2016_vector) %>% 
+  ggplot(aes(x = Year, )) +
+  geom_line(aes(y = marijuana_possession_and_sale_arrest_rate,
+                group = City,
+                color = factor(decriminilization_status_one_equals_any_legalization_in_year))) +
+  facet_wrap(~State) +
+  theme(legend.position = "bottom", axis.text.x = element_text(size = 6, angle = 45))
+
 
 #marijuana arrest rates in cities that did not decriminalize by 2016
 UCR_arrest_totals_and_rates_with_pop %>% 
   filter(!City %in% cities_that_decriminalized_by_end_of_2016_vector) %>% 
   ggplot(aes(x = Year, )) +
-  geom_line(aes(y = marijuana_possession_arrest_rate, group = City)) +
-  facet_wrap(~State)
+  geom_line(aes(y = marijuana_possession_arrest_rate,
+                group = City,
+                color = factor(decriminilization_status_one_equals_any_legalization_in_year))) +
+  facet_wrap(~State) +
+  theme(legend.position = "bottom", axis.text.x = element_text(size = 6, angle = 45))
 
 #nondrug misdemeanor arrest rates in cities that decriminalized by 2016
 UCR_arrest_totals_and_rates_with_pop %>% 
   filter(City %in% cities_that_decriminalized_by_end_of_2016_vector) %>% 
   ggplot(aes(x = Year, )) +
-  geom_line(aes(y = black_non_drug_misdemeanor_arrest_rate, group = City)) +
-  facet_wrap(~State)
+  geom_line(aes(y = black_non_drug_misdemeanor_arrest_rate,
+                group = City,
+                color = factor(decriminilization_status_one_equals_any_legalization_in_year))) +
+  facet_wrap(~State) +
+  theme(legend.position = "bottom", axis.text.x = element_text(size = 6, angle = 45))
 
 #nondrug misdemeanor arrest rates in cities that did not decriminalized by 2016
 UCR_arrest_totals_and_rates_with_pop %>% 
   filter(!City %in% cities_that_decriminalized_by_end_of_2016_vector) %>% 
   ggplot(aes(x = Year, )) +
-  geom_line(aes(y = non_drug_misdemeanor_arrest_rate, group = City)) +
-  facet_wrap(~State)
+  geom_line(aes(y = non_drug_misdemeanor_arrest_rate,
+                group = City,
+                color = factor(decriminilization_status_one_equals_any_legalization_in_year))) +
+  facet_wrap(~State) +
+  theme(legend.position = "bottom", axis.text.x = element_text(size = 6, angle = 45))
+
+
+
+
+
+
 
 
 ```
 
 
+```{r graphs to include in paper}
+#marijuana possession and sale arrest rates in cities that decriminalized by end of 2016
+UCR_arrest_totals_and_rates_with_pop %>% 
+  filter(City %in% common_support_cities) %>% 
+  filter(City %in% cities_that_decriminalized_by_end_of_2016_vector) %>% 
+  ggplot(aes(x = Year, y = (1000* marijuana_possession_and_sale_arrest_rate))) +
+  geom_line(aes(group = City,
+                color = factor(decriminilization_status_one_equals_any_legalization_in_year_by_city)),
+            size = .8) +
+  facet_wrap(~State) +
+  geom_text_repel(aes(label = ifelse(Year == max(Year) & State != "California", as.character(City), NA_character_)), size = 3) +
+  scale_color_discrete(name = "Decriminalization status:", labels = c("Did not decriminalize", "Decriminalized by end of that year")) +
+  ylab("Marijuana possession and sale rate, per 1,000 residents") + xlab("Year") + 
+  labs(title = "Marijuana possession and sale arrest rates, 2009 - 2016",
+       subtitle = "Only includes cities in common support region") +
+  #theme_minimal() +
+  theme(legend.position = "bottom", axis.text.x = element_text(size = 9, angle = 0),
+        strip.text.x = element_text(size = 11))
 
 
-
-
-
-
-
-
-
-
-
-
-
+#marijuana possession and sale arrest rates in cities that decriminalized by end of 2016
+UCR_arrest_totals_and_rates_with_pop %>% 
+  filter(City %in% common_support_cities) %>% 
+  #filter(City %in% cities_that_decriminalized_by_end_of_2016_vector) %>% 
+  ggplot(aes(x = Year, y = (1000* marijuana_possession_and_sale_arrest_rate))) +
+  geom_line(aes(group = City,
+                color = factor(decriminilization_status_one_equals_any_legalization_in_year_by_city)),
+            size = .8) +
+  facet_wrap(~City) +
+  scale_color_discrete(name = "Decriminalization status:", labels = c("Did not decriminalize", "Decriminalized by end of that year")) +
+  ylab("Marijuana possession and sale rate, per 1,000 residents") + xlab("Year") + 
+  labs(title = "Marijuana possession and sale arrest rates, 2009 - 2016",
+       subtitle = "Only includes cities in common support region") +
+  #theme_minimal() +
+  theme(legend.position = "bottom", axis.text.x = element_text(size = 9, angle = 0),
+        strip.text.x = element_text(size = 11))
+```
