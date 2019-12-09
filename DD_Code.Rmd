@@ -517,7 +517,7 @@ common_support_regression_year <- 2009
 common_support_vlist0 <- load_variables(common_support_regression_year, "acs5", cache = TRUE)
 
 
-#load 2010 ACS data for common support regression
+#load 2009 ACS data for common support regression
 ACS_common_support_data <- get_acs(geography = "place", variables = c(total_pop = "B03002_001",
                                                total_pop_poverty_status = "B17001_001",
                                                income_below_poverty_level_last_12_months = "B17001_002",
