@@ -29,6 +29,8 @@ library(lmtest)
 library(multiwayvcov)
 library(stargazer)
 library(ggrepel)
+library(sjPlot)
+library(estimatr)
 
 options(scipen=999)
 ```
@@ -473,21 +475,21 @@ UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>%
 
 ```
 
-```{r calculate arrest rates for each race}
+```{r calculate arrest rates per 1000 people for each race}
 UCR_arrest_totals_and_rates_with_pop <- UCR_arrest_totals_and_rates_with_pop %>% 
-  mutate(total_arrest_rate = total_arrests_race_data / total_popE) %>% 
-  mutate(total_violent_arrest_rate = total_violent_arrests / total_popE) %>% 
-  mutate(marijuana_possession_arrest_rate = total_marijuana_possession_arrests_race_data / total_popE) %>% 
-  mutate(marijuana_possession_and_sale_arrest_rate = total_marijuana_possession_and_sale_arrests_race_data / total_popE) %>% 
-  mutate(white_arrest_rate = total_White_arrests / white_popE) %>% 
-  mutate(black_arrest_rate = total_African_American_arrests / black_popE) %>% 
-  mutate(white_marijuana_possession_arrest_rate = total_White_marijuana_possession_arrests / white_popE) %>% 
-  mutate(black_marijuana_possession_arrest_rate = total_African_American_marijuana_possession_arrests / black_popE) %>%
-  mutate(white_marijuana_possession_and_sale_arrest_rate = total_White_marijuana_possession_and_sale_arrests / white_popE) %>% 
-  mutate(black_marijuana_possession_and_sale_arrest_rate = total_African_American_marijuana_possession_and_sale_arrests / black_popE) %>% 
-  mutate(non_drug_misdemeanor_arrest_rate = total_non_violent_non_drug_misdemeanor_arrests_race_data / total_popE) %>% 
-  mutate(white_non_drug_misdemeanor_arrest_rate = total_White_non_drug_misdemeanor_arrests / white_popE) %>% 
-  mutate(black_non_drug_misdemeanor_arrest_rate = total_African_American_non_drug_misdemeanor_arrests / black_popE)
+  mutate(total_arrest_rate = (total_arrests_race_data / total_popE)*1000) %>% 
+  mutate(total_violent_arrest_rate = (total_violent_arrests / total_popE)*1000) %>% 
+  mutate(marijuana_possession_arrest_rate = (total_marijuana_possession_arrests_race_data / total_popE)*1000) %>% 
+  mutate(marijuana_possession_and_sale_arrest_rate = (total_marijuana_possession_and_sale_arrests_race_data / total_popE)*1000) %>% 
+  mutate(white_arrest_rate = (total_White_arrests / white_popE)*1000) %>% 
+  mutate(black_arrest_rate = (total_African_American_arrests / black_popE)*1000) %>% 
+  mutate(white_marijuana_possession_arrest_rate = (total_White_marijuana_possession_arrests / white_popE)*1000) %>% 
+  mutate(black_marijuana_possession_arrest_rate = (total_African_American_marijuana_possession_arrests / black_popE)*1000) %>% 
+  mutate(white_marijuana_possession_and_sale_arrest_rate = (total_White_marijuana_possession_and_sale_arrests / white_popE)*1000) %>% 
+  mutate(black_marijuana_possession_and_sale_arrest_rate = (total_African_American_marijuana_possession_and_sale_arrests / black_popE)*1000) %>% 
+  mutate(non_drug_misdemeanor_arrest_rate = (total_non_violent_non_drug_misdemeanor_arrests_race_data / total_popE)*1000) %>% 
+  mutate(white_non_drug_misdemeanor_arrest_rate = (total_White_non_drug_misdemeanor_arrests / white_popE)*1000) %>% 
+  mutate(black_non_drug_misdemeanor_arrest_rate = (total_African_American_non_drug_misdemeanor_arrests / black_popE)*1000)
 
 
 #calculate arrest rate disparity ratios - 1 indicates same arrest rate. higher than 1 indicates higher black arrest rate, lower than 1 indicates higher white arrest rate
@@ -795,6 +797,17 @@ print("Nondrug misdemeanor arrest rate disparity, run on just common support cit
 regression_function_clustered("non_drug_misdemeanor_arrest_rate_disparity", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
 
 
+#total arrest rate, run on just common support cities
+print("Total arrest rate, run on just common support cities")
+#regression_function_no_cluster("total_arrest_rate", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+regression_function_clustered("total_arrest_rate", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+
+
+#total arrest rate disparity, run on just common support cities
+print("Total arrest rate disparity, run on just common support cities")
+#regression_function_no_cluster("total_arrest_rate_disparity", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+regression_function_clustered("total_arrest_rate_disparity", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+
 
 ### now use all cities
 
@@ -857,6 +870,18 @@ regression_function_clustered("black_non_drug_misdemeanor_arrest_rate", all_citi
 print("Nondrug misdemeanor arrest rate disparity, run on all cities")
 #regression_function_no_cluster("non_drug_misdemeanor_arrest_rate_disparity", all_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
 regression_function_clustered("non_drug_misdemeanor_arrest_rate_disparity", all_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+
+
+#total arrest rate, run on all cities
+print("Total arrest rate, run on all cities")
+#regression_function_no_cluster("total_arrest_rate", all_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+regression_function_clustered("total_arrest_rate", all_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+
+
+#total arrest rate disparity, run on all cities
+print("Total arrest rate disparity, run on all citiess")
+#regression_function_no_cluster("total_arrest_rate_disparity", all_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+regression_function_clustered("total_arrest_rate_disparity", all_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
 
 sink()
 ```
@@ -944,6 +969,63 @@ UCR_arrest_totals_and_rates_with_pop %>%
 ```
 
 
+```{r test estimatr regressions with clustering}
+
+test_model2 <- UCR_arrest_totals_and_rates_with_pop %>% 
+  lm_robust(log(marijuana_possession_arrest_rate) ~ decriminilization_status_fraction_of_year_legalized_by_city +
+                                                       pct_black +
+                                                       total_violent_arrest_rate +
+                                                       pct_in_poverty +
+                                                       log_total_pop,
+          data = .,
+          weights = unweighted_sample_count_of_popE,
+          clusters = State,
+          subset = ACS_city_name %in% common_support_cities,
+          fixed_effects = ~ City + Year,
+          se_type = "stata")
+
+summary(test_model2)
+100 * ((exp(coef(test_model2)["decriminilization_status_fraction_of_year_legalized_by_city"]))-1)
+
+
+regression_function <- function(dependent_variable, common_support, policy_variable){
+  df <- UCR_arrest_totals_and_rates_with_pop
+  #outcome <- paste("log(", dependent_variable,")") #log version
+  outcome <- dependent_variable
+  controls <- c(policy_variable, "total_violent_arrest_rate",  "log_total_pop", "pct_black", "pct_in_poverty")
+  f <- as.formula(
+    paste(outcome, 
+        paste(controls, collapse = " + "), 
+        sep = " ~ "))
+  eval(bquote(lm_robust(.(f),
+        data = df,
+        weights = unweighted_sample_count_of_popE,
+        clusters = State,
+        subset = ACS_city_name %in% common_support,
+        fixed_effects = ~ City + Year,
+        se_type = "stata")))
+}
+
+output <- regression_function("marijuana_possession_arrest_rate", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+
+output2 <- regression_function("marijuana_possession_and_sale_arrest_rate", common_support_cities, "decriminilization_status_fraction_of_year_legalized_by_city")
+
+tab_model(output)
+
+
+tab_model(output,
+          show.p = TRUE, p.style = "asterisk", show.obs = FALSE,
+          terms = "decriminilization_status_fraction_of_year_legalized_by_city",
+          title = "Decriminilization's Impact on Marijuana Possession Arrest Rate")
+
+tab_model(output, output2,
+          show.p = TRUE, p.style = "asterisk", show.obs = FALSE,
+          terms = "decriminilization_status_fraction_of_year_legalized_by_city",
+          title = "Decriminilization's Impact on Marijuana Arrest Rates")
+
+```
+
+
 ```{r graphs to include in paper}
 #marijuana possession and sale arrest rates in cities that decriminalized by end of 2016
 UCR_arrest_totals_and_rates_with_pop %>% 
@@ -967,7 +1049,7 @@ UCR_arrest_totals_and_rates_with_pop %>%
 #marijuana possession and sale arrest rates in cities that decriminalized by end of 2016
 UCR_arrest_totals_and_rates_with_pop %>% 
   filter(City %in% common_support_cities) %>% 
-  #filter(City %in% cities_that_decriminalized_by_end_of_2016_vector) %>% 
+  filter(City %in% cities_that_decriminalized_by_end_of_2016_vector) %>% 
   ggplot(aes(x = Year, y = (1000* marijuana_possession_and_sale_arrest_rate))) +
   geom_line(aes(group = City,
                 color = factor(decriminilization_status_one_equals_any_legalization_in_year_by_city)),

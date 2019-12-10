@@ -1,18 +1,1573 @@
 [1] "Marijuana possession arrest rate, just on common support cities"
+
+t test of coefficients:
+
+                                                              Estimate Std. Error t value              Pr(>|t|)    
+(Intercept)                                                 -63.768053  63.399221 -1.0058              0.315208    
+decriminilization_status_fraction_of_year_legalized_by_city  -0.795675   0.369581 -2.1529              0.032018 *  
+factor(City)Anchorage                                         4.980271   3.547930  1.4037              0.161304    
+factor(City)Arlington                                         5.760834   2.144498  2.6863              0.007574 ** 
+factor(City)Atlanta                                           5.563867   6.230793  0.8930              0.372499    
+factor(City)Aurora                                            4.148156   2.319552  1.7883              0.074598 .  
+factor(City)Austin                                            1.859204   2.328325  0.7985              0.425121    
+factor(City)Bakersfield                                       3.087648   2.025951  1.5240              0.128413    
+factor(City)Baltimore                                         3.123138   8.261931  0.3780              0.705652    
+factor(City)Boston                                            0.346298   2.824574  0.1226              0.902494    
+factor(City)Cleveland                                         0.983672   6.015977  0.1635              0.870213    
+factor(City)Colorado springs                                  3.424494   1.520851  2.2517              0.024970 *  
+factor(City)Columbus                                         -0.592934   4.413869 -0.1343              0.893217    
+factor(City)Corpus christi                                    7.086088   2.705853  2.6188              0.009213 ** 
+factor(City)Dallas                                           -1.834077   5.866526 -0.3126              0.754747    
+factor(City)Denver                                            1.331849   1.156092  1.1520              0.250108    
+factor(City)Detroit                                          -2.603305  11.234493 -0.2317              0.816890    
+factor(City)El paso                                           3.096257   1.093011  2.8328              0.004886 ** 
+factor(City)Fort worth                                        0.046210   3.075866  0.0150              0.988022    
+factor(City)Fresno                                            2.012672   0.796345  2.5274              0.011938 *  
+factor(City)Greensboro                                        4.365805   4.440040  0.9833              0.326158    
+factor(City)Henderson                                         6.137555   3.874215  1.5842              0.114063    
+factor(City)Houston                                          -3.669057   8.187601 -0.4481              0.654345    
+factor(City)Kansas city                                       2.119036   3.186857  0.6649              0.506540    
+factor(City)Lincoln                                           7.950757   3.541605  2.2450              0.025404 *  
+factor(City)Long beach                                        2.904829   1.164114  2.4953              0.013051 *  
+factor(City)Los angeles                                      -6.493464   9.490918 -0.6842              0.494323    
+factor(City)Memphis                                          -1.074024   8.506790 -0.1263              0.899604    
+factor(City)Mesa                                              4.508184   1.096562  4.1112            0.00004924 ***
+factor(City)Milwaukee                                         1.550991   5.098747  0.3042              0.761166    
+factor(City)Minneapolis                                       3.899487   1.806342  2.1588              0.031557 *  
+factor(City)Newark                                            5.467537   5.412237  1.0102              0.313099    
+factor(City)Oakland                                           2.351451   2.679686  0.8775              0.380820    
+factor(City)Oklahoma city                                     2.949749   1.697426  1.7378              0.083142 .  
+factor(City)Philadelphia                                     -3.797714   8.802076 -0.4315              0.666406    
+factor(City)Phoenix                                          -2.595052   5.108657 -0.5080              0.611798    
+factor(City)Pittsburgh                                        4.852876   2.813609  1.7248              0.085461 .  
+factor(City)Plano                                             6.519717   3.852445  1.6924              0.091481 .  
+factor(City)Riverside                                         4.857980   2.830879  1.7161              0.087047 .  
+factor(City)Sacramento                                        2.124465   1.164497  1.8244              0.068962 .  
+factor(City)San antonio                                       0.167447   4.619189  0.0363              0.971104    
+factor(City)San diego                                        -1.288244   4.077720 -0.3159              0.752252    
+factor(City)San francisco                                     0.751703   1.775501  0.4234              0.672285    
+factor(City)San jose                                          0.403621   2.295281  0.1758              0.860516    
+factor(City)Seattle                                           1.067130   0.934781  1.1416              0.254419    
+factor(City)St. Louis                                        -0.173655   5.340839 -0.0325              0.974080    
+factor(City)St. Paul                                          4.633182   2.552140  1.8154              0.070329 .  
+factor(City)Stockton                                          4.256371   2.610319  1.6306              0.103889    
+factor(City)Tucson                                            4.562685   0.497722  9.1671 < 0.00000000000000022 ***
+factor(City)Tulsa                                             3.119360   1.604248  1.9444              0.052655 .  
+factor(City)Virginia beach                                    3.704781   2.200369  1.6837              0.093142 .  
+factor(City)Wichita                                           3.913806   1.638697  2.3884              0.017461 *  
+factor(Year)2010                                              0.066204   0.099255  0.6670              0.505212    
+factor(Year)2011                                             -0.333167   0.107456 -3.1005              0.002091 ** 
+factor(Year)2012                                             -0.309956   0.168404 -1.8406              0.066546 .  
+factor(Year)2013                                             -0.339530   0.220049 -1.5430              0.123753    
+factor(Year)2014                                             -0.526730   0.273851 -1.9234              0.055250 .  
+factor(Year)2015                                             -0.871592   0.335775 -2.5958              0.009841 ** 
+factor(Year)2016                                             -0.826121   0.332633 -2.4836              0.013481 *  
+total_violent_arrest_rate                                     0.144673   0.040937  3.5340              0.000465 ***
+log_total_pop                                                 4.602671   4.725459  0.9740              0.330731    
+pct_black                                                     5.313754  13.246875  0.4011              0.688571    
+pct_in_poverty                                                2.098641   8.575078  0.2447              0.806805    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
 [1] "Marijuana possession and sale arrest rate, just on common support cities"
+
+t test of coefficients:
+
+                                                              Estimate Std. Error t value            Pr(>|t|)    
+(Intercept)                                                 -69.799326  66.602741 -1.0480           0.2953746    
+decriminilization_status_fraction_of_year_legalized_by_city  -0.926716   0.366705 -2.5271           0.0119458 *  
+factor(City)Anchorage                                         5.415805   3.737673  1.4490           0.1482520    
+factor(City)Arlington                                         6.129512   2.223457  2.7567           0.0061483 ** 
+factor(City)Atlanta                                           6.220715   6.606186  0.9416           0.3470307    
+factor(City)Aurora                                            4.817041   2.382235  2.0221           0.0439407 *  
+factor(City)Austin                                            1.885151   2.464084  0.7651           0.4447639    
+factor(City)Bakersfield                                       3.762657   2.080663  1.8084           0.0714159 .  
+factor(City)Baltimore                                         3.523956   8.836541  0.3988           0.6902920    
+factor(City)Boston                                            1.179416   3.097592  0.3808           0.7036213    
+factor(City)Cleveland                                         1.755421   6.443474  0.2724           0.7854513    
+factor(City)Colorado springs                                  3.742922   1.628536  2.2983           0.0221402 *  
+factor(City)Columbus                                         -0.328493   4.763197 -0.0690           0.9450575    
+factor(City)Corpus christi                                    7.481062   2.857052  2.6185           0.0092224 ** 
+factor(City)Dallas                                           -1.829294   6.285735 -0.2910           0.7712086    
+factor(City)Denver                                            1.662977   1.283400  1.2958           0.1959247    
+factor(City)Detroit                                          -1.587601  12.124768 -0.1309           0.8959001    
+factor(City)El paso                                           3.263938   1.163713  2.8048           0.0053206 ** 
+factor(City)Fort worth                                        0.131634   3.303247  0.0398           0.9682359    
+factor(City)Fresno                                            2.695145   0.978458  2.7545           0.0061902 ** 
+factor(City)Greensboro                                        5.508654   4.532157  1.2155           0.2250219    
+factor(City)Henderson                                         6.540817   4.133861  1.5823           0.1145080    
+factor(City)Houston                                          -3.977298   8.710643 -0.4566           0.6482444    
+factor(City)Kansas city                                       2.447409   3.381256  0.7238           0.4696688    
+factor(City)Lincoln                                           8.392614   3.732705  2.2484           0.0251815 *  
+factor(City)Long beach                                        3.771658   1.275393  2.9573           0.0033179 ** 
+factor(City)Los angeles                                      -6.744064   9.996631 -0.6746           0.5003603    
+factor(City)Memphis                                           0.321263   9.105602  0.0353           0.9718754    
+factor(City)Mesa                                              4.753412   1.191986  3.9878 0.00008144049371812 ***
+factor(City)Milwaukee                                         2.597811   5.498648  0.4724           0.6369076    
+factor(City)Minneapolis                                       4.277400   1.886936  2.2668           0.0240179 *  
+factor(City)Newark                                            6.927992   5.679901  1.2197           0.2233973    
+factor(City)Oakland                                           3.583575   2.845839  1.2592           0.2087974    
+factor(City)Oklahoma city                                     3.229440   1.839384  1.7557           0.0800238 .  
+factor(City)Philadelphia                                     -2.601684   9.466932 -0.2748           0.7836205    
+factor(City)Phoenix                                          -2.617669   5.376820 -0.4868           0.6266785    
+factor(City)Pittsburgh                                        5.800727   2.874400  2.0181           0.0443581 *  
+factor(City)Plano                                             7.033923   4.135917  1.7007           0.0899018 .  
+factor(City)Riverside                                         5.534450   2.971450  1.8625           0.0633766 .  
+factor(City)Sacramento                                        2.924203   1.259161  2.3223           0.0207959 *  
+factor(City)San antonio                                      -0.159851   4.864435 -0.0329           0.9738043    
+factor(City)San diego                                        -1.169842   4.287919 -0.2728           0.7851526    
+factor(City)San francisco                                     1.258075   1.890331  0.6655           0.5061553    
+factor(City)San jose                                          0.635795   2.394084  0.2656           0.7907295    
+factor(City)Seattle                                           1.293924   1.047928  1.2347           0.2177657    
+factor(City)St. Louis                                         0.313480   5.580919  0.0562           0.9552389    
+factor(City)St. Paul                                          5.129848   2.624638  1.9545           0.0514498 .  
+factor(City)Stockton                                          5.082319   2.703420  1.8800           0.0609561 .  
+factor(City)Tucson                                            4.753529   0.593397  8.0107 0.00000000000001773 ***
+factor(City)Tulsa                                             3.859808   1.660437  2.3246           0.0206747 *  
+factor(City)Virginia beach                                    4.162474   2.360018  1.7637           0.0786597 .  
+factor(City)Wichita                                           4.263336   1.712280  2.4899           0.0132496 *  
+factor(Year)2010                                              0.099270   0.129336  0.7675           0.4432882    
+factor(Year)2011                                             -0.318963   0.139422 -2.2878           0.0227565 *  
+factor(Year)2012                                             -0.289870   0.220835 -1.3126           0.1901876    
+factor(Year)2013                                             -0.336673   0.277678 -1.2125           0.2261661    
+factor(Year)2014                                             -0.533498   0.320684 -1.6636           0.0970955 .  
+factor(Year)2015                                             -0.913062   0.355439 -2.5688           0.0106243 *  
+factor(Year)2016                                             -0.867513   0.349944 -2.4790           0.0136521 *  
+total_violent_arrest_rate                                     0.165044   0.047572  3.4694           0.0005878 ***
+log_total_pop                                                 5.044453   4.953556  1.0183           0.3092253    
+pct_black                                                     4.885893  14.071079  0.3472           0.7286307    
+pct_in_poverty                                                1.191994  10.104121  0.1180           0.9061592    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
 [1] "Marijuana possession arrest rate disparity, just on common support cities"
+
+t test of coefficients:
+
+                                                               Estimate  Std. Error t value              Pr(>|t|)    
+(Intercept)                                                 -48.7367203  48.9396277 -0.9959             0.3200191    
+decriminilization_status_fraction_of_year_legalized_by_city   0.1323046   0.6482567  0.2041             0.8384012    
+factor(City)Anchorage                                         3.7884427   2.1100224  1.7955             0.0734568 .  
+factor(City)Arlington                                         2.5254482   1.1662334  2.1655             0.0310362 *  
+factor(City)Atlanta                                          11.6953609   7.7683123  1.5055             0.1331050    
+factor(City)Aurora                                            3.4349510   0.7870948  4.3641  0.000016888812551825 ***
+factor(City)Austin                                           -0.3439886   2.0489519 -0.1679             0.8667720    
+factor(City)Bakersfield                                       1.8155828   0.6925968  2.6214             0.0091443 ** 
+factor(City)Baltimore                                         7.5630277  10.6535967  0.7099             0.4782434    
+factor(City)Boston                                            3.0217149   4.0876348  0.7392             0.4602681    
+factor(City)Cleveland                                         6.7389839   7.3968542  0.9111             0.3628995    
+factor(City)Colorado springs                                  2.0976609   0.8439782  2.4854             0.0134121 *  
+factor(City)Columbus                                          3.2900310   4.9224029  0.6684             0.5043386    
+factor(City)Corpus christi                                    1.3625524   2.1213706  0.6423             0.5211062    
+factor(City)Dallas                                           -2.0235863   6.1573749 -0.3286             0.7426239    
+factor(City)Denver                                            0.1961782   1.5880639  0.1235             0.9017570    
+factor(City)Detroit                                           2.4007570  14.4940561  0.1656             0.8685394    
+factor(City)El paso                                          -2.0854430   0.9814720 -2.1248             0.0343128 *  
+factor(City)Fort worth                                       -0.4104332   3.4566279 -0.1187             0.9055520    
+factor(City)Fresno                                           -0.6758957   1.4248392 -0.4744             0.6355388    
+factor(City)Greensboro                                        5.6014289   4.1600575  1.3465             0.1790321    
+factor(City)Henderson                                         4.4184031   3.0248115  1.4607             0.1450023    
+factor(City)Houston                                          -4.7324286   7.9280962 -0.5969             0.5509532    
+factor(City)Kansas city                                       4.3586019   3.5370553  1.2323             0.2186879    
+factor(City)Lincoln                                           8.0331932   2.7258142  2.9471             0.0034262 ** 
+factor(City)Long beach                                        0.0062051   1.3597151  0.0046             0.9963615    
+factor(City)Los angeles                                      -8.1758383   8.1359320 -1.0049             0.3156469    
+factor(City)Memphis                                           4.8457090  10.8948910  0.4448             0.6567657    
+factor(City)Mesa                                              2.9517345   1.0106391  2.9207             0.0037227 ** 
+factor(City)Milwaukee                                         3.6840087   6.6756514  0.5519             0.5814032    
+factor(City)Minneapolis                                       8.6153729   1.3499668  6.3819  0.000000000563653063 ***
+factor(City)Newark                                            3.7007338   5.4664530  0.6770             0.4988660    
+factor(City)Oakland                                           2.0797178   2.9199444  0.7122             0.4767940    
+factor(City)Oklahoma city                                     1.8029623   1.7925577  1.0058             0.3152146    
+factor(City)Philadelphia                                     -0.1808573  10.1629740 -0.0178             0.9858121    
+factor(City)Phoenix                                          -3.5656959   4.1337426 -0.8626             0.3889660    
+factor(City)Pittsburgh                                        7.9026248   2.0216620  3.9090             0.0001116 ***
+factor(City)Plano                                             4.0852874   2.9165703  1.4007             0.1621977    
+factor(City)Riverside                                         1.3420120   1.6650289  0.8060             0.4207985    
+factor(City)Sacramento                                        1.0505843   1.5389664  0.6827             0.4952825    
+factor(City)San antonio                                      -4.4021603   3.8022794 -1.1578             0.2477593    
+factor(City)San diego                                        -3.6799114   3.6859568 -0.9984             0.3188046    
+factor(City)San francisco                                     1.3380243   1.8668865  0.7167             0.4740353    
+factor(City)San jose                                         -2.6955011   2.0281909 -1.3290             0.1847205    
+factor(City)Seattle                                           9.0695623   1.1096820  8.1731  0.000000000000005779 ***
+factor(City)St. Louis                                        12.8475404   6.3429856  2.0255             0.0435884 *  
+factor(City)St. Paul                                         11.3855158   0.8566577 13.2906 < 0.00000000000000022 ***
+factor(City)Stockton                                          2.0755396   1.0110708  2.0528             0.0408445 *  
+factor(City)Tucson                                           -0.0235561   0.6188615 -0.0381             0.9696589    
+factor(City)Tulsa                                             3.2629516   0.8982441  3.6326             0.0003232 ***
+factor(City)Virginia beach                                    2.9608465   1.3907235  2.1290             0.0339624 *  
+factor(City)Wichita                                           4.6594492   0.4876051  9.5558 < 0.00000000000000022 ***
+factor(Year)2010                                             -0.2080420   0.1612902 -1.2899             0.1979627    
+factor(Year)2011                                             -0.2716911   0.3392210 -0.8009             0.4237254    
+factor(Year)2012                                             -0.4964609   0.4560384 -1.0886             0.2770733    
+factor(Year)2013                                             -0.6372822   0.4924779 -1.2940             0.1965200    
+factor(Year)2014                                             -0.5665910   0.4265253 -1.3284             0.1849281    
+factor(Year)2015                                             -0.1373156   0.3597054 -0.3817             0.7028858    
+factor(Year)2016                                             -0.6888494   0.5696529 -1.2092             0.2273971    
+total_violent_arrest_rate                                    -0.0025792   0.0662862 -0.0389             0.9689847    
+log_total_pop                                                 3.8425043   3.5786801  1.0737             0.2836981    
+pct_black                                                    -4.0421744  16.4890718 -0.2451             0.8064917    
+pct_in_poverty                                                1.6243519   8.9001787  0.1825             0.8552914    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
 [1] "Marijuana possession and sale arrest rate disparity, just on common support cities"
+
+t test of coefficients:
+
+                                                              Estimate Std. Error t value              Pr(>|t|)    
+(Intercept)                                                 -52.313259  50.805499 -1.0297              0.303883    
+decriminilization_status_fraction_of_year_legalized_by_city   0.247680   0.475787  0.5206              0.603001    
+factor(City)Anchorage                                         3.994783   2.526472  1.5812              0.114755    
+factor(City)Arlington                                         3.008690   1.326549  2.2681              0.023943 *  
+factor(City)Atlanta                                          13.092362   7.845479  1.6688              0.096069 .  
+factor(City)Aurora                                            3.400618   1.029894  3.3019              0.001061 ** 
+factor(City)Austin                                           -0.538666   1.978503 -0.2723              0.785585    
+factor(City)Bakersfield                                       2.632283   0.848176  3.1035              0.002071 ** 
+factor(City)Baltimore                                         9.259105  10.648179  0.8695              0.385152    
+factor(City)Boston                                            2.997316   3.826954  0.7832              0.434040    
+factor(City)Cleveland                                         8.013264   7.466995  1.0732              0.283950    
+factor(City)Colorado springs                                  2.050305   1.004195  2.0417              0.041938 *  
+factor(City)Columbus                                          3.564476   4.789168  0.7443              0.457215    
+factor(City)Corpus christi                                    1.347614   2.276122  0.5921              0.554194    
+factor(City)Dallas                                           -1.982415   6.092392 -0.3254              0.745082    
+factor(City)Denver                                            0.504968   1.360435  0.3712              0.710730    
+factor(City)Detroit                                           4.044975  14.415003  0.2806              0.779179    
+factor(City)El paso                                          -2.411261   1.114566 -2.1634              0.031196 *  
+factor(City)Fort worth                                       -0.175459   3.391811 -0.0517              0.958774    
+factor(City)Fresno                                           -0.755146   1.439632 -0.5245              0.600239    
+factor(City)Greensboro                                        7.257864   4.391511  1.6527              0.099301 .  
+factor(City)Henderson                                         4.609509   3.313583  1.3911              0.165093    
+factor(City)Houston                                          -4.832853   7.897005 -0.6120              0.540950    
+factor(City)Kansas city                                       5.079714   3.528948  1.4394              0.150932    
+factor(City)Lincoln                                           8.118044   2.888402  2.8106              0.005228 ** 
+factor(City)Long beach                                        0.795328   1.126500  0.7060              0.480654    
+factor(City)Los angeles                                      -8.544153   8.064590 -1.0595              0.290129    
+factor(City)Memphis                                           6.819424  10.964030  0.6220              0.534365    
+factor(City)Mesa                                              2.916595   1.098629  2.6548              0.008304 ** 
+factor(City)Milwaukee                                         4.864126   6.676227  0.7286              0.466756    
+factor(City)Minneapolis                                       8.985633   1.435050  6.2615       0.0000000011330 ***
+factor(City)Newark                                            4.916100   5.567853  0.8829              0.377882    
+factor(City)Oakland                                           3.910469   2.749069  1.4225              0.155793    
+factor(City)Oklahoma city                                     1.878753   1.694957  1.1084              0.268445    
+factor(City)Philadelphia                                      0.155502  10.110927  0.0154              0.987738    
+factor(City)Phoenix                                          -3.998828   4.202515 -0.9515              0.342000    
+factor(City)Pittsburgh                                        8.572766   2.156960  3.9745       0.0000859292789 ***
+factor(City)Plano                                             4.245602   3.261070  1.3019              0.193818    
+factor(City)Riverside                                         1.329151   1.904896  0.6978              0.485800    
+factor(City)Sacramento                                        1.853200   1.349839  1.3729              0.170674    
+factor(City)San antonio                                      -4.722911   3.857862 -1.2242              0.221701    
+factor(City)San diego                                        -3.601500   3.419202 -1.0533              0.292933    
+factor(City)San francisco                                     2.182021   1.457468  1.4971              0.135274    
+factor(City)San jose                                         -3.153909   1.650901 -1.9104              0.056908 .  
+factor(City)Seattle                                           7.966295   0.788621 10.1015 < 0.00000000000000022 ***
+factor(City)St. Louis                                        13.499176   6.483042  2.0822              0.038058 *  
+factor(City)St. Paul                                         11.788829   1.181252  9.9799 < 0.00000000000000022 ***
+factor(City)Stockton                                          1.957000   1.249256  1.5665              0.118141    
+factor(City)Tucson                                           -0.138117   0.766606 -0.1802              0.857127    
+factor(City)Tulsa                                             4.128349   1.006722  4.1008       0.0000514001332 ***
+factor(City)Virginia beach                                    3.550413   1.580651  2.2462              0.025325 *  
+factor(City)Wichita                                           4.865269   0.744584  6.5342       0.0000000002297 ***
+factor(Year)2010                                             -0.243430   0.174680 -1.3936              0.164344    
+factor(Year)2011                                             -0.413350   0.305027 -1.3551              0.176263    
+factor(Year)2012                                             -0.502425   0.406724 -1.2353              0.217560    
+factor(Year)2013                                             -0.595175   0.484752 -1.2278              0.220362    
+factor(Year)2014                                             -0.731382   0.560473 -1.3049              0.192784    
+factor(Year)2015                                             -0.282141   0.473224 -0.5962              0.551427    
+factor(Year)2016                                             -0.560738   0.526677 -1.0647              0.287769    
+total_violent_arrest_rate                                    -0.023101   0.071226 -0.3243              0.745879    
+log_total_pop                                                 4.141019   3.689408  1.1224              0.262470    
+pct_black                                                    -7.194235  16.620074 -0.4329              0.665384    
+pct_in_poverty                                                3.009798  11.258200  0.2673              0.789365    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
 [1] "Black marijuana posession arrest rate, run on just common support cities"
+
+t test of coefficients:
+
+                                                             Estimate Std. Error t value              Pr(>|t|)    
+(Intercept)                                                 -37.00231  117.30237 -0.3154             0.7526154    
+decriminilization_status_fraction_of_year_legalized_by_city  -2.56415    0.68566 -3.7397             0.0002157 ***
+factor(City)Anchorage                                         7.48196    6.83208  1.0951             0.2742269    
+factor(City)Arlington                                        14.54544    4.62414  3.1455             0.0018019 ** 
+factor(City)Atlanta                                          19.89345   10.96621  1.8141             0.0705358 .  
+factor(City)Aurora                                            9.93444    5.04090  1.9708             0.0495495 *  
+factor(City)Austin                                           13.26371    3.96061  3.3489             0.0009010 ***
+factor(City)Bakersfield                                       5.78935    4.07216  1.4217             0.1560190    
+factor(City)Baltimore                                        18.11378   13.95629  1.2979             0.1951908    
+factor(City)Boston                                            7.60456    4.79622  1.5855             0.1137615    
+factor(City)Cleveland                                        11.70097   10.69948  1.0936             0.2748930    
+factor(City)Colorado springs                                  7.02699    3.20460  2.1928             0.0289901 *  
+factor(City)Columbus                                          7.58406    7.04543  1.0765             0.2824777    
+factor(City)Corpus christi                                   11.89141    5.20877  2.2830             0.0230407 *  
+factor(City)Dallas                                            8.06214    9.55383  0.8439             0.3993302    
+factor(City)Denver                                            5.98806    2.00667  2.9841             0.0030471 ** 
+factor(City)Detroit                                          15.51754   18.53867  0.8370             0.4031518    
+factor(City)El paso                                           9.99879    2.05105  4.8750      0.00000166326720 ***
+factor(City)Fort worth                                        6.63162    4.95099  1.3395             0.1813051    
+factor(City)Fresno                                            5.94723    1.97492  3.0114             0.0027925 ** 
+factor(City)Greensboro                                       11.92557    9.15337  1.3029             0.1934911    
+factor(City)Henderson                                         9.58600    7.49406  1.2791             0.2017056    
+factor(City)Houston                                           7.86138   13.83122  0.5684             0.5701470    
+factor(City)Kansas city                                      10.00209    5.81218  1.7209             0.0861682 .  
+factor(City)Lincoln                                          27.57945    6.66878  4.1356      0.00004450855691 ***
+factor(City)Long beach                                        8.62262    2.60887  3.3051             0.0010491 ** 
+factor(City)Los angeles                                       2.95010   17.09267  0.1726             0.8630715    
+factor(City)Memphis                                          11.47505   14.13705  0.8117             0.4175231    
+factor(City)Mesa                                             15.51334    2.18051  7.1146      0.00000000000653 ***
+factor(City)Milwaukee                                        13.05919    8.48244  1.5396             0.1245850    
+factor(City)Minneapolis                                      13.55624    3.85883  3.5130             0.0005020 ***
+factor(City)Newark                                           16.76483   10.67239  1.5709             0.1171319    
+factor(City)Oakland                                           9.01941    5.56448  1.6209             0.1059551    
+factor(City)Oklahoma city                                    11.99605    2.85190  4.2063      0.00003312299212 ***
+factor(City)Philadelphia                                      8.95436   14.24614  0.6285             0.5300619    
+factor(City)Phoenix                                           4.24387    9.13713  0.4645             0.6426083    
+factor(City)Pittsburgh                                       13.81969    6.07648  2.2743             0.0235621 *  
+factor(City)Plano                                            10.59792    7.69384  1.3775             0.1692641    
+factor(City)Riverside                                         7.59813    5.54489  1.3703             0.1714858    
+factor(City)Sacramento                                        7.35563    2.52588  2.9121             0.0038237 ** 
+factor(City)San antonio                                       8.93356    8.26727  1.0806             0.2806328    
+factor(City)San diego                                         5.68669    7.42361  0.7660             0.4441839    
+factor(City)San francisco                                     5.89324    3.51981  1.6743             0.0949762 .  
+factor(City)San jose                                          5.82001    4.60329  1.2643             0.2069698    
+factor(City)Seattle                                           4.62976    2.09647  2.2084             0.0278764 *  
+factor(City)St. Louis                                         6.97738   10.13828  0.6882             0.4917761    
+factor(City)St. Paul                                         11.84835    5.52655  2.1439             0.0327398 *  
+factor(City)Stockton                                          7.31550    5.48948  1.3326             0.1835292    
+factor(City)Tucson                                           13.10699    1.29650 10.1095 < 0.00000000000000022 ***
+factor(City)Tulsa                                             8.43171    3.49097  2.4153             0.0162418 *  
+factor(City)Virginia beach                                   10.26941    4.89850  2.0964             0.0367713 *  
+factor(City)Wichita                                          10.71705    3.55201  3.0172             0.0027409 ** 
+factor(Year)2010                                             -0.30341    0.35727 -0.8492             0.3963377    
+factor(Year)2011                                             -1.27553    0.39805 -3.2044             0.0014797 ** 
+factor(Year)2012                                             -1.10190    0.49645 -2.2196             0.0270984 *  
+factor(Year)2013                                             -1.03300    0.67142 -1.5385             0.1248343    
+factor(Year)2014                                             -1.20311    0.76820 -1.5661             0.1182329    
+factor(Year)2015                                             -1.97200    0.71983 -2.7395             0.0064721 ** 
+factor(Year)2016                                             -1.84271    0.73038 -2.5230             0.0120862 *  
+total_violent_arrest_rate                                     0.30453    0.10406  2.9264             0.0036567 ** 
+log_total_pop                                                 2.48774    8.75400  0.2842             0.7764406    
+pct_black                                                   -12.89747   22.87007 -0.5639             0.5731576    
+pct_in_poverty                                               -1.01917   22.29708 -0.0457             0.9635689    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
 [1] "Black marijuana posession and sale arrest rate, run on just common support cities"
+
+t test of coefficients:
+
+                                                             Estimate Std. Error t value              Pr(>|t|)    
+(Intercept)                                                 -21.97822  126.56020 -0.1737             0.8622359    
+decriminilization_status_fraction_of_year_legalized_by_city  -3.16975    0.75522 -4.1971       0.0000344274373 ***
+factor(City)Anchorage                                         7.22453    7.40542  0.9756             0.3299599    
+factor(City)Arlington                                        14.43284    4.44502  3.2470             0.0012809 ** 
+factor(City)Atlanta                                          20.59948   10.89866  1.8901             0.0595836 .  
+factor(City)Aurora                                           10.16237    5.01160  2.0278             0.0433518 *  
+factor(City)Austin                                           14.24618    4.32509  3.2938             0.0010907 ** 
+factor(City)Bakersfield                                       7.47291    4.22305  1.7696             0.0776850 .  
+factor(City)Baltimore                                        19.04259   14.30074  1.3316             0.1838770    
+factor(City)Boston                                           10.33796    5.03772  2.0521             0.0409131 *  
+factor(City)Cleveland                                        12.82503   10.92356  1.1741             0.2411768    
+factor(City)Colorado springs                                  7.16992    3.47843  2.0613             0.0400280 *  
+factor(City)Columbus                                          8.86387    7.61767  1.1636             0.2453930    
+factor(City)Corpus christi                                   11.46281    5.61724  2.0406             0.0420466 *  
+factor(City)Dallas                                            9.74501   10.57034  0.9219             0.3572145    
+factor(City)Denver                                            7.23891    2.16019  3.3510             0.0008942 ***
+factor(City)Detroit                                          18.25462   19.58773  0.9319             0.3520184    
+factor(City)El paso                                          10.94780    2.20435  4.9665       0.0000010746316 ***
+factor(City)Fort worth                                        7.40172    5.37699  1.3766             0.1695425    
+factor(City)Fresno                                            7.88155    2.30334  3.4218             0.0006968 ***
+factor(City)Greensboro                                       12.67459    8.58968  1.4756             0.1409742    
+factor(City)Henderson                                         8.63232    8.15507  1.0585             0.2905584    
+factor(City)Houston                                           9.99502   15.24432  0.6557             0.5124827    
+factor(City)Kansas city                                      10.21823    5.65418  1.8072             0.0716022 .  
+factor(City)Lincoln                                          27.03403    7.19432  3.7577             0.0002013 ***
+factor(City)Long beach                                       11.12647    2.54781  4.3671       0.0000166716443 ***
+factor(City)Los angeles                                       7.15154   18.52623  0.3860             0.6997180    
+factor(City)Memphis                                          13.93500   14.71220  0.9472             0.3442135    
+factor(City)Mesa                                             15.90145    2.42002  6.5708       0.0000000001848 ***
+factor(City)Milwaukee                                        15.68265    8.96738  1.7489             0.0812052 .  
+factor(City)Minneapolis                                      13.72303    3.76541  3.6445             0.0003091 ***
+factor(City)Newark                                           18.18679   10.30371  1.7651             0.0784363 .  
+factor(City)Oakland                                          11.61673    5.31590  2.1853             0.0295405 *  
+factor(City)Oklahoma city                                    12.72173    2.96748  4.2871       0.0000235259258 ***
+factor(City)Philadelphia                                     13.29226   15.73109  0.8450             0.3987146    
+factor(City)Phoenix                                           6.66086    9.90493  0.6725             0.5017289    
+factor(City)Pittsburgh                                       15.01160    5.84493  2.5683             0.0106399 *  
+factor(City)Plano                                             9.88507    8.37790  1.1799             0.2388535    
+factor(City)Riverside                                         8.11634    5.92613  1.3696             0.1717071    
+factor(City)Sacramento                                        9.63637    2.43286  3.9609       0.0000907269486 ***
+factor(City)San antonio                                      10.08956    8.97859  1.1237             0.2619069    
+factor(City)San diego                                         8.30937    8.05326  1.0318             0.3028873    
+factor(City)San francisco                                     9.45253    3.90301  2.4219             0.0159563 *  
+factor(City)San jose                                          7.89649    5.02738  1.5707             0.1171697    
+factor(City)Seattle                                           5.67928    2.35147  2.4152             0.0162455 *  
+factor(City)St. Louis                                         6.85690    9.83176  0.6974             0.4860077    
+factor(City)St. Paul                                         11.68816    5.61845  2.0803             0.0382339 *  
+factor(City)Stockton                                          8.29569    5.69557  1.4565             0.1461594    
+factor(City)Tucson                                           13.67096    1.55689  8.7809 < 0.00000000000000022 ***
+factor(City)Tulsa                                            10.17814    3.38975  3.0026             0.0028719 ** 
+factor(City)Virginia beach                                   10.56130    4.91815  2.1474             0.0324567 *  
+factor(City)Wichita                                          10.72542    3.59341  2.9847             0.0030407 ** 
+factor(Year)2010                                             -0.42206    0.49094 -0.8597             0.3905516    
+factor(Year)2011                                             -1.39156    0.53991 -2.5774             0.0103701 *  
+factor(Year)2012                                             -1.17141    0.66337 -1.7658             0.0783061 .  
+factor(Year)2013                                             -1.08246    0.85801 -1.2616             0.2079441    
+factor(Year)2014                                             -1.22930    0.90135 -1.3638             0.1735042    
+factor(Year)2015                                             -2.06374    0.78143 -2.6410             0.0086430 ** 
+factor(Year)2016                                             -1.93228    0.79916 -2.4179             0.0161281 *  
+total_violent_arrest_rate                                     0.34826    0.11364  3.0645             0.0023521 ** 
+log_total_pop                                                 1.36711    9.42696  0.1450             0.8847787    
+pct_black                                                   -13.33299   22.89636 -0.5823             0.5607320    
+pct_in_poverty                                               -5.86426   26.47303 -0.2215             0.8248201    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
 [1] "Nondrug misdemeanor arrest rate, run on just common support cities"
+
+t test of coefficients:
+
+                                                             Estimate Std. Error t value            Pr(>|t|)    
+(Intercept)                                                  70.17343   96.95009  0.7238           0.4696730    
+decriminilization_status_fraction_of_year_legalized_by_city   1.25693    1.15353  1.0896           0.2766330    
+factor(City)Anchorage                                        -2.10333    6.89477 -0.3051           0.7605032    
+factor(City)Arlington                                        12.83188    8.97724  1.4294           0.1538001    
+factor(City)Atlanta                                          40.76093   22.94099  1.7768           0.0764867 .  
+factor(City)Aurora                                           12.46164    8.09301  1.5398           0.1245254    
+factor(City)Austin                                           12.98093    3.37257  3.8490           0.0001413 ***
+factor(City)Bakersfield                                       3.60204    4.75531  0.7575           0.4492814    
+factor(City)Baltimore                                        32.03670   27.71727  1.1558           0.2485468    
+factor(City)Boston                                           13.52311   10.33291  1.3087           0.1914929    
+factor(City)Cleveland                                        28.16204   22.73386  1.2388           0.2162726    
+factor(City)Colorado springs                                  3.14741    4.30861  0.7305           0.4655843    
+factor(City)Columbus                                         21.23950   11.86103  1.7907           0.0742187 .  
+factor(City)Corpus christi                                   13.86503    5.08726  2.7254           0.0067491 ** 
+factor(City)Dallas                                           28.04847   10.90482  2.5721           0.0105258 *  
+factor(City)Denver                                            9.92292    4.17942  2.3742           0.0181319 *  
+factor(City)Detroit                                          48.23969   36.23214  1.3314           0.1839345    
+factor(City)El paso                                           7.26082    2.05180  3.5388           0.0004571 ***
+factor(City)Fort worth                                       18.64842    7.41014  2.5166           0.0123020 *  
+factor(City)Fresno                                            6.00357    3.72314  1.6125           0.1077673    
+factor(City)Greensboro                                       17.08699   18.21387  0.9381           0.3488337    
+factor(City)Henderson                                        -0.92591    7.96919 -0.1162           0.9075724    
+factor(City)Houston                                          28.06990   12.38792  2.2659           0.0240761 *  
+factor(City)Kansas city                                      16.37181   12.71573  1.2875           0.1987746    
+factor(City)Lincoln                                           6.22046    6.08981  1.0215           0.3077548    
+factor(City)Long beach                                       10.87077    6.34185  1.7141           0.0874027 .  
+factor(City)Los angeles                                      19.72472   13.10588  1.5050           0.1332318    
+factor(City)Memphis                                          38.63007   27.04484  1.4284           0.1540896    
+factor(City)Mesa                                              6.03523    2.59234  2.3281           0.0204843 *  
+factor(City)Milwaukee                                        36.19003   16.53075  2.1893           0.0292479 *  
+factor(City)Minneapolis                                      22.73438    7.83447  2.9018           0.0039481 ** 
+factor(City)Newark                                           28.41818   23.03293  1.2338           0.2181147    
+factor(City)Oakland                                          14.87056   12.73309  1.1679           0.2436666    
+factor(City)Oklahoma city                                    13.83955    5.79966  2.3863           0.0175590 *  
+factor(City)Philadelphia                                     38.81788   18.85075  2.0592           0.0402231 *  
+factor(City)Phoenix                                          13.07401    7.00814  1.8655           0.0629534 .  
+factor(City)Pittsburgh                                       15.61263   11.50378  1.3572           0.1756132    
+factor(City)Plano                                             5.06061    9.00777  0.5618           0.5746138    
+factor(City)Riverside                                         1.92825    6.19891  0.3111           0.7559400    
+factor(City)Sacramento                                        8.00709    6.15139  1.3017           0.1938971    
+factor(City)San antonio                                       7.59271    6.32185  1.2010           0.2305646    
+factor(City)San diego                                        13.40496    5.44609  2.4614           0.0143287 *  
+factor(City)San francisco                                     8.46768    3.41765  2.4776           0.0137041 *  
+factor(City)San jose                                          7.54831    3.14685  2.3987           0.0169843 *  
+factor(City)Seattle                                           4.57232    3.53213  1.2945           0.1963600    
+factor(City)St. Louis                                        29.88190   21.28217  1.4041           0.1611943    
+factor(City)St. Paul                                          9.76442    7.87473  1.2400           0.2158296    
+factor(City)Stockton                                          7.24316    7.21567  1.0038           0.3161743    
+factor(City)Tucson                                           12.55245    1.57287  7.9806 0.00000000000002178 ***
+factor(City)Tulsa                                            12.16271    6.67947  1.8209           0.0694866 .  
+factor(City)Virginia beach                                   18.64095    9.31866  2.0004           0.0462416 *  
+factor(City)Wichita                                           4.88718    5.65094  0.8648           0.3877257    
+factor(Year)2010                                              0.14991    0.49499  0.3028           0.7621871    
+factor(Year)2011                                             -0.90097    0.88974 -1.0126           0.3119491    
+factor(Year)2012                                             -0.89645    1.08261 -0.8280           0.4082185    
+factor(Year)2013                                             -1.51695    1.22935 -1.2339           0.2180645    
+factor(Year)2014                                             -2.10008    1.35306 -1.5521           0.1215569    
+factor(Year)2015                                             -2.45485    1.26472 -1.9410           0.0530700 .  
+factor(Year)2016                                             -2.75684    1.16322 -2.3700           0.0183368 *  
+total_violent_arrest_rate                                     0.56838    0.18577  3.0596           0.0023899 ** 
+log_total_pop                                                -5.52414    7.00619 -0.7885           0.4309660    
+pct_black                                                   -52.56377   46.18339 -1.1382           0.2558462    
+pct_in_poverty                                              -12.21690   25.20710 -0.4847           0.6282243    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
 [1] "Black nondrug  misdemeanor arrest rate, run on just common support cities"
+
+t test of coefficients:
+
+                                                              Estimate Std. Error t value              Pr(>|t|)    
+(Intercept)                                                  165.45611  185.67391  0.8911             0.3734905    
+decriminilization_status_fraction_of_year_legalized_by_city    2.24933    1.72492  1.3040             0.1930972    
+factor(City)Anchorage                                         -3.84282   16.44091 -0.2337             0.8153293    
+factor(City)Arlington                                         36.79240   24.11516  1.5257             0.1280018    
+factor(City)Atlanta                                          121.96302   57.57134  2.1185             0.0348499 *  
+factor(City)Aurora                                            46.02886   20.49881  2.2454             0.0253726 *  
+factor(City)Austin                                            29.27422    8.02158  3.6494             0.0003035 ***
+factor(City)Bakersfield                                       14.51869   10.05604  1.4438             0.1497087    
+factor(City)Baltimore                                        120.61044   69.63424  1.7321             0.0841573 .  
+factor(City)Boston                                            47.89898   24.95953  1.9191             0.0558008 .  
+factor(City)Cleveland                                        104.28844   54.06385  1.9290             0.0545525 .  
+factor(City)Colorado springs                                  14.03867   11.22002  1.2512             0.2117034    
+factor(City)Columbus                                          67.91935   30.46395  2.2295             0.0264240 *  
+factor(City)Corpus christi                                    23.62665   10.40765  2.2701             0.0238164 *  
+factor(City)Dallas                                            74.37496   25.08080  2.9654             0.0032333 ** 
+factor(City)Denver                                            30.18078   10.74207  2.8096             0.0052433 ** 
+factor(City)Detroit                                          174.27921   86.43408  2.0163             0.0445406 *  
+factor(City)El paso                                           12.75648    4.81038  2.6519             0.0083744 ** 
+factor(City)Fort worth                                        48.64383   19.08366  2.5490             0.0112363 *  
+factor(City)Fresno                                            19.65246    6.82583  2.8791             0.0042366 ** 
+factor(City)Greensboro                                        65.69380   46.65963  1.4079             0.1600503    
+factor(City)Henderson                                         -0.69694   18.69661 -0.0373             0.9702863    
+factor(City)Houston                                           76.74875   26.10569  2.9399             0.0035043 ** 
+factor(City)Kansas city                                       57.95871   33.57153  1.7264             0.0851663 .  
+factor(City)Lincoln                                           43.69049   12.42414  3.5166             0.0004956 ***
+factor(City)Long beach                                        31.98378   15.38151  2.0794             0.0383220 *  
+factor(City)Los angeles                                       50.05653   24.60519  2.0344             0.0426768 *  
+factor(City)Memphis                                          128.76048   66.37581  1.9399             0.0532101 .  
+factor(City)Mesa                                              21.52832    6.12050  3.5174             0.0004941 ***
+factor(City)Milwaukee                                        105.66671   38.81334  2.7224             0.0068095 ** 
+factor(City)Minneapolis                                       79.40455   19.27858  4.1188            0.00004772 ***
+factor(City)Newark                                           100.88499   57.52861  1.7536             0.0803786 .  
+factor(City)Oakland                                           52.65447   32.27713  1.6313             0.1037344    
+factor(City)Oklahoma city                                     41.34010   15.96373  2.5896             0.0100151 *  
+factor(City)Philadelphia                                     114.83204   43.38709  2.6467             0.0085011 ** 
+factor(City)Phoenix                                           33.86169   13.14954  2.5751             0.0104365 *  
+factor(City)Pittsburgh                                        48.27717   28.18433  1.7129             0.0876279 .  
+factor(City)Plano                                             12.07352   22.47128  0.5373             0.5914158    
+factor(City)Riverside                                          7.74837   13.47431  0.5750             0.5656338    
+factor(City)Sacramento                                        26.77459   14.58241  1.8361             0.0672050 .  
+factor(City)San antonio                                       19.11777   11.70012  1.6340             0.1031751    
+factor(City)San diego                                         33.77875   11.86108  2.8479             0.0046651 ** 
+factor(City)San francisco                                     26.05222   10.29736  2.5300             0.0118509 *  
+factor(City)San jose                                          18.59878    8.71332  2.1345             0.0335044 *  
+factor(City)Seattle                                           15.24381   10.86135  1.4035             0.1613700    
+factor(City)St. Louis                                         95.80242   52.05903  1.8403             0.0665881 .  
+factor(City)St. Paul                                          42.09106   18.44225  2.2823             0.0230788 *  
+factor(City)Stockton                                          24.03160   15.42538  1.5579             0.1201675    
+factor(City)Tucson                                            33.44126    3.75172  8.9136 < 0.00000000000000022 ***
+factor(City)Tulsa                                             34.51595   16.92729  2.0391             0.0422047 *  
+factor(City)Virginia beach                                    47.17315   28.11377  1.6779             0.0942649 .  
+factor(City)Wichita                                           19.85698   14.68818  1.3519             0.1772921    
+factor(Year)2010                                               0.46473    0.92205  0.5040             0.6145718    
+factor(Year)2011                                              -0.95404    1.36990 -0.6964             0.4866296    
+factor(Year)2012                                              -0.24499    1.64030 -0.1494             0.8813580    
+factor(Year)2013                                              -1.16528    2.00450 -0.5813             0.5613973    
+factor(Year)2014                                              -2.00287    2.25209 -0.8893             0.3744412    
+factor(Year)2015                                              -2.76558    2.22543 -1.2427             0.2148159    
+factor(Year)2016                                              -3.38781    2.19244 -1.5452             0.1232100    
+total_violent_arrest_rate                                      1.24741    0.45495  2.7419             0.0064278 ** 
+log_total_pop                                                -12.78389   13.31475 -0.9601             0.3376621    
+pct_black                                                   -201.98589  120.35292 -1.6783             0.0941980 .  
+pct_in_poverty                                               -37.41984   78.82669 -0.4747             0.6352939    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
 [1] "Nondrug misdemeanor arrest rate disparity, run on just common support cities"
+
+t test of coefficients:
+
+                                                              Estimate Std. Error t value              Pr(>|t|)    
+(Intercept)                                                 -24.194753  13.104526 -1.8463             0.0657065 .  
+decriminilization_status_fraction_of_year_legalized_by_city   0.082009   0.070884  1.1569             0.2480988    
+factor(City)Anchorage                                         3.335333   0.633460  5.2653  0.000000246769136739 ***
+factor(City)Arlington                                         2.521161   0.607798  4.1480  0.000042271454987081 ***
+factor(City)Atlanta                                           8.918703   2.496721  3.5722             0.0004044 ***
+factor(City)Aurora                                            3.872582   0.410738  9.4284 < 0.00000000000000022 ***
+factor(City)Austin                                           -0.145662   0.655936 -0.2221             0.8243925    
+factor(City)Bakersfield                                       1.368133   0.255567  5.3533  0.000000157881866886 ***
+factor(City)Baltimore                                         8.251240   3.317606  2.4871             0.0133507 *  
+factor(City)Boston                                            3.344102   1.243770  2.6887             0.0075216 ** 
+factor(City)Cleveland                                         7.408041   2.450312  3.0233             0.0026875 ** 
+factor(City)Colorado springs                                  3.062080   0.255295 11.9943 < 0.00000000000000022 ***
+factor(City)Columbus                                          3.493376   1.674236  2.0865             0.0376628 *  
+factor(City)Corpus christi                                    0.843797   0.518455  1.6275             0.1045393    
+factor(City)Dallas                                            0.820519   1.903484  0.4311             0.6666926    
+factor(City)Denver                                            1.231748   0.511908  2.4062             0.0166451 *  
+factor(City)Detroit                                           8.702565   4.529895  1.9211             0.0555377 .  
+factor(City)El paso                                          -1.092444   0.280547 -3.8940             0.0001184 ***
+factor(City)Fort worth                                        1.101076   1.113425  0.9889             0.3234010    
+factor(City)Fresno                                            0.498429   0.356919  1.3965             0.1634688    
+factor(City)Greensboro                                        6.813987   1.445502  4.7139  0.000003531382750238 ***
+factor(City)Henderson                                         2.921487   0.762434  3.8318             0.0001511 ***
+factor(City)Houston                                          -0.179028   2.348308 -0.0762             0.9392749    
+factor(City)Kansas city                                       5.101034   1.281756  3.9797  0.000084133774235031 ***
+factor(City)Lincoln                                           5.751842   0.702295  8.1901  0.000000000000005137 ***
+factor(City)Long beach                                        1.328198   0.493636  2.6906             0.0074784 ** 
+factor(City)Los angeles                                      -3.017655   2.237056 -1.3489             0.1782409    
+factor(City)Memphis                                           7.718359   3.355812  2.3000             0.0220448 *  
+factor(City)Mesa                                              2.063541   0.231340  8.9199 < 0.00000000000000022 ***
+factor(City)Milwaukee                                         5.519162   2.050911  2.6911             0.0074689 ** 
+factor(City)Minneapolis                                       7.718855   0.591915 13.0405 < 0.00000000000000022 ***
+factor(City)Newark                                            6.592460   2.044393  3.2247             0.0013818 ** 
+factor(City)Oakland                                           3.704529   1.072441  3.4543             0.0006205 ***
+factor(City)Oklahoma city                                     2.712270   0.689863  3.9316             0.0001020 ***
+factor(City)Philadelphia                                      3.957282   3.038524  1.3024             0.1936586    
+factor(City)Phoenix                                          -0.949762   1.181213 -0.8041             0.4219180    
+factor(City)Pittsburgh                                        4.279385   0.796583  5.3722  0.000000143380232222 ***
+factor(City)Plano                                             2.560477   0.729105  3.5118             0.0005042 ***
+factor(City)Riverside                                         1.599533   0.460490  3.4735             0.0005790 ***
+factor(City)Sacramento                                        1.497864   0.505815  2.9613             0.0032758 ** 
+factor(City)San antonio                                      -1.990138   1.073212 -1.8544             0.0645386 .  
+factor(City)San diego                                        -0.797001   1.021136 -0.7805             0.4356294    
+factor(City)San francisco                                     1.490647   0.529944  2.8128             0.0051918 ** 
+factor(City)San jose                                         -0.843880   0.527851 -1.5987             0.1108004    
+factor(City)Seattle                                           3.773075   0.374359 10.0788 < 0.00000000000000022 ***
+factor(City)St. Louis                                         7.070874   2.046363  3.4553             0.0006182 ***
+factor(City)St. Paul                                          8.394225   0.382389 21.9520 < 0.00000000000000022 ***
+factor(City)Stockton                                          1.935017   0.358771  5.3935  0.000000128559050403 ***
+factor(City)Tucson                                            0.527585   0.164488  3.2074             0.0014646 ** 
+factor(City)Tulsa                                             2.713295   0.450598  6.0215  0.000000004423314271 ***
+factor(City)Virginia beach                                    2.963452   0.700040  4.2333  0.000029567732489081 ***
+factor(City)Wichita                                           3.722524   0.292446 12.7289 < 0.00000000000000022 ***
+factor(Year)2010                                             -0.023861   0.076465 -0.3121             0.7551910    
+factor(Year)2011                                             -0.038316   0.097106 -0.3946             0.6933971    
+factor(Year)2012                                             -0.016543   0.143539 -0.1153             0.9083128    
+factor(Year)2013                                              0.054100   0.180378  0.2999             0.7644154    
+factor(Year)2014                                              0.091026   0.199839  0.4555             0.6490382    
+factor(Year)2015                                              0.121020   0.178484  0.6780             0.4981992    
+factor(Year)2016                                              0.189435   0.144698  1.3092             0.1913462    
+total_violent_arrest_rate                                     0.040022   0.013089  3.0576             0.0024052 ** 
+log_total_pop                                                 1.885057   0.969390  1.9446             0.0526379 .  
+pct_black                                                   -11.864007   5.271069 -2.2508             0.0250288 *  
+pct_in_poverty                                                0.312544   2.256110  0.1385             0.8899006    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+[1] "Total arrest rate, run on just common support cities"
+
+t test of coefficients:
+
+                                                              Estimate Std. Error t value              Pr(>|t|)    
+(Intercept)                                                 -509.17688  712.63452 -0.7145              0.475402    
+decriminilization_status_fraction_of_year_legalized_by_city   -0.95355    3.72805 -0.2558              0.798275    
+factor(City)Anchorage                                         32.36291   42.43694  0.7626              0.446216    
+factor(City)Arlington                                         23.62635   27.64641  0.8546              0.393371    
+factor(City)Atlanta                                            7.27164   74.72634  0.0973              0.922537    
+factor(City)Aurora                                            38.26474   28.08640  1.3624              0.173962    
+factor(City)Austin                                            15.88205   26.78598  0.5929              0.553621    
+factor(City)Bakersfield                                       43.58749   21.10840  2.0649              0.039676 *  
+factor(City)Baltimore                                         16.57218   99.38142  0.1668              0.867662    
+factor(City)Boston                                           -15.24110   36.84162 -0.4137              0.679357    
+factor(City)Cleveland                                        -12.88021   71.10235 -0.1812              0.856356    
+factor(City)Colorado springs                                  28.15920   18.46455  1.5250              0.128165    
+factor(City)Columbus                                         -17.05438   52.79082 -0.3231              0.746849    
+factor(City)Corpus christi                                    70.43919   29.63516  2.3769              0.018005 *  
+factor(City)Dallas                                           -16.71860   68.42733 -0.2443              0.807123    
+factor(City)Denver                                             7.34235   15.60501  0.4705              0.638286    
+factor(City)Detroit                                          -56.29047  134.83459 -0.4175              0.676589    
+factor(City)El paso                                           11.19332   15.09950  0.7413              0.459014    
+factor(City)Fort worth                                       -10.74317   36.06690 -0.2979              0.765983    
+factor(City)Fresno                                            40.89408   13.53571  3.0212              0.002706 ** 
+factor(City)Greensboro                                        10.82256   54.46759  0.1987              0.842617    
+factor(City)Henderson                                         42.06242   47.08845  0.8933              0.372338    
+factor(City)Houston                                          -32.44167   93.69694 -0.3462              0.729373    
+factor(City)Kansas city                                      -10.24236   39.71962 -0.2579              0.796664    
+factor(City)Lincoln                                           58.45153   40.14866  1.4559              0.146336    
+factor(City)Long beach                                        34.55583   15.42808  2.2398              0.025740 *  
+factor(City)Los angeles                                      -54.55148  109.57892 -0.4978              0.618922    
+factor(City)Memphis                                          -37.06377  100.42158 -0.3691              0.712293    
+factor(City)Mesa                                              36.48846   13.08466  2.7886              0.005586 ** 
+factor(City)Milwaukee                                          0.71092   60.72782  0.0117              0.990666    
+factor(City)Minneapolis                                       35.52000   20.77612  1.7097              0.088229 .  
+factor(City)Newark                                            53.67825   64.69237  0.8297              0.407256    
+factor(City)Oakland                                           11.42570   34.72240  0.3291              0.742311    
+factor(City)Oklahoma city                                      9.77716   20.93919  0.4669              0.640844    
+factor(City)Philadelphia                                     -30.59238  102.66822 -0.2980              0.765903    
+factor(City)Phoenix                                          -21.32238   58.93844 -0.3618              0.717743    
+factor(City)Pittsburgh                                        27.62262   32.45782  0.8510              0.395342    
+factor(City)Plano                                             49.04928   47.81234  1.0259              0.305671    
+factor(City)Riverside                                         41.99345   30.14853  1.3929              0.164551    
+factor(City)Sacramento                                        24.48734   15.48304  1.5816              0.114666    
+factor(City)San antonio                                      -20.53225   52.50079 -0.3911              0.695976    
+factor(City)San diego                                         -5.20932   46.68237 -0.1116              0.911213    
+factor(City)San francisco                                      2.14178   20.51365  0.1044              0.916906    
+factor(City)San jose                                          -5.07466   24.92405 -0.2036              0.838782    
+factor(City)Seattle                                           -2.09054   12.40646 -0.1685              0.866286    
+factor(City)St. Louis                                         10.04534   62.92196  0.1596              0.873252    
+factor(City)St. Paul                                          35.28366   27.31087  1.2919              0.197247    
+factor(City)Stockton                                          31.98608   26.28748  1.2168              0.224520    
+factor(City)Tucson                                            45.03410    7.98668  5.6387          0.0000000357 ***
+factor(City)Tulsa                                             13.97957   18.79698  0.7437              0.457556    
+factor(City)Virginia beach                                    20.83619   32.64054  0.6384              0.523667    
+factor(City)Wichita                                           10.27422   19.82681  0.5182              0.604652    
+factor(Year)2010                                              -1.04644    1.36388 -0.7673              0.443457    
+factor(Year)2011                                              -5.17714    2.50457 -2.0671              0.039473 *  
+factor(Year)2012                                              -5.36482    3.59466 -1.4924              0.136497    
+factor(Year)2013                                              -6.14503    4.20977 -1.4597              0.145280    
+factor(Year)2014                                              -8.27480    4.42920 -1.8682              0.062576 .  
+factor(Year)2015                                             -12.17547    5.15900 -2.3600              0.018829 *  
+factor(Year)2016                                             -12.87658    5.24173 -2.4566              0.014520 *  
+total_violent_arrest_rate                                      3.53050    0.37587  9.3929 < 0.00000000000000022 ***
+log_total_pop                                                 38.38580   52.70536  0.7283              0.466918    
+pct_black                                                     92.02634  160.89311  0.5720              0.567713    
+pct_in_poverty                                               -63.12002  144.70119 -0.4362              0.662958    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+[1] "Total arrest rate disparity, run on just common support cities"
+
+t test of coefficients:
+
+                                                               Estimate  Std. Error t value              Pr(>|t|)    
+(Intercept)                                                 -17.6254178   9.9516308 -1.7711             0.0774255 .  
+decriminilization_status_fraction_of_year_legalized_by_city  -0.0101862   0.1049098 -0.0971             0.9227076    
+factor(City)Anchorage                                         3.2955867   0.8338058  3.9525    0.0000938503707374 ***
+factor(City)Arlington                                         2.4195169   0.8394790  2.8822             0.0041969 ** 
+factor(City)Atlanta                                           8.8098948   2.3396945  3.7654             0.0001954 ***
+factor(City)Aurora                                            2.9387392   0.7112992  4.1315    0.0000452712625239 ***
+factor(City)Austin                                            0.6889303   0.3980662  1.7307             0.0844007 .  
+factor(City)Bakersfield                                       1.0623377   0.3133199  3.3906             0.0007783 ***
+factor(City)Baltimore                                         7.1321064   2.8849933  2.4721             0.0139125 *  
+factor(City)Boston                                            2.7205127   0.9135943  2.9778             0.0031085 ** 
+factor(City)Cleveland                                         5.6760514   2.1096680  2.6905             0.0074817 ** 
+factor(City)Colorado springs                                  2.3870951   0.3870675  6.1671    0.0000000019454221 ***
+factor(City)Columbus                                          3.1149795   1.1477452  2.7140             0.0069815 ** 
+factor(City)Corpus christi                                    0.4061245   0.3861369  1.0518             0.2936445    
+factor(City)Dallas                                            0.6051001   1.2186869  0.4965             0.6198451    
+factor(City)Denver                                            1.3525650   0.3120724  4.3341    0.0000192225009234 ***
+factor(City)Detroit                                           6.4234860   3.5796894  1.7944             0.0736206 .  
+factor(City)El paso                                          -1.3989366   0.3801841 -3.6796             0.0002709 ***
+factor(City)Fort worth                                        1.1828247   0.7796732  1.5171             0.1301628    
+factor(City)Fresno                                           -0.1428696   0.4787547 -0.2984             0.7655629    
+factor(City)Greensboro                                        6.2360304   1.8564434  3.3591             0.0008693 ***
+factor(City)Henderson                                         3.0642200   0.8931089  3.4310             0.0006744 ***
+factor(City)Houston                                          -0.1546150   1.4701825 -0.1052             0.9163042    
+factor(City)Kansas city                                       4.2841654   1.2338133  3.4723             0.0005816 ***
+factor(City)Lincoln                                           5.6844651   0.5934096  9.5793 < 0.00000000000000022 ***
+factor(City)Long beach                                        0.8812691   0.3953838  2.2289             0.0264645 *  
+factor(City)Los angeles                                      -2.3865688   1.5972153 -1.4942             0.1360358    
+factor(City)Memphis                                           6.9460729   2.8427759  2.4434             0.0150498 *  
+factor(City)Mesa                                              1.9129793   0.2496164  7.6637    0.0000000000001849 ***
+factor(City)Milwaukee                                         4.9384423   1.6540504  2.9857             0.0030317 ** 
+factor(City)Minneapolis                                       7.9723413   0.6129101 13.0074 < 0.00000000000000022 ***
+factor(City)Newark                                            4.8102683   2.0396699  2.3584             0.0189134 *  
+factor(City)Oakland                                           3.9197200   1.0521737  3.7254             0.0002278 ***
+factor(City)Oklahoma city                                     2.0631102   0.5188852  3.9760    0.0000853867858233 ***
+factor(City)Philadelphia                                      2.6206254   2.0701188  1.2659             0.2063923    
+factor(City)Phoenix                                          -0.9302697   0.8906389 -1.0445             0.2969868    
+factor(City)Pittsburgh                                        4.7814070   0.9983090  4.7895    0.0000024864089380 ***
+factor(City)Plano                                             3.2084545   0.9741397  3.2936             0.0010915 ** 
+factor(City)Riverside                                         0.8271449   0.3975039  2.0808             0.0381852 *  
+factor(City)Sacramento                                        1.6818227   0.4362104  3.8555             0.0001377 ***
+factor(City)San antonio                                      -1.6914063   0.7531455 -2.2458             0.0253500 *  
+factor(City)San diego                                         0.1428557   0.6314106  0.2262             0.8211422    
+factor(City)San francisco                                     4.2383440   0.2973633 14.2531 < 0.00000000000000022 ***
+factor(City)San jose                                         -0.5740251   0.3336222 -1.7206             0.0862229 .  
+factor(City)Seattle                                           5.3088601   0.2876578 18.4555 < 0.00000000000000022 ***
+factor(City)St. Louis                                         6.4621399   2.1001635  3.0770             0.0022584 ** 
+factor(City)St. Paul                                          7.0282127   0.5460199 12.8717 < 0.00000000000000022 ***
+factor(City)Stockton                                          1.2604995   0.3625767  3.4765             0.0005729 ***
+factor(City)Tucson                                            0.1345532   0.2808831  0.4790             0.6322163    
+factor(City)Tulsa                                             2.3753488   0.5466277  4.3455    0.0000183061900581 ***
+factor(City)Virginia beach                                    3.2392066   1.0876100  2.9783             0.0031039 ** 
+factor(City)Wichita                                           3.0948383   0.4659041  6.6427    0.0000000001201113 ***
+factor(Year)2010                                             -0.1812822   0.0704737 -2.5723             0.0105191 *  
+factor(Year)2011                                             -0.2792051   0.1524994 -1.8309             0.0679837 .  
+factor(Year)2012                                             -0.3295277   0.1988231 -1.6574             0.0983494 .  
+factor(Year)2013                                             -0.3771828   0.2603235 -1.4489             0.1482738    
+factor(Year)2014                                             -0.4425456   0.2812751 -1.5734             0.1165532    
+factor(Year)2015                                             -0.4793981   0.2861711 -1.6752             0.0947982 .  
+factor(Year)2016                                             -0.4753270   0.2853051 -1.6660             0.0966150 .  
+total_violent_arrest_rate                                    -0.0052965   0.0108644 -0.4875             0.6262073    
+log_total_pop                                                 1.4386400   0.7188403  2.0013             0.0461391 *  
+pct_black                                                   -10.1493261   4.9563543 -2.0477             0.0413422 *  
+pct_in_poverty                                                3.8212842   5.0597566  0.7552             0.4506258    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
 [1] "Marijuana possession arrest rate, all cities"
+
+t test of coefficients:
+
+                                                              Estimate Std. Error t value              Pr(>|t|)    
+(Intercept)                                                 -63.818052  63.463040 -1.0056             0.3153017    
+decriminilization_status_fraction_of_year_legalized_by_city  -0.793310   0.364341 -2.1774             0.0301156 *  
+factor(City)Anaheim                                           4.833313   2.704891  1.7869             0.0748175 .  
+factor(City)Anchorage                                         4.987712   3.553127  1.4038             0.1612740    
+factor(City)Arlington                                         5.754147   2.126826  2.7055             0.0071518 ** 
+factor(City)Atlanta                                           5.518258   6.214531  0.8880             0.3751683    
+factor(City)Aurora                                            4.142081   2.307387  1.7951             0.0734893 .  
+factor(City)Austin                                            1.859497   2.329593  0.7982             0.4252886    
+factor(City)Bakersfield                                       3.082893   2.020769  1.5256             0.1280066    
+factor(City)Baltimore                                         3.069185   8.254850  0.3718             0.7102626    
+factor(City)Boston                                            0.329832   2.827153  0.1167             0.9071913    
+factor(City)Cleveland                                         0.934810   6.007241  0.1556             0.8764266    
+factor(City)Colorado springs                                  3.430531   1.522566  2.2531             0.0248664 *  
+factor(City)Columbus                                         -0.607250   4.416594 -0.1375             0.8907200    
+factor(City)Corpus christi                                    7.090597   2.708922  2.6175             0.0092399 ** 
+factor(City)Dallas                                           -1.850601   5.879631 -0.3147             0.7531397    
+factor(City)Denver                                            1.330362   1.155800  1.1510             0.2505008    
+factor(City)Detroit                                          -2.679847  11.244733 -0.2383             0.8117714    
+factor(City)El paso                                           3.096238   1.093520  2.8314             0.0049002 ** 
+factor(City)Fort worth                                        0.036193   3.078616  0.0118             0.9906267    
+factor(City)Fresno                                            2.000940   0.796516  2.5121             0.0124477 *  
+factor(City)Greensboro                                        4.334083   4.403902  0.9841             0.3257197    
+factor(City)Henderson                                         6.150954   3.882969  1.5841             0.1140723    
+factor(City)Houston                                          -3.685099   8.204047 -0.4492             0.6535778    
+factor(City)Kansas city                                       2.101649   3.171336  0.6627             0.5079555    
+factor(City)Lincoln                                           7.956105   3.546234  2.2435             0.0254836 *  
+factor(City)Long beach                                        2.899375   1.156521  2.5070             0.0126267 *  
+factor(City)Los angeles                                      -6.498014   9.501219 -0.6839             0.4944796    
+factor(City)Memphis                                          -1.132038   8.506969 -0.1331             0.8942126    
+factor(City)Mesa                                              4.514839   1.100480  4.1026             0.0000508 ***
+factor(City)Milwaukee                                         1.512974   5.104151  0.2964             0.7670839    
+factor(City)Minneapolis                                       3.887995   1.793342  2.1680             0.0308270 *  
+factor(City)Newark                                            5.429134   5.379777  1.0092             0.3135841    
+factor(City)Oakland                                           2.335643   2.661421  0.8776             0.3807636    
+factor(City)Oklahoma city                                     2.946135   1.692966  1.7402             0.0826941 .  
+factor(City)Philadelphia                                     -3.835172   8.824697 -0.4346             0.6641225    
+factor(City)Phoenix                                          -2.598479   5.114818 -0.5080             0.6117508    
+factor(City)Pittsburgh                                        4.833272   2.791383  1.7315             0.0842393 .  
+factor(City)Plano                                             6.535924   3.860593  1.6930             0.0913432 .  
+factor(City)Riverside                                         4.861529   2.832010  1.7166             0.0869255 .  
+factor(City)Sacramento                                        2.116053   1.157398  1.8283             0.0683531 .  
+factor(City)San antonio                                       0.163771   4.624979  0.0354             0.9717728    
+factor(City)San diego                                        -1.283504   4.077349 -0.3148             0.7531085    
+factor(City)San francisco                                     0.760487   1.770001  0.4297             0.6677104    
+factor(City)San jose                                          0.415638   2.287770  0.1817             0.8559397    
+factor(City)Seattle                                           1.072648   0.929096  1.1545             0.2490756    
+factor(City)St. Louis                                        -0.219661   5.315914 -0.0413             0.9670630    
+factor(City)St. Paul                                          4.624369   2.540078  1.8206             0.0695225 .  
+factor(City)Stockton                                          4.249592   2.602171  1.6331             0.1033432    
+factor(City)Tucson                                            4.556856   0.499508  9.1227 < 0.00000000000000022 ***
+factor(City)Tulsa                                             3.111230   1.591920  1.9544             0.0514466 .  
+factor(City)Virginia beach                                    3.706812   2.180003  1.7004             0.0899446 .  
+factor(City)Wichita                                           3.913042   1.631591  2.3983             0.0169915 *  
+factor(Year)2010                                              0.060829   0.099666  0.6103             0.5420372    
+factor(Year)2011                                             -0.335867   0.107997 -3.1100             0.0020238 ** 
+factor(Year)2012                                             -0.314697   0.170209 -1.8489             0.0653124 .  
+factor(Year)2013                                             -0.344035   0.221722 -1.5516             0.1216448    
+factor(Year)2014                                             -0.529229   0.274855 -1.9255             0.0549739 .  
+factor(Year)2015                                             -0.871218   0.335233 -2.5988             0.0097473 ** 
+factor(Year)2016                                             -0.826345   0.331447 -2.4931             0.0131204 *  
+total_violent_arrest_rate                                     0.145298   0.040702  3.5698             0.0004068 ***
+log_total_pop                                                 4.604199   4.728524  0.9737             0.3308705    
+pct_black                                                     5.394639  13.213565  0.4083             0.6833272    
+pct_in_poverty                                                2.194717   8.590753  0.2555             0.7985060    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
 [1] "Marijuana possession and sale arrest rate, all cities"
+
+t test of coefficients:
+
+                                                              Estimate Std. Error t value            Pr(>|t|)    
+(Intercept)                                                 -69.927514  66.645167 -1.0493           0.2947824    
+decriminilization_status_fraction_of_year_legalized_by_city  -0.922773   0.361383 -2.5534           0.0110872 *  
+factor(City)Anaheim                                           5.422638   2.868844  1.8902           0.0595549 .  
+factor(City)Anchorage                                         5.427996   3.742122  1.4505           0.1478061    
+factor(City)Arlington                                         6.122301   2.204908  2.7767           0.0057857 ** 
+factor(City)Atlanta                                           6.162105   6.591359  0.9349           0.3504929    
+factor(City)Aurora                                            4.810840   2.368634  2.0311           0.0429999 *  
+factor(City)Austin                                            1.882820   2.464686  0.7639           0.4454274    
+factor(City)Bakersfield                                       3.757656   2.074496  1.8114           0.0709376 .  
+factor(City)Baltimore                                         3.452635   8.830721  0.3910           0.6960485    
+factor(City)Boston                                            1.155586   3.100119  0.3728           0.7095550    
+factor(City)Cleveland                                         1.691779   6.437422  0.2628           0.7928555    
+factor(City)Colorado springs                                  3.751233   1.629968  2.3014           0.0219518 *  
+factor(City)Columbus                                         -0.350296   4.766123 -0.0735           0.9414523    
+factor(City)Corpus christi                                    7.489064   2.859220  2.6193           0.0091930 ** 
+factor(City)Dallas                                           -1.855883   6.298219 -0.2947           0.7684213    
+factor(City)Denver                                            1.659221   1.282836  1.2934           0.1967205    
+factor(City)Detroit                                          -1.690959  12.137665 -0.1393           0.8892809    
+factor(City)El paso                                           3.262126   1.163740  2.8031           0.0053411 ** 
+factor(City)Fort worth                                        0.116591   3.305885  0.0353           0.9718863    
+factor(City)Fresno                                            2.678603   0.978860  2.7365           0.0065255 ** 
+factor(City)Greensboro                                        5.470929   4.494315  1.2173           0.2243056    
+factor(City)Henderson                                         6.561630   4.141661  1.5843           0.1140237    
+factor(City)Houston                                          -4.005787   8.725414 -0.4591           0.6464499    
+factor(City)Kansas city                                       2.425043   3.366191  0.7204           0.4717497    
+factor(City)Lincoln                                           8.402847   3.736217  2.2490           0.0251287 *  
+factor(City)Long beach                                        3.763736   1.267902  2.9685           0.0031978 ** 
+factor(City)Los angeles                                      -6.761298  10.003539 -0.6759           0.4995539    
+factor(City)Memphis                                           0.244634   9.107541  0.0269           0.9785862    
+factor(City)Mesa                                              4.762687   1.195701  3.9832 0.00008265497504244 ***
+factor(City)Milwaukee                                         2.547031   5.505455  0.4626           0.6439099    
+factor(City)Minneapolis                                       4.263295   1.873986  2.2750           0.0235075 *  
+factor(City)Newark                                            6.879825   5.648443  1.2180           0.2240383    
+factor(City)Oakland                                           3.562946   2.827506  1.2601           0.2084674    
+factor(City)Oklahoma city                                     3.223707   1.835113  1.7567           0.0798417 .  
+factor(City)Philadelphia                                     -2.656455   9.489175 -0.2799           0.7796835    
+factor(City)Phoenix                                          -2.627768   5.381388 -0.4883           0.6256367    
+factor(City)Pittsburgh                                        5.777357   2.851107  2.0264           0.0434820 *  
+factor(City)Plano                                             7.058067   4.143157  1.7035           0.0893482 .  
+factor(City)Riverside                                         5.540345   2.971800  1.8643           0.0631110 .  
+factor(City)Sacramento                                        2.912655   1.252117  2.3262           0.0205760 *  
+factor(City)San antonio                                      -0.169462   4.868795 -0.0348           0.9722544    
+factor(City)San diego                                        -1.169432   4.285647 -0.2729           0.7851118    
+factor(City)San francisco                                     1.266130   1.883739  0.6721           0.5019378    
+factor(City)San jose                                          0.647344   2.385037  0.2714           0.7862281    
+factor(City)Seattle                                           1.299482   1.041987  1.2471           0.2131828    
+factor(City)St. Louis                                         0.255885   5.557065  0.0460           0.9632991    
+factor(City)St. Paul                                          5.120677   2.611259  1.9610           0.0506672 .  
+factor(City)Stockton                                          5.074738   2.694025  1.8837           0.0604295 .  
+factor(City)Tucson                                            4.745558   0.595102  7.9744 0.00000000000002167 ***
+factor(City)Tulsa                                             3.850308   1.647674  2.3368           0.0200092 *  
+factor(City)Virginia beach                                    4.166191   2.338983  1.7812           0.0757424 .  
+factor(City)Wichita                                           4.263634   1.704510  2.5014           0.0128244 *  
+factor(Year)2010                                              0.092998   0.130732  0.7114           0.4773298    
+factor(Year)2011                                             -0.322247   0.140292 -2.2970           0.0222066 *  
+factor(Year)2012                                             -0.295642   0.223221 -1.3244           0.1862175    
+factor(Year)2013                                             -0.342072   0.279577 -1.2235           0.2219450    
+factor(Year)2014                                             -0.536429   0.321729 -1.6673           0.0963374 .  
+factor(Year)2015                                             -0.913205   0.354989 -2.5725           0.0105062 *  
+factor(Year)2016                                             -0.868628   0.349061 -2.4885           0.0132910 *  
+total_violent_arrest_rate                                     0.165783   0.047344  3.5017           0.0005218 ***
+log_total_pop                                                 5.051251   4.954917  1.0194           0.3086933    
+pct_black                                                     4.990764  14.039094  0.3555           0.7224351    
+pct_in_poverty                                                1.323226  10.117889  0.1308           0.8960234    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
 [1] "Marijuana possession arrest rate disparity, all cities"
+
+t test of coefficients:
+
+                                                               Estimate  Std. Error t value              Pr(>|t|)    
+(Intercept)                                                 -48.3891210  48.6602900 -0.9944             0.3206980    
+decriminilization_status_fraction_of_year_legalized_by_city   0.1188808   0.6413289  0.1854             0.8530485    
+factor(City)Anaheim                                           0.1961907   2.0622185  0.0951             0.9242612    
+factor(City)Anchorage                                         3.7771255   2.0966716  1.8015             0.0724818 .  
+factor(City)Arlington                                         2.5287671   1.1736760  2.1546             0.0318735 *  
+factor(City)Atlanta                                          11.7565853   7.7675869  1.5135             0.1310388    
+factor(City)Aurora                                            3.4400210   0.7907177  4.3505  0.000017816494924402 ***
+factor(City)Austin                                           -0.3342383   2.0385654 -0.1640             0.8698586    
+factor(City)Bakersfield                                       1.8207925   0.6946421  2.6212             0.0091422 ** 
+factor(City)Baltimore                                         7.6472957  10.6451113  0.7184             0.4729961    
+factor(City)Boston                                            3.0596440   4.0750865  0.7508             0.4532644    
+factor(City)Cleveland                                         6.8018263   7.3919877  0.9202             0.3581183    
+factor(City)Colorado springs                                  2.0911938   0.8417605  2.4843             0.0134447 *  
+factor(City)Columbus                                          3.3209295   4.9116905  0.6761             0.4994036    
+factor(City)Corpus christi                                    1.3449720   2.1108018  0.6372             0.5244183    
+factor(City)Dallas                                           -1.9813129   6.1356712 -0.3229             0.7469498    
+factor(City)Denver                                            0.2079673   1.5804692  0.1316             0.8953871    
+factor(City)Detroit                                           2.5222352  14.4702895  0.1743             0.8617264    
+factor(City)El paso                                          -2.0813975   0.9688581 -2.1483             0.0323718 *  
+factor(City)Fort worth                                       -0.3879593   3.4501814 -0.1124             0.9105338    
+factor(City)Fresno                                           -0.6544647   1.4121210 -0.4635             0.6433196    
+factor(City)Greensboro                                        5.6325117   4.1679664  1.3514             0.1774412    
+factor(City)Henderson                                         4.3868345   3.0023101  1.4612             0.1448655    
+factor(City)Houston                                          -4.6789232   7.8962019 -0.5926             0.5538604    
+factor(City)Kansas city                                       4.3818302   3.5404123  1.2377             0.2166667    
+factor(City)Lincoln                                           8.0110807   2.7095808  2.9566             0.0033207 ** 
+factor(City)Long beach                                        0.0198812   1.3562031  0.0147             0.9883122    
+factor(City)Los angeles                                      -8.1184291   8.0845402 -1.0042             0.3159760    
+factor(City)Memphis                                           4.9326180  10.8845986  0.4532             0.6507026    
+factor(City)Mesa                                              2.9396866   1.0047528  2.9258             0.0036589 ** 
+factor(City)Milwaukee                                         3.7418342   6.6649942  0.5614             0.5748712    
+factor(City)Minneapolis                                       8.6252267   1.3543332  6.3686  0.000000000596200087 ***
+factor(City)Newark                                            3.7426560   5.4742405  0.6837             0.4946239    
+factor(City)Oakland                                           2.1055486   2.9209709  0.7208             0.4714873    
+factor(City)Oklahoma city                                     1.8114275   1.7914058  1.0112             0.3126265    
+factor(City)Philadelphia                                     -0.1028097  10.1346876 -0.0101             0.9919119    
+factor(City)Phoenix                                          -3.5390160   4.1078286 -0.8615             0.3895329    
+factor(City)Pittsburgh                                        7.9201227   2.0287498  3.9039             0.0001134 ***
+factor(City)Plano                                             4.0512625   2.8938582  1.4000             0.1624084    
+factor(City)Riverside                                         1.3343922   1.6613220  0.8032             0.4223948    
+factor(City)Sacramento                                        1.0680595   1.5353338  0.6957             0.4871052    
+factor(City)San antonio                                      -4.3771696   3.7812523 -1.1576             0.2478130    
+factor(City)San diego                                        -3.6574241   3.6637530 -0.9983             0.3188329    
+factor(City)San francisco                                     1.3450942   1.8579348  0.7240             0.4695633    
+factor(City)San jose                                         -2.6892873   2.0177807 -1.3328             0.1834612    
+factor(City)Seattle                                           9.0726121   1.1082939  8.1861  0.000000000000005009 ***
+factor(City)St. Louis                                        12.9015242   6.3458931  2.0331             0.0427973 *  
+factor(City)St. Paul                                         11.3850247   0.8573735 13.2790 < 0.00000000000000022 ***
+factor(City)Stockton                                          2.0804549   1.0147513  2.0502             0.0410841 *  
+factor(City)Tucson                                           -0.0169281   0.6143272 -0.0276             0.9780322    
+factor(City)Tulsa                                             3.2681923   0.9036651  3.6166             0.0003421 ***
+factor(City)Virginia beach                                    2.9572502   1.3994412  2.1132             0.0352900 *  
+factor(City)Wichita                                           4.6543916   0.4846681  9.6033 < 0.00000000000000022 ***
+factor(Year)2010                                             -0.2039496   0.1597967 -1.2763             0.2026885    
+factor(Year)2011                                             -0.2736902   0.3383920 -0.8088             0.4191787    
+factor(Year)2012                                             -0.4955995   0.4539527 -1.0917             0.2756930    
+factor(Year)2013                                             -0.6341028   0.4890743 -1.2965             0.1956399    
+factor(Year)2014                                             -0.5601555   0.4247520 -1.3188             0.1880992    
+factor(Year)2015                                             -0.1397188   0.3553015 -0.3932             0.6943803    
+factor(Year)2016                                             -0.6865071   0.5649917 -1.2151             0.2251520    
+total_violent_arrest_rate                                    -0.0033248   0.0658296 -0.0505             0.9597481    
+log_total_pop                                                 3.8190547   3.5587906  1.0731             0.2839467    
+pct_black                                                    -4.1612712  16.4883107 -0.2524             0.8008969    
+pct_in_poverty                                                1.5077790   8.8356582  0.1706             0.8645993    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
 [1] "Marijuana possession and sale arrest rate disparity, all cities"
+
+t test of coefficients:
+
+                                                              Estimate Std. Error t value              Pr(>|t|)    
+(Intercept)                                                 -52.194065  50.533897 -1.0329             0.3023820    
+decriminilization_status_fraction_of_year_legalized_by_city   0.244916   0.470070  0.5210             0.6026806    
+factor(City)Anaheim                                           0.503228   2.270365  0.2217             0.8247145    
+factor(City)Anchorage                                         3.991084   2.513171  1.5881             0.1131690    
+factor(City)Arlington                                         3.021363   1.327449  2.2761             0.0234422 *  
+factor(City)Atlanta                                          13.143514   7.843329  1.6758             0.0946737 .  
+factor(City)Aurora                                            3.409993   1.023791  3.3308             0.0009579 ***
+factor(City)Austin                                           -0.529369   1.975144 -0.2680             0.7888446    
+factor(City)Bakersfield                                       2.636413   0.842925  3.1277             0.0019087 ** 
+factor(City)Baltimore                                         9.324157  10.640596  0.8763             0.3814746    
+factor(City)Boston                                            3.023487   3.822531  0.7910             0.4294972    
+factor(City)Cleveland                                         8.066912   7.467316  1.0803             0.2807500    
+factor(City)Colorado springs                                  2.051206   0.996013  2.0594             0.0401894 *  
+factor(City)Columbus                                          3.594900   4.788973  0.7507             0.4533576    
+factor(City)Corpus christi                                    1.344566   2.261465  0.5946             0.5525228    
+factor(City)Dallas                                           -1.950971   6.081586 -0.3208             0.7485526    
+factor(City)Denver                                            0.515200   1.360473  0.3787             0.7051452    
+factor(City)Detroit                                           4.136546  14.402516  0.2872             0.7741206    
+factor(City)El paso                                          -2.407157   1.112042 -2.1646             0.0310878 *  
+factor(City)Fort worth                                       -0.156262   3.389457 -0.0461             0.9632549    
+factor(City)Fresno                                           -0.744573   1.437891 -0.5178             0.6049070    
+factor(City)Greensboro                                        7.289921   4.392360  1.6597             0.0978690 .  
+factor(City)Henderson                                         4.602618   3.289061  1.3994             0.1625821    
+factor(City)Houston                                          -4.798302   7.876140 -0.6092             0.5427716    
+factor(City)Kansas city                                       5.105666   3.532734  1.4452             0.1492787    
+factor(City)Lincoln                                           8.112284   2.870472  2.8261             0.0049806 ** 
+factor(City)Long beach                                        0.807862   1.128897  0.7156             0.4747000    
+factor(City)Los angeles                                      -8.516818   8.029300 -1.0607             0.2895456    
+factor(City)Memphis                                           6.884946  10.954170  0.6285             0.5300691    
+factor(City)Mesa                                              2.914390   1.090079  2.6736             0.0078548 ** 
+factor(City)Milwaukee                                         4.906130   6.669264  0.7356             0.4624440    
+factor(City)Minneapolis                                       9.000043   1.438551  6.2563       0.0000000011443 ***
+factor(City)Newark                                            4.962377   5.575175  0.8901             0.3740284    
+factor(City)Oakland                                           3.935382   2.752594  1.4297             0.1536903    
+factor(City)Oklahoma city                                     1.891499   1.698262  1.1138             0.2661313    
+factor(City)Philadelphia                                      0.208280  10.091847  0.0206             0.9835458    
+factor(City)Phoenix                                          -3.984817   4.185007 -0.9522             0.3416667    
+factor(City)Pittsburgh                                        8.592753   2.158850  3.9802       0.0000836354545 ***
+factor(City)Plano                                             4.240297   3.233609  1.3113             0.1906044    
+factor(City)Riverside                                         1.330218   1.892620  0.7028             0.4826170    
+factor(City)Sacramento                                        1.866206   1.350332  1.3820             0.1678375    
+factor(City)San antonio                                      -4.710437   3.841835 -1.2261             0.2209842    
+factor(City)San diego                                        -3.588584   3.407868 -1.0530             0.2930500    
+factor(City)San francisco                                     2.189271   1.457652  1.5019             0.1340153    
+factor(City)San jose                                         -3.148693   1.648908 -1.9096             0.0570022 .  
+factor(City)Seattle                                           7.972273   0.792579 10.0587 < 0.00000000000000022 ***
+factor(City)St. Louis                                        13.544410   6.482107  2.0895             0.0373796 *  
+factor(City)St. Paul                                         11.797804   1.172874 10.0589 < 0.00000000000000022 ***
+factor(City)Stockton                                          1.965055   1.243501  1.5803             0.1149454    
+factor(City)Tucson                                           -0.134106   0.767076 -0.1748             0.8613159    
+factor(City)Tulsa                                             4.139167   1.008249  4.1053       0.0000502352849 ***
+factor(City)Virginia beach                                    3.561007   1.584116  2.2479             0.0251981 *  
+factor(City)Wichita                                           4.870400   0.734601  6.6300       0.0000000001264 ***
+factor(Year)2010                                             -0.239985   0.172944 -1.3876             0.1661229    
+factor(Year)2011                                             -0.410794   0.304413 -1.3495             0.1780557    
+factor(Year)2012                                             -0.495671   0.407532 -1.2163             0.2246947    
+factor(Year)2013                                             -0.595222   0.483616 -1.2308             0.2192291    
+factor(Year)2014                                             -0.730912   0.559435 -1.3065             0.1922295    
+factor(Year)2015                                             -0.283701   0.471699 -0.6014             0.5479315    
+factor(Year)2016                                             -0.553454   0.527656 -1.0489             0.2949474    
+total_violent_arrest_rate                                    -0.023049   0.070755 -0.3258             0.7447970    
+log_total_pop                                                 4.132494   3.670688  1.1258             0.2610133    
+pct_black                                                    -7.295399  16.615508 -0.4391             0.6608790    
+pct_in_poverty                                                2.968805  11.247924  0.2639             0.7919787    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
 [1] "Black marijuana posession arrest rate, run on all cities"
+
+t test of coefficients:
+
+                                                             Estimate Std. Error t value              Pr(>|t|)    
+(Intercept)                                                 -37.83631  117.25159 -0.3227             0.7471191    
+decriminilization_status_fraction_of_year_legalized_by_city  -2.54878    0.67289 -3.7878             0.0001787 ***
+factor(City)Anaheim                                           7.07386    5.09859  1.3874             0.1661931    
+factor(City)Anchorage                                         7.54041    6.84058  1.1023             0.2710820    
+factor(City)Arlington                                        14.57391    4.60795  3.1628             0.0016986 ** 
+factor(City)Atlanta                                          19.85016   10.93542  1.8152             0.0703414 .  
+factor(City)Aurora                                            9.95964    5.02535  1.9819             0.0482699 *  
+factor(City)Austin                                           13.25005    3.95721  3.3483             0.0009009 ***
+factor(City)Bakersfield                                       5.79848    4.05919  1.4285             0.1540395    
+factor(City)Baltimore                                        18.04497   13.92793  1.2956             0.1959635    
+factor(City)Boston                                            7.57047    4.78846  1.5810             0.1147799    
+factor(City)Cleveland                                        11.63999   10.68247  1.0896             0.2766194    
+factor(City)Colorado springs                                  7.06190    3.20738  2.2018             0.0283303 *  
+factor(City)Columbus                                          7.55942    7.04457  1.0731             0.2839682    
+factor(City)Corpus christi                                   11.93462    5.20427  2.2932             0.0224234 *  
+factor(City)Dallas                                            8.00218    9.56361  0.8367             0.4033106    
+factor(City)Denver                                            5.98282    2.00151  2.9891             0.0029942 ** 
+factor(City)Detroit                                          15.38716   18.53442  0.8302             0.4069919    
+factor(City)El paso                                           9.98394    2.05253  4.8642     0.000001736052985 ***
+factor(City)Fort worth                                        6.61152    4.94923  1.3359             0.1824553    
+factor(City)Fresno                                            5.90824    1.97575  2.9904             0.0029825 ** 
+factor(City)Greensboro                                       11.93101    9.10923  1.3098             0.1911275    
+factor(City)Henderson                                         9.67439    7.50591  1.2889             0.1982778    
+factor(City)Houston                                           7.77397   13.83759  0.5618             0.5746095    
+factor(City)Kansas city                                      10.00292    5.79209  1.7270             0.0850452 .  
+factor(City)Lincoln                                          27.63551    6.66817  4.1444     0.000042723282213 ***
+factor(City)Long beach                                        8.62189    2.59490  3.3226             0.0009854 ***
+factor(City)Los angeles                                       2.83666   17.08716  0.1660             0.8682433    
+factor(City)Memphis                                          11.39015   14.12039  0.8066             0.4204156    
+factor(City)Mesa                                             15.54482    2.18410  7.1173     0.000000000006217 ***
+factor(City)Milwaukee                                        12.99309    8.48079  1.5321             0.1264056    
+factor(City)Minneapolis                                      13.55991    3.84237  3.5290             0.0004724 ***
+factor(City)Newark                                           16.75578   10.63078  1.5762             0.1158878    
+factor(City)Oakland                                           9.01970    5.53762  1.6288             0.1042492    
+factor(City)Oklahoma city                                    12.00025    2.84470  4.2185     0.000031325760898 ***
+factor(City)Philadelphia                                      8.84935   14.26110  0.6205             0.5353148    
+factor(City)Phoenix                                           4.18365    9.13768  0.4578             0.6473460    
+factor(City)Pittsburgh                                       13.82318    6.04767  2.2857             0.0228654 *  
+factor(City)Plano                                            10.69775    7.70657  1.3881             0.1659742    
+factor(City)Riverside                                         7.63571    5.53919  1.3785             0.1689281    
+factor(City)Sacramento                                        7.34681    2.51132  2.9255             0.0036624 ** 
+factor(City)San antonio                                       8.87993    8.26609  1.0743             0.2834416    
+factor(City)San diego                                         5.65615    7.40984  0.7633             0.4457779    
+factor(City)San francisco                                     5.89997    3.50319  1.6842             0.0930348 .  
+factor(City)San jose                                          5.82413    4.58259  1.2709             0.2045951    
+factor(City)Seattle                                           4.64526    2.08566  2.2272             0.0265634 *  
+factor(City)St. Louis                                         6.93939   10.09866  0.6872             0.4924350    
+factor(City)St. Paul                                         11.87032    5.50647  2.1557             0.0317840 *  
+factor(City)Stockton                                          7.32814    5.46888  1.3400             0.1811195    
+factor(City)Tucson                                           13.08801    1.29994 10.0681 < 0.00000000000000022 ***
+factor(City)Tulsa                                             8.44296    3.47655  2.4285             0.0156598 *  
+factor(City)Virginia beach                                   10.32229    4.88701  2.1122             0.0353742 *  
+factor(City)Wichita                                          10.74726    3.54435  3.0322             0.0026077 ** 
+factor(Year)2010                                             -0.30484    0.35496 -0.8588             0.3910346    
+factor(Year)2011                                             -1.27388    0.39406 -3.2327             0.0013419 ** 
+factor(Year)2012                                             -1.10608    0.49707 -2.2252             0.0267027 *  
+factor(Year)2013                                             -1.04051    0.67282 -1.5465             0.1228843    
+factor(Year)2014                                             -1.20709    0.76812 -1.5715             0.1169677    
+factor(Year)2015                                             -1.97039    0.71686 -2.7486             0.0062926 ** 
+factor(Year)2016                                             -1.84204    0.72604 -2.5371             0.0116080 *  
+total_violent_arrest_rate                                     0.30627    0.10289  2.9765             0.0031170 ** 
+log_total_pop                                                 2.54308    8.74696  0.2907             0.7714223    
+pct_black                                                   -12.83417   22.80293 -0.5628             0.5739090    
+pct_in_poverty                                               -0.63860   22.37287 -0.0285             0.9772449    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
 [1] "Black marijuana posession and sale arrest rate, run on allcities"
+
+t test of coefficients:
+
+                                                             Estimate Std. Error t value              Pr(>|t|)    
+(Intercept)                                                 -23.21904  126.38383 -0.1837             0.8543401    
+decriminilization_status_fraction_of_year_legalized_by_city  -3.14260    0.73745 -4.2614       0.0000261126810 ***
+factor(City)Anaheim                                           7.57767    5.58258  1.3574             0.1755304    
+factor(City)Anchorage                                         7.30049    7.41330  0.9848             0.3254068    
+factor(City)Arlington                                        14.46002    4.42236  3.2698             0.0011827 ** 
+factor(City)Atlanta                                          20.49768   10.88811  1.8826             0.0605825 .  
+factor(City)Aurora                                           10.18603    4.98717  2.0424             0.0418520 *  
+factor(City)Austin                                           14.21957    4.31773  3.2933             0.0010907 ** 
+factor(City)Bakersfield                                       7.47958    4.20251  1.7798             0.0759732 .  
+factor(City)Baltimore                                        18.89205   14.29731  1.3214             0.1872357    
+factor(City)Boston                                           10.26596    5.03704  2.0381             0.0422876 *  
+factor(City)Cleveland                                        12.70069   10.93925  1.1610             0.2464205    
+factor(City)Colorado springs                                  7.21319    3.48297  2.0710             0.0390880 *  
+factor(City)Columbus                                          8.80478    7.62383  1.1549             0.2489136    
+factor(City)Corpus christi                                   11.52485    5.60745  2.0553             0.0405899 *  
+factor(City)Dallas                                            9.63736   10.58410  0.9106             0.3631555    
+factor(City)Denver                                            7.22092    2.15446  3.3516             0.0008907 ***
+factor(City)Detroit                                          18.00115   19.63631  0.9167             0.3599129    
+factor(City)El paso                                          10.92569    2.20404  4.9571       0.0000011143052 ***
+factor(City)Fort worth                                        7.35754    5.37811  1.3681             0.1721678    
+factor(City)Fresno                                            7.81997    2.31289  3.3810             0.0008032 ***
+factor(City)Greensboro                                       12.65451    8.53753  1.4822             0.1391762    
+factor(City)Henderson                                         8.75608    8.16908  1.0719             0.2845189    
+factor(City)Houston                                           9.84654   15.24647  0.6458             0.5188139    
+factor(City)Kansas city                                      10.19689    5.63703  1.8089             0.0713177 .  
+factor(City)Lincoln                                          27.11516    7.18829  3.7721             0.0001898 ***
+factor(City)Long beach                                       11.11246    2.53130  4.3900       0.0000150070994 ***
+factor(City)Los angeles                                       6.97056   18.50138  0.3768             0.7065797    
+factor(City)Memphis                                          13.76454   14.72929  0.9345             0.3506860    
+factor(City)Mesa                                             15.94544    2.42662  6.5711       0.0000000001801 ***
+factor(City)Milwaukee                                        15.55839    8.99310  1.7300             0.0845001 .  
+factor(City)Minneapolis                                      13.71718    3.74698  3.6609             0.0002899 ***
+factor(City)Newark                                           18.13760   10.26815  1.7664             0.0781963 .  
+factor(City)Oakland                                          11.59318    5.28537  2.1934             0.0289288 *  
+factor(City)Oklahoma city                                    12.71631    2.96119  4.2943       0.0000226898089 ***
+factor(City)Philadelphia                                     13.10450   15.76191  0.8314             0.4063096    
+factor(City)Phoenix                                           6.56756    9.89723  0.6636             0.5073962    
+factor(City)Pittsburgh                                       15.00021    5.80960  2.5820             0.0102274 *  
+factor(City)Plano                                            10.02241    8.39531  1.1938             0.2333559    
+factor(City)Riverside                                         8.16387    5.91578  1.3800             0.1684579    
+factor(City)Sacramento                                        9.61102    2.41679  3.9768       0.0000848106143 ***
+factor(City)San antonio                                      10.00593    8.96961  1.1155             0.2653815    
+factor(City)San diego                                         8.25226    8.02656  1.0281             0.3045997    
+factor(City)San francisco                                     9.45056    3.88053  2.4354             0.0153721 *  
+factor(City)San jose                                          7.89219    4.99792  1.5791             0.1152127    
+factor(City)Seattle                                           5.69155    2.33952  2.4328             0.0154808 *  
+factor(City)St. Louis                                         6.76863    9.80745  0.6902             0.4905534    
+factor(City)St. Paul                                         11.71214    5.58769  2.0961             0.0367906 *  
+factor(City)Stockton                                          8.30519    5.66448  1.4662             0.1434898    
+factor(City)Tucson                                           13.64386    1.56341  8.7270 < 0.00000000000000022 ***
+factor(City)Tulsa                                            10.18503    3.37091  3.0215             0.0026998 ** 
+factor(City)Virginia beach                                   10.62059    4.90297  2.1662             0.0309702 *  
+factor(City)Wichita                                          10.76190    3.58117  3.0051             0.0028449 ** 
+factor(Year)2010                                             -0.42690    0.48959 -0.8720             0.3838256    
+factor(Year)2011                                             -1.38959    0.53442 -2.6002             0.0097103 ** 
+factor(Year)2012                                             -1.17645    0.66358 -1.7729             0.0771122 .  
+factor(Year)2013                                             -1.09336    0.86001 -1.2713             0.2044492    
+factor(Year)2014                                             -1.23750    0.90243 -1.3713             0.1711547    
+factor(Year)2015                                             -2.06460    0.77807 -2.6535             0.0083273 ** 
+factor(Year)2016                                             -1.93405    0.79440 -2.4346             0.0154043 *  
+total_violent_arrest_rate                                     0.35058    0.11262  3.1130             0.0020039 ** 
+log_total_pop                                                 1.45041    9.40890  0.1542             0.8775779    
+pct_black                                                   -13.15721   22.85308 -0.5757             0.5651653    
+pct_in_poverty                                               -5.34542   26.60422 -0.2009             0.8408743    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
 [1] "Nondrug misdemeanor arrest rate, run on all cities"
+
+t test of coefficients:
+
+                                                             Estimate Std. Error t value            Pr(>|t|)    
+(Intercept)                                                  69.73088   96.53789  0.7223           0.4705797    
+decriminilization_status_fraction_of_year_legalized_by_city   1.25983    1.14540  1.0999           0.2721262    
+factor(City)Anaheim                                           1.66899    5.29489  0.3152           0.7527903    
+factor(City)Anchorage                                        -2.05850    6.86137 -0.3000           0.7643447    
+factor(City)Arlington                                        12.84481    8.93990  1.4368           0.1516640    
+factor(City)Atlanta                                          40.71647   22.85990  1.7811           0.0757532 .  
+factor(City)Aurora                                           12.47612    8.05985  1.5479           0.1225367    
+factor(City)Austin                                           12.97422    3.36050  3.8608           0.0001345 ***
+factor(City)Bakersfield                                       3.60780    4.73967  0.7612           0.4470517    
+factor(City)Baltimore                                        31.97902   27.61961  1.1578           0.2477155    
+factor(City)Boston                                           13.50305   10.29586  1.3115           0.1905426    
+factor(City)Cleveland                                        28.10013   22.65960  1.2401           0.2157651    
+factor(City)Colorado springs                                  3.17393    4.28900  0.7400           0.4597837    
+factor(City)Columbus                                         21.21948   11.82145  1.7950           0.0735119 .  
+factor(City)Corpus christi                                   13.88810    5.06821  2.7402           0.0064524 ** 
+factor(City)Dallas                                           28.00869   10.86849  2.5771           0.0103712 *  
+factor(City)Denver                                            9.92285    4.16414  2.3829           0.0177055 *  
+factor(City)Detroit                                          48.13313   36.11086  1.3329           0.1834179    
+factor(City)El paso                                           7.25014    2.04077  3.5526           0.0004333 ***
+factor(City)Fort worth                                       18.63431    7.38514  2.5232           0.0120684 *  
+factor(City)Fresno                                            5.97635    3.70918  1.6112           0.1080248    
+factor(City)Greensboro                                       17.07556   18.14325  0.9412           0.3472721    
+factor(City)Henderson                                        -0.86990    7.92698 -0.1097           0.9126791    
+factor(City)Houston                                          28.01773   12.34467  2.2696           0.0238349 *  
+factor(City)Kansas city                                      16.36491   12.66864  1.2918           0.1972857    
+factor(City)Lincoln                                           6.25187    6.06323  1.0311           0.3031960    
+factor(City)Long beach                                       10.87129    6.32008  1.7201           0.0862898 .  
+factor(City)Los angeles                                      19.66963   13.04483  1.5078           0.1324903    
+factor(City)Memphis                                          38.55811   26.95229  1.4306           0.1534302    
+factor(City)Mesa                                              6.05583    2.57951  2.3477           0.0194443 *  
+factor(City)Milwaukee                                        36.13563   16.47578  2.1933           0.0289424 *  
+factor(City)Minneapolis                                      22.72835    7.80794  2.9109           0.0038330 ** 
+factor(City)Newark                                           28.39112   22.95233  1.2370           0.2169265    
+factor(City)Oakland                                          14.86763   12.68652  1.1719           0.2420205    
+factor(City)Oklahoma city                                    13.84056    5.77889  2.3950           0.0171415 *  
+factor(City)Philadelphia                                     38.74627   18.78810  2.0623           0.0399147 *  
+factor(City)Phoenix                                          13.04038    6.97625  1.8693           0.0624177 .  
+factor(City)Pittsburgh                                       15.60368   11.46229  1.3613           0.1742878    
+factor(City)Plano                                             5.12494    8.95952  0.5720           0.5676798    
+factor(City)Riverside                                         1.95330    6.17791  0.3162           0.7520567    
+factor(City)Sacramento                                        8.00203    6.12991  1.3054           0.1926065    
+factor(City)San antonio                                       7.56353    6.29522  1.2015           0.2303763    
+factor(City)San diego                                        13.39899    5.42180  2.4713           0.0139343 *  
+factor(City)San francisco                                     8.48344    3.40290  2.4930           0.0131257 *  
+factor(City)San jose                                          7.56520    3.13348  2.4143           0.0162745 *  
+factor(City)Seattle                                           4.58913    3.51688  1.3049           0.1927840    
+factor(City)St. Louis                                        29.83761   21.20727  1.4070           0.1603238    
+factor(City)St. Paul                                          9.76844    7.84738  1.2448           0.2140328    
+factor(City)Stockton                                          7.24716    7.19469  1.0073           0.3144862    
+factor(City)Tucson                                           12.53599    1.56681  8.0009 0.00000000000001805 ***
+factor(City)Tulsa                                            12.16339    6.65523  1.8276           0.0684495 .  
+factor(City)Virginia beach                                   18.67586    9.27269  2.0141           0.0447622 *  
+factor(City)Wichita                                           4.90281    5.62702  0.8713           0.3841849    
+factor(Year)2010                                              0.14579    0.48862  0.2984           0.7655900    
+factor(Year)2011                                             -0.90471    0.88835 -1.0184           0.3091825    
+factor(Year)2012                                             -0.90688    1.08147 -0.8386           0.4022828    
+factor(Year)2013                                             -1.52591    1.22566 -1.2450           0.2139731    
+factor(Year)2014                                             -2.09865    1.34830 -1.5565           0.1204839    
+factor(Year)2015                                             -2.45686    1.25964 -1.9504           0.0519174 .  
+factor(Year)2016                                             -2.75765    1.15764 -2.3821           0.0177436 *  
+total_violent_arrest_rate                                     0.56954    0.18514  3.0763           0.0022601 ** 
+log_total_pop                                                -5.49636    6.97770 -0.7877           0.4314001    
+pct_black                                                   -52.50048   46.01442 -1.1410           0.2546634    
+pct_in_poverty                                              -11.91358   25.03816 -0.4758           0.6344998    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
 [1] "Black nondrug  misdemeanor arrest rate, run on all cities"
+
+t test of coefficients:
+
+                                                              Estimate Std. Error t value              Pr(>|t|)    
+(Intercept)                                                  163.30100  184.92110  0.8831             0.3777932    
+decriminilization_status_fraction_of_year_legalized_by_city    2.26469    1.71057  1.3239             0.1863821    
+factor(City)Anaheim                                            2.71846   10.96611  0.2479             0.8043593    
+factor(City)Anchorage                                         -3.65759   16.38187 -0.2233             0.8234543    
+factor(City)Arlington                                         36.90620   24.04470  1.5349             0.1257068    
+factor(City)Atlanta                                          121.99022   57.46311  2.1229             0.0344571 *  
+factor(City)Aurora                                            46.13911   20.43665  2.2577             0.0245787 *  
+factor(City)Austin                                            29.24205    8.01279  3.6494             0.0003026 ***
+factor(City)Bakersfield                                       14.57161   10.02530  1.4535             0.1469804    
+factor(City)Baltimore                                        120.60877   69.51377  1.7350             0.0836100 .  
+factor(City)Boston                                            47.88046   24.92106  1.9213             0.0555031 .  
+factor(City)Cleveland                                        104.25200   53.97493  1.9315             0.0542251 .  
+factor(City)Colorado springs                                  14.14443   11.17771  1.2654             0.2065602    
+factor(City)Columbus                                          67.90624   30.41788  2.2324             0.0262141 *  
+factor(City)Corpus christi                                    23.73347   10.35971  2.2909             0.0225574 *  
+factor(City)Dallas                                            74.26432   25.06198  2.9632             0.0032515 ** 
+factor(City)Denver                                            30.18888   10.72241  2.8155             0.0051444 ** 
+factor(City)Detroit                                          174.15570   86.30990  2.0178             0.0443709 *  
+factor(City)El paso                                           12.70686    4.79746  2.6487             0.0084450 ** 
+factor(City)Fort worth                                        48.62932   19.05686  2.5518             0.0111387 *  
+factor(City)Fresno                                            19.57256    6.81489  2.8720             0.0043255 ** 
+factor(City)Greensboro                                        65.81656   46.54520  1.4140             0.1582353    
+factor(City)Henderson                                         -0.46655   18.60775 -0.0251             0.9800109    
+factor(City)Houston                                           76.56518   26.08706  2.9350             0.0035546 ** 
+factor(City)Kansas city                                       58.02804   33.49797  1.7323             0.0840987 .  
+factor(City)Lincoln                                           43.83453   12.36792  3.5442             0.0004469 ***
+factor(City)Long beach                                        32.01721   15.34667  2.0863             0.0376741 *  
+factor(City)Los angeles                                       49.78061   24.53589  2.0289             0.0432218 *  
+factor(City)Memphis                                          128.70915   66.26999  1.9422             0.0529110 .  
+factor(City)Mesa                                              21.60508    6.08837  3.5486             0.0004398 ***
+factor(City)Milwaukee                                        105.59598   38.75912  2.7244             0.0067630 ** 
+factor(City)Minneapolis                                       79.44692   19.23257  4.1309             0.0000452 ***
+factor(City)Newark                                           100.97717   57.40311  1.7591             0.0794312 .  
+factor(City)Oakland                                           52.72952   32.20377  1.6374             0.1024466    
+factor(City)Oklahoma city                                     41.37321   15.92949  2.5973             0.0097910 ** 
+factor(City)Philadelphia                                     114.66471   43.34690  2.6453             0.0085282 ** 
+factor(City)Phoenix                                           33.70411   13.11316  2.5703             0.0105731 *  
+factor(City)Pittsburgh                                        48.34705   28.11467  1.7196             0.0863773 .  
+factor(City)Plano                                             12.33487   22.36556  0.5515             0.5816328    
+factor(City)Riverside                                          7.86270   13.42312  0.5858             0.5584134    
+factor(City)Sacramento                                        26.79235   14.55251  1.8411             0.0664510 .  
+factor(City)San antonio                                       18.98252   11.66879  1.6268             0.1046794    
+factor(City)San diego                                         33.71450   11.84059  2.8474             0.0046670 ** 
+factor(City)San francisco                                     26.08312   10.27443  2.5386             0.0115585 *  
+factor(City)San jose                                          18.61558    8.69367  2.1413             0.0329376 *  
+factor(City)Seattle                                           15.30063   10.83239  1.4125             0.1586897    
+factor(City)St. Louis                                         95.83331   51.95522  1.8445             0.0659450 .  
+factor(City)St. Paul                                          42.17314   18.38478  2.2939             0.0223838 *  
+factor(City)Stockton                                          24.09413   15.37977  1.5666             0.1181039    
+factor(City)Tucson                                            33.39104    3.74612  8.9135 < 0.00000000000000022 ***
+factor(City)Tulsa                                             34.57294   16.88212  2.0479             0.0413111 *  
+factor(City)Virginia beach                                    47.35170   28.02591  1.6896             0.0919960 .  
+factor(City)Wichita                                           19.95169   14.63678  1.3631             0.1737160    
+factor(Year)2010                                               0.47478    0.90823  0.5228             0.6014753    
+factor(Year)2011                                              -0.94734    1.36294 -0.6951             0.4874712    
+factor(Year)2012                                              -0.26961    1.64362 -0.1640             0.8697994    
+factor(Year)2013                                              -1.18430    2.00022 -0.5921             0.5541725    
+factor(Year)2014                                              -1.98981    2.24245 -0.8873             0.3755043    
+factor(Year)2015                                              -2.76194    2.21669 -1.2460             0.2136023    
+factor(Year)2016                                              -3.38844    2.18344 -1.5519             0.1215892    
+total_violent_arrest_rate                                      1.25085    0.45247  2.7645             0.0060014 ** 
+log_total_pop                                                -12.63945   13.26414 -0.9529             0.3412924    
+pct_black                                                   -202.11019  120.11874 -1.6826             0.0933419 .  
+pct_in_poverty                                               -36.38616   78.55965 -0.4632             0.6435316    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
 [1] "Nondrug misdemeanor arrest rate disparity, run on all cities"
+
+t test of coefficients:
+
+                                                              Estimate Std. Error t value              Pr(>|t|)    
+(Intercept)                                                 -24.203120  13.078050 -1.8507             0.0650551 .  
+decriminilization_status_fraction_of_year_legalized_by_city   0.081500   0.070534  1.1555             0.2486774    
+factor(City)Anaheim                                           0.603364   0.529932  1.1386             0.2556575    
+factor(City)Anchorage                                         3.333261   0.633609  5.2608  0.000000249749923137 ***
+factor(City)Arlington                                         2.522126   0.606270  4.1601  0.000040022386618847 ***
+factor(City)Atlanta                                           8.930478   2.495740  3.5783             0.0003943 ***
+factor(City)Aurora                                            3.873961   0.409700  9.4556 < 0.00000000000000022 ***
+factor(City)Austin                                           -0.148108   0.653116 -0.2268             0.8207328    
+factor(City)Bakersfield                                       1.369699   0.254864  5.3742  0.000000140250553498 ***
+factor(City)Baltimore                                         8.264111   3.314839  2.4931             0.0131233 *  
+factor(City)Boston                                            3.346368   1.240882  2.6968             0.0073383 ** 
+factor(City)Cleveland                                         7.420232   2.449840  3.0289             0.0026361 ** 
+factor(City)Colorado springs                                  3.059217   0.254646 12.0136 < 0.00000000000000022 ***
+factor(City)Columbus                                          3.493564   1.669715  2.0923             0.0371265 *  
+factor(City)Corpus christi                                    0.842424   0.518000  1.6263             0.1047806    
+factor(City)Dallas                                            0.821264   1.899183  0.4324             0.6656936    
+factor(City)Denver                                            1.230116   0.509219  2.4157             0.0162139 *  
+factor(City)Detroit                                           8.719996   4.526288  1.9265             0.0548440 .  
+factor(City)El paso                                          -1.093782   0.279897 -3.9078             0.0001117 ***
+factor(City)Fort worth                                        1.101783   1.110786  0.9919             0.3219302    
+factor(City)Fresno                                            0.501332   0.357576  1.4020             0.1617880    
+factor(City)Greensboro                                        6.823440   1.446009  4.7188  0.000003427991128524 ***
+factor(City)Henderson                                         2.917170   0.762559  3.8255             0.0001544 ***
+factor(City)Houston                                          -0.179405   2.342705 -0.0766             0.9390010    
+factor(City)Kansas city                                       5.104264   1.279602  3.9889  0.000080754868640872 ***
+factor(City)Lincoln                                           5.750889   0.701470  8.1983  0.000000000000004599 ***
+factor(City)Long beach                                        1.328081   0.491468  2.7023             0.0072203 ** 
+factor(City)Los angeles                                      -3.022633   2.230152 -1.3553             0.1761755    
+factor(City)Memphis                                           7.732937   3.354142  2.3055             0.0217201 *  
+factor(City)Mesa                                              2.060924   0.231493  8.9028 < 0.00000000000000022 ***
+factor(City)Milwaukee                                         5.528591   2.050108  2.6967             0.0073390 ** 
+factor(City)Minneapolis                                       7.721417   0.591416 13.0558 < 0.00000000000000022 ***
+factor(City)Newark                                            6.601578   2.043011  3.2313             0.0013486 ** 
+factor(City)Oakland                                           3.707089   1.069851  3.4651             0.0005956 ***
+factor(City)Oklahoma city                                     2.711290   0.687219  3.9453  0.000096214869854571 ***
+factor(City)Philadelphia                                      3.963737   3.034042  1.3064             0.1922622    
+factor(City)Phoenix                                          -0.951880   1.178046 -0.8080             0.4196275    
+factor(City)Pittsburgh                                        4.284963   0.796824  5.3776  0.000000137884502881 ***
+factor(City)Plano                                             2.554490   0.729197  3.5032             0.0005190 ***
+factor(City)Riverside                                         1.597731   0.460112  3.4725             0.0005799 ***
+factor(City)Sacramento                                        1.499130   0.504401  2.9721             0.0031612 ** 
+factor(City)San antonio                                      -1.991604   1.070455 -1.8605             0.0636457 .  
+factor(City)San diego                                        -0.802575   1.015816 -0.7901             0.4300136    
+factor(City)San francisco                                     1.484658   0.524779  2.8291             0.0049352 ** 
+factor(City)San jose                                         -0.851058   0.522512 -1.6288             0.1042540    
+factor(City)Seattle                                           3.769152   0.370530 10.1723 < 0.00000000000000022 ***
+factor(City)St. Louis                                         7.084102   2.047284  3.4602             0.0006060 ***
+factor(City)St. Paul                                          8.396762   0.382198 21.9697 < 0.00000000000000022 ***
+factor(City)Stockton                                          1.936555   0.358025  5.4090  0.000000117296194210 ***
+factor(City)Tucson                                            0.529243   0.165237  3.2029             0.0014844 ** 
+factor(City)Tulsa                                             2.715091   0.450055  6.0328  0.000000004080726305 ***
+factor(City)Virginia beach                                    2.960942   0.696616  4.2505  0.000027356256129761 ***
+factor(City)Wichita                                           3.722050   0.291363 12.7746 < 0.00000000000000022 ***
+factor(Year)2010                                             -0.022080   0.076077 -0.2902             0.7718143    
+factor(Year)2011                                             -0.036836   0.096975 -0.3799             0.7042838    
+factor(Year)2012                                             -0.016209   0.143195 -0.1132             0.9099392    
+factor(Year)2013                                              0.054508   0.179946  0.3029             0.7621329    
+factor(Year)2014                                              0.092588   0.199520  0.4641             0.6428971    
+factor(Year)2015                                              0.121602   0.178207  0.6824             0.4954582    
+factor(Year)2016                                              0.187430   0.143574  1.3055             0.1925876    
+total_violent_arrest_rate                                     0.039692   0.012951  3.0648             0.0023460 ** 
+log_total_pop                                                 1.886653   0.966994  1.9510             0.0518442 .  
+pct_black                                                   -11.883260   5.266167 -2.2565             0.0246504 *  
+pct_in_poverty                                                0.279793   2.264066  0.1236             0.9017185    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+[1] "Total arrest rate, run on all cities"
+
+t test of coefficients:
+
+                                                              Estimate Std. Error t value              Pr(>|t|)    
+(Intercept)                                                 -518.07589  712.76706 -0.7269              0.467800    
+decriminilization_status_fraction_of_year_legalized_by_city   -0.88092    3.69120 -0.2387              0.811512    
+factor(City)Anaheim                                           41.43401   28.94390  1.4315              0.153166    
+factor(City)Anchorage                                         33.29789   42.68516  0.7801              0.435867    
+factor(City)Arlington                                         24.23531   27.55602  0.8795              0.379734    
+factor(City)Atlanta                                            7.33002   74.60027  0.0983              0.921784    
+factor(City)Aurora                                            38.80969   28.02899  1.3846              0.167044    
+factor(City)Austin                                            15.91593   26.68300  0.5965              0.551237    
+factor(City)Bakersfield                                       43.80826   21.03962  2.0822              0.038048 *  
+factor(City)Baltimore                                         16.56265   99.34747  0.1667              0.867691    
+factor(City)Boston                                           -15.20191   36.82475 -0.4128              0.679991    
+factor(City)Cleveland                                        -13.11344   71.07316 -0.1845              0.853723    
+factor(City)Colorado springs                                  28.79333   18.67462  1.5418              0.124010    
+factor(City)Columbus                                         -16.86055   52.72375 -0.3198              0.749317    
+factor(City)Corpus christi                                    70.98405   29.69958  2.3901              0.017371 *  
+factor(City)Dallas                                           -17.00513   68.46250 -0.2484              0.803981    
+factor(City)Denver                                             7.54054   15.51935  0.4859              0.627355    
+factor(City)Detroit                                          -56.84100  135.02120 -0.4210              0.674028    
+factor(City)El paso                                           11.05462   15.04001  0.7350              0.462820    
+factor(City)Fort worth                                       -10.67796   36.04761 -0.2962              0.767238    
+factor(City)Fresno                                            40.48441   13.61054  2.9745              0.003137 ** 
+factor(City)Greensboro                                        11.27131   54.09006  0.2084              0.835052    
+factor(City)Henderson                                         43.28578   47.41735  0.9129              0.361937    
+factor(City)Houston                                          -33.00198   93.71862 -0.3521              0.724945    
+factor(City)Kansas city                                       -9.82920   39.58958 -0.2483              0.804065    
+factor(City)Lincoln                                           59.13038   40.23132  1.4698              0.142520    
+factor(City)Long beach                                        34.82989   15.34856  2.2693              0.023857 *  
+factor(City)Los angeles                                      -55.41493  109.40116 -0.5065              0.612802    
+factor(City)Memphis                                          -37.37775  100.49418 -0.3719              0.710162    
+factor(City)Mesa                                              36.94850   13.25075  2.7884              0.005585 ** 
+factor(City)Milwaukee                                          0.32895   60.85272  0.0054              0.995690    
+factor(City)Minneapolis                                       35.73773   20.62539  1.7327              0.084024 .  
+factor(City)Newark                                            54.12533   64.36631  0.8409              0.400977    
+factor(City)Oakland                                           11.88719   34.58083  0.3438              0.731239    
+factor(City)Oklahoma city                                     10.08755   20.86681  0.4834              0.629094    
+factor(City)Philadelphia                                     -31.21477  102.87478 -0.3034              0.761745    
+factor(City)Phoenix                                          -21.85894   58.89365 -0.3712              0.710742    
+factor(City)Pittsburgh                                        27.88758   32.19517  0.8662              0.386968    
+factor(City)Plano                                             50.50580   48.24304  1.0469              0.295863    
+factor(City)Riverside                                         42.62705   30.25170  1.4091              0.159694    
+factor(City)Sacramento                                        24.63016   15.41466  1.5978              0.110976    
+factor(City)San antonio                                      -21.00554   52.47268 -0.4003              0.689168    
+factor(City)San diego                                         -5.16420   46.41924 -0.1113              0.911480    
+factor(City)San francisco                                      2.60910   20.28408  0.1286              0.897725    
+factor(City)San jose                                          -4.64147   24.61185 -0.1886              0.850525    
+factor(City)Seattle                                           -1.60009   12.37734 -0.1293              0.897213    
+factor(City)St. Louis                                         10.00945   62.68550  0.1597              0.873227    
+factor(City)St. Paul                                          35.64572   27.12669  1.3140              0.189686    
+factor(City)Stockton                                          32.29114   26.15401  1.2347              0.217783    
+factor(City)Tucson                                            44.76156    8.08215  5.5383         0.00000005986 ***
+factor(City)Tulsa                                             14.26735   18.67196  0.7641              0.445316    
+factor(City)Virginia beach                                    21.88135   32.71988  0.6687              0.504095    
+factor(City)Wichita                                           10.79061   19.82987  0.5442              0.586676    
+factor(Year)2010                                              -1.04220    1.34483 -0.7750              0.438875    
+factor(Year)2011                                              -5.19892    2.50180 -2.0781              0.038427 *  
+factor(Year)2012                                              -5.44472    3.62119 -1.5036              0.133588    
+factor(Year)2013                                              -6.22454    4.21864 -1.4755              0.140975    
+factor(Year)2014                                              -8.29384    4.40773 -1.8817              0.060707 .  
+factor(Year)2015                                             -12.13516    5.10415 -2.3775              0.017964 *  
+factor(Year)2016                                             -12.75715    5.15506 -2.4747              0.013806 *  
+total_violent_arrest_rate                                      3.56182    0.37014  9.6228 < 0.00000000000000022 ***
+log_total_pop                                                 38.93303   52.65702  0.7394              0.460175    
+pct_black                                                     91.40801  160.60855  0.5691              0.569627    
+pct_in_poverty                                               -57.18779  146.98412 -0.3891              0.697456    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+[1] "Total arrest rate disparity, run on all citiess"
+
+t test of coefficients:
+
+                                                               Estimate  Std. Error t value              Pr(>|t|)    
+(Intercept)                                                 -17.9939513   9.8964887 -1.8182             0.0698810 .  
+decriminilization_status_fraction_of_year_legalized_by_city  -0.0040010   0.1052160 -0.0380             0.9696879    
+factor(City)Anaheim                                           0.2469211   0.3948619  0.6253             0.5321562    
+factor(City)Anchorage                                         3.3187657   0.8305132  3.9960   0.00007847578811617 ***
+factor(City)Arlington                                         2.4344029   0.8370319  2.9084             0.0038637 ** 
+factor(City)Atlanta                                           8.8067091   2.3383821  3.7662             0.0001942 ***
+factor(City)Aurora                                            2.9521432   0.7083522  4.1676   0.00003878051563008 ***
+factor(City)Austin                                            0.6817903   0.3986195  1.7104             0.0880770 .  
+factor(City)Bakersfield                                       1.0684218   0.3105788  3.4401             0.0006513 ***
+factor(City)Baltimore                                         7.1197808   2.8845748  2.4682             0.0140531 *  
+factor(City)Boston                                            2.7103434   0.9128359  2.9691             0.0031910 ** 
+factor(City)Cleveland                                         5.6666159   2.1065573  2.6900             0.0074859 ** 
+factor(City)Colorado springs                                  2.4000091   0.3845962  6.2403   0.00000000125467091 ***
+factor(City)Columbus                                          3.1078007   1.1476667  2.7079             0.0071009 ** 
+factor(City)Corpus christi                                    0.4241520   0.3827444  1.1082             0.2685381    
+factor(City)Dallas                                            0.5827640   1.2183681  0.4783             0.6327228    
+factor(City)Denver                                            1.3500016   0.3120290  4.3265   0.00001975984674005 ***
+factor(City)Detroit                                           6.3917727   3.5771977  1.7868             0.0748286 .  
+factor(City)El paso                                          -1.4057997   0.3808902 -3.6908             0.0002589 ***
+factor(City)Fort worth                                        1.1765566   0.7798716  1.5087             0.1322842    
+factor(City)Fresno                                           -0.1557117   0.4783194 -0.3255             0.7449664    
+factor(City)Greensboro                                        6.2502258   1.8540528  3.3711             0.0008318 ***
+factor(City)Henderson                                         3.0987102   0.8882303  3.4886             0.0005471 ***
+factor(City)Houston                                          -0.1900757   1.4689351 -0.1294             0.8971175    
+factor(City)Kansas city                                       4.2902512   1.2324573  3.4811             0.0005623 ***
+factor(City)Lincoln                                           5.7080923   0.5895190  9.6826 < 0.00000000000000022 ***
+factor(City)Long beach                                        0.8824736   0.3934481  2.2429             0.0255236 *  
+factor(City)Los angeles                                      -2.4385659   1.5926655 -1.5311             0.1266373    
+factor(City)Memphis                                           6.9283748   2.8422394  2.4376             0.0152776 *  
+factor(City)Mesa                                              1.9244108   0.2481369  7.7554   0.00000000000009588 ***
+factor(City)Milwaukee                                         4.9223895   1.6528929  2.9780             0.0031020 ** 
+factor(City)Minneapolis                                       7.9782534   0.6106043 13.0662 < 0.00000000000000022 ***
+factor(City)Newark                                            4.8201335   2.0352474  2.3683             0.0184083 *  
+factor(City)Oakland                                           3.9250188   1.0496259  3.7394             0.0002152 ***
+factor(City)Oklahoma city                                     2.0655820   0.5186747  3.9824   0.00008290579304897 ***
+factor(City)Philadelphia                                      2.5854686   2.0695889  1.2493             0.2123976    
+factor(City)Phoenix                                          -0.9572578   0.8882477 -1.0777             0.2819090    
+factor(City)Pittsburgh                                        4.7904534   0.9953272  4.8129   0.00000221095726131 ***
+factor(City)Plano                                             3.2466763   0.9687728  3.3513             0.0008915 ***
+factor(City)Riverside                                         0.8426432   0.3927468  2.1455             0.0325955 *  
+factor(City)Sacramento                                        1.6806446   0.4347081  3.8661             0.0001317 ***
+factor(City)San antonio                                      -1.7152418   0.7507900 -2.2846             0.0229319 *  
+factor(City)San diego                                         0.1254824   0.6312016  0.1988             0.8425345    
+factor(City)San francisco                                     4.2365544   0.2988952 14.1740 < 0.00000000000000022 ***
+factor(City)San jose                                         -0.5783816   0.3349832 -1.7266             0.0851171 .  
+factor(City)Seattle                                           5.3127053   0.2878034 18.4595 < 0.00000000000000022 ***
+factor(City)St. Louis                                         6.4622269   2.0979996  3.0802             0.0022315 ** 
+factor(City)St. Paul                                          7.0417474   0.5417717 12.9976 < 0.00000000000000022 ***
+factor(City)Stockton                                          1.2689943   0.3575467  3.5492             0.0004389 ***
+factor(City)Tucson                                            0.1285174   0.2809118  0.4575             0.6475935    
+factor(City)Tulsa                                             2.3833829   0.5444666  4.3775   0.00001585006156799 ***
+factor(City)Virginia beach                                    3.2610248   1.0860394  3.0027             0.0028675 ** 
+factor(City)Wichita                                           3.1085209   0.4631896  6.7111   0.00000000007739598 ***
+factor(Year)2010                                             -0.1795535   0.0693189 -2.5903             0.0099890 ** 
+factor(Year)2011                                             -0.2784214   0.1522067 -1.8292             0.0682106 .  
+factor(Year)2012                                             -0.3287785   0.1990448 -1.6518             0.0994708 .  
+factor(Year)2013                                             -0.3765496   0.2602824 -1.4467             0.1488718    
+factor(Year)2014                                             -0.4438327   0.2815527 -1.5764             0.1158377    
+factor(Year)2015                                             -0.4795400   0.2865309 -1.6736             0.0950963 .  
+factor(Year)2016                                             -0.4748885   0.2856189 -1.6627             0.0972697 .  
+total_violent_arrest_rate                                    -0.0047884   0.0111099 -0.4310             0.6667281    
+log_total_pop                                                 1.4640107   0.7151442  2.0472             0.0413849 *  
+pct_black                                                   -10.1483009   4.9560610 -2.0477             0.0413356 *  
+pct_in_poverty                                                3.9498044   5.0563963  0.7812             0.4352393    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
