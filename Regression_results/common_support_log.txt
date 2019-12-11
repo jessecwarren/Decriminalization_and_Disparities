@@ -1,0 +1,496 @@
+
+Call:
+lm_robust(formula = log(marijuana_possession_arrest_rate) ~ decriminilization_status_fraction_of_year_legalized_by_city + 
+    total_violent_arrest_rate + log_total_pop + pct_black + pct_in_poverty, 
+    data = df, weights = unweighted_sample_count_of_popE, subset = ACS_city_name %in% 
+        common_support, clusters = State, fixed_effects = ~City + 
+        Year, se_type = "stata")
+
+Weighted, Standard error type:  stata 
+
+Coefficients:
+                                                            Estimate Std. Error t value Pr(>|t|)  CI Lower CI Upper DF
+decriminilization_status_fraction_of_year_legalized_by_city  -1.2152    0.42336 -2.8703 0.008647  -2.09095  -0.3394 23
+total_violent_arrest_rate                                     0.0801    0.07373  1.0863 0.288599  -0.07243   0.2326 23
+log_total_pop                                                 0.3341    2.93380  0.1139 0.910324  -5.73494   6.4031 23
+pct_black                                                    11.4455    6.41649  1.7838 0.087664  -1.82803  24.7190 23
+pct_in_poverty                                               -7.9516    8.53803 -0.9313 0.361365 -25.61383   9.7107 23
+
+Multiple R-squared:  0.9073 ,	Adjusted R-squared:  0.8906
+Multiple R-squared (proj. model):  0.3305 ,	Adjusted R-squared (proj. model):  0.2102 
+F-statistic (proj. model): 57.84 on 5 and 23 DF,  p-value: 0.000000000002903
+
+Call:
+lm_robust(formula = log(marijuana_possession_and_sale_arrest_rate) ~ 
+    decriminilization_status_fraction_of_year_legalized_by_city + 
+        total_violent_arrest_rate + log_total_pop + pct_black + 
+        pct_in_poverty, data = df, weights = unweighted_sample_count_of_popE, 
+    subset = ACS_city_name %in% common_support, clusters = State, 
+
+Weighted, Standard error type:  stata 
+
+Coefficients:
+                                                            Estimate Std. Error  t value Pr(>|t|)  CI Lower CI Upper DF
+decriminilization_status_fraction_of_year_legalized_by_city -0.82019     0.2686 -3.05398 0.005628  -1.37576  -0.2646 23
+total_violent_arrest_rate                                    0.07206     0.0438  1.64518 0.113533  -0.01855   0.1627 23
+log_total_pop                                                0.17476     1.8458  0.09468 0.925389  -3.64361   3.9931 23
+pct_black                                                    4.39557     4.5689  0.96206 0.346026  -5.05595  13.8471 23
+pct_in_poverty                                              -6.03496     6.4124 -0.94114 0.356413 -19.29998   7.2301 23
+
+Multiple R-squared:  0.922 ,	Adjusted R-squared:  0.908
+Multiple R-squared (proj. model):  0.3621 ,	Adjusted R-squared (proj. model):  0.2475 
+F-statistic (proj. model): 51.02 on 5 and 23 DF,  p-value: 0.00000000001082
+
+Call:
+lm_robust(formula = log(black_marijuana_possession_arrest_rate) ~ 
+    decriminilization_status_fraction_of_year_legalized_by_city + 
+        total_violent_arrest_rate + log_total_pop + pct_black + 
+        pct_in_poverty, data = df, weights = unweighted_sample_count_of_popE, 
+    subset = ACS_city_name %in% common_support, clusters = State, 
+
+Weighted, Standard error type:  stata 
+
+Coefficients: (5 not defined because the design matrix is rank deficient)
+                                                            Estimate Std. Error t value Pr(>|t|) CI Lower CI Upper DF
+decriminilization_status_fraction_of_year_legalized_by_city      NaN         NA     NaN       NA      NaN      NaN NA
+total_violent_arrest_rate                                        NaN         NA     NaN       NA      NaN      NaN NA
+log_total_pop                                                    NaN         NA     NaN       NA      NaN      NaN NA
+pct_black                                                        NaN         NA     NaN       NA      NaN      NaN NA
+pct_in_poverty                                                   NaN         NA     NaN       NA      NaN      NaN NA
+
+Multiple R-squared:    NaN ,	Adjusted R-squared:    NaN
+
+Call:
+lm_robust(formula = log(black_marijuana_possession_and_sale_arrest_rate) ~ 
+    decriminilization_status_fraction_of_year_legalized_by_city + 
+        total_violent_arrest_rate + log_total_pop + pct_black + 
+        pct_in_poverty, data = df, weights = unweighted_sample_count_of_popE, 
+    subset = ACS_city_name %in% common_support, clusters = State, 
+
+Weighted, Standard error type:  stata 
+
+Coefficients:
+                                                            Estimate Std. Error t value Pr(>|t|)  CI Lower CI Upper DF
+decriminilization_status_fraction_of_year_legalized_by_city -0.92032    0.26689 -3.4483 0.002187  -1.47243  -0.3682 23
+total_violent_arrest_rate                                    0.06544    0.03661  1.7874 0.087052  -0.01029   0.1412 23
+log_total_pop                                               -0.28087    1.84017 -0.1526 0.880017  -4.08755   3.5258 23
+pct_black                                                    0.73058    4.71826  0.1548 0.878298  -9.02989  10.4910 23
+pct_in_poverty                                              -7.35801    4.43146 -1.6604 0.110408 -16.52519   1.8092 23
+
+Multiple R-squared:  0.891 ,	Adjusted R-squared:  0.8714
+Multiple R-squared (proj. model):  0.3468 ,	Adjusted R-squared (proj. model):  0.2295 
+F-statistic (proj. model): 29.93 on 5 and 23 DF,  p-value: 0.000000002408
+
+Call:
+lm_robust(formula = log(marijuana_possession_arrest_rate_disparity) ~ 
+    decriminilization_status_fraction_of_year_legalized_by_city + 
+        total_violent_arrest_rate + log_total_pop + pct_black + 
+        pct_in_poverty, data = df, weights = unweighted_sample_count_of_popE, 
+    subset = ACS_city_name %in% common_support, clusters = State, 
+
+Weighted, Standard error type:  stata 
+
+Coefficients: (5 not defined because the design matrix is rank deficient)
+                                                            Estimate Std. Error t value Pr(>|t|) CI Lower CI Upper DF
+decriminilization_status_fraction_of_year_legalized_by_city      NaN         NA     NaN       NA      NaN      NaN NA
+total_violent_arrest_rate                                        NaN         NA     NaN       NA      NaN      NaN NA
+log_total_pop                                                    NaN         NA     NaN       NA      NaN      NaN NA
+pct_black                                                        NaN         NA     NaN       NA      NaN      NaN NA
+pct_in_poverty                                                   NaN         NA     NaN       NA      NaN      NaN NA
+
+Multiple R-squared:    NaN ,	Adjusted R-squared:    NaN
+
+Call:
+lm_robust(formula = log(marijuana_possession_and_sale_arrest_rate_disparity) ~ 
+    decriminilization_status_fraction_of_year_legalized_by_city + 
+        total_violent_arrest_rate + log_total_pop + pct_black + 
+        pct_in_poverty, data = df, weights = unweighted_sample_count_of_popE, 
+    subset = ACS_city_name %in% common_support, clusters = State, 
+
+Weighted, Standard error type:  stata 
+
+Coefficients:
+                                                            Estimate Std. Error t value Pr(>|t|)  CI Lower CI Upper DF
+decriminilization_status_fraction_of_year_legalized_by_city -0.10442    0.07778 -1.3426   0.1925  -0.26531  0.05647 23
+total_violent_arrest_rate                                   -0.01112    0.01358 -0.8188   0.4213  -0.03922  0.01698 23
+log_total_pop                                                0.20580    0.84184  0.2445   0.8090  -1.53569  1.94728 23
+pct_black                                                   -4.91988    3.21153 -1.5319   0.1392 -11.56344  1.72367 23
+pct_in_poverty                                              -0.71365    3.34699 -0.2132   0.8330  -7.63742  6.21012 23
+
+Multiple R-squared:  0.9228 ,	Adjusted R-squared:  0.909
+Multiple R-squared (proj. model):  0.03387 ,	Adjusted R-squared (proj. model):  -0.1398 
+F-statistic (proj. model): 3.389 on 5 and 23 DF,  p-value: 0.01938
+
+Call:
+lm_robust(formula = log(non_drug_misdemeanor_arrest_rate) ~ decriminilization_status_fraction_of_year_legalized_by_city + 
+    total_violent_arrest_rate + log_total_pop + pct_black + pct_in_poverty, 
+    data = df, weights = unweighted_sample_count_of_popE, subset = ACS_city_name %in% 
+        common_support, clusters = State, fixed_effects = ~City + 
+        Year, se_type = "stata")
+
+Weighted, Standard error type:  stata 
+
+Coefficients:
+                                                            Estimate Std. Error t value Pr(>|t|)   CI Lower CI Upper DF
+decriminilization_status_fraction_of_year_legalized_by_city  0.22077    0.17522  1.2599  0.22033  -0.141707   0.5832 23
+total_violent_arrest_rate                                    0.08692    0.03737  2.3261  0.02919   0.009619   0.1642 23
+log_total_pop                                               -0.83796    1.07385 -0.7803  0.44316  -3.059392   1.3835 23
+pct_black                                                   -2.63872    5.88460 -0.4484  0.65805 -14.811946   9.5345 23
+pct_in_poverty                                              -4.74161    4.64757 -1.0202  0.31823 -14.355841   4.8726 23
+
+Multiple R-squared:  0.8929 ,	Adjusted R-squared:  0.8737
+Multiple R-squared (proj. model):  0.2164 ,	Adjusted R-squared (proj. model):  0.07555 
+F-statistic (proj. model): 3.845 on 5 and 23 DF,  p-value: 0.01118
+
+Call:
+lm_robust(formula = log(black_non_drug_misdemeanor_arrest_rate) ~ 
+    decriminilization_status_fraction_of_year_legalized_by_city + 
+        total_violent_arrest_rate + log_total_pop + pct_black + 
+        pct_in_poverty, data = df, weights = unweighted_sample_count_of_popE, 
+    subset = ACS_city_name %in% common_support, clusters = State, 
+
+Weighted, Standard error type:  stata 
+
+Coefficients:
+                                                            Estimate Std. Error t value Pr(>|t|)  CI Lower CI Upper DF
+decriminilization_status_fraction_of_year_legalized_by_city   0.2825    0.16710  1.6906  0.10443  -0.06318   0.6282 23
+total_violent_arrest_rate                                     0.1075    0.03875  2.7753  0.01076   0.02738   0.1877 23
+log_total_pop                                                -0.5947    1.12153 -0.5303  0.60100  -2.91479   1.7253 23
+pct_black                                                    -8.9748    5.55402 -1.6159  0.11975 -20.46419   2.5145 23
+pct_in_poverty                                               -4.9181    4.87001 -1.0099  0.32307 -14.99245   5.1563 23
+
+Multiple R-squared:  0.8858 ,	Adjusted R-squared:  0.8653
+Multiple R-squared (proj. model):  0.2862 ,	Adjusted R-squared (proj. model):  0.1579 
+F-statistic (proj. model): 3.057 on 5 and 23 DF,  p-value: 0.0293
+
+Call:
+lm_robust(formula = log(non_drug_misdemeanor_arrest_rate_disparity) ~ 
+    decriminilization_status_fraction_of_year_legalized_by_city + 
+        total_violent_arrest_rate + log_total_pop + pct_black + 
+        pct_in_poverty, data = df, weights = unweighted_sample_count_of_popE, 
+    subset = ACS_city_name %in% common_support, clusters = State, 
+
+Weighted, Standard error type:  stata 
+
+Coefficients:
+                                                             Estimate Std. Error t value Pr(>|t|)   CI Lower CI Upper DF
+decriminilization_status_fraction_of_year_legalized_by_city   0.05134    0.03909  1.3132 0.202082  -0.029535  0.13221 23
+total_violent_arrest_rate                                     0.02854    0.01004  2.8411 0.009251   0.007759  0.04932 23
+log_total_pop                                                 0.77375    0.87581  0.8835 0.386125  -1.037996  2.58549 23
+pct_black                                                   -11.31723    4.19103 -2.7003 0.012769 -19.987027 -2.64743 23
+pct_in_poverty                                               -0.33599    1.66780 -0.2015 0.842114  -3.786085  3.11411 23
+
+Multiple R-squared:  0.9518 ,	Adjusted R-squared:  0.9431
+Multiple R-squared (proj. model):  0.2062 ,	Adjusted R-squared (proj. model):  0.0636 
+F-statistic (proj. model): 11.75 on 5 and 23 DF,  p-value: 0.00001015
+
+Call:
+lm_robust(formula = log(total_arrest_rate) ~ decriminilization_status_fraction_of_year_legalized_by_city + 
+    total_violent_arrest_rate + log_total_pop + pct_black + pct_in_poverty, 
+    data = df, weights = unweighted_sample_count_of_popE, subset = ACS_city_name %in% 
+        common_support, clusters = State, fixed_effects = ~City + 
+        Year, se_type = "stata")
+
+Weighted, Standard error type:  stata 
+
+Coefficients:
+                                                            Estimate Std. Error t value  Pr(>|t|) CI Lower CI Upper DF
+decriminilization_status_fraction_of_year_legalized_by_city -0.02143    0.06164 -0.3476 0.7312878 -0.14893   0.1061 23
+total_violent_arrest_rate                                    0.06304    0.01352  4.6645 0.0001074  0.03508   0.0910 23
+log_total_pop                                                0.64276    0.74811  0.8592 0.3991119 -0.90483   2.1903 23
+pct_black                                                    1.98883    2.01438  0.9873 0.3337620 -2.17824   6.1559 23
+pct_in_poverty                                              -1.32359    2.97273 -0.4452 0.6603056 -7.47315   4.8260 23
+
+Multiple R-squared:  0.9341 ,	Adjusted R-squared:  0.9223
+Multiple R-squared (proj. model):  0.4089 ,	Adjusted R-squared (proj. model):  0.3026 
+F-statistic (proj. model): 13.23 on 5 and 23 DF,  p-value: 0.000003909
+
+Call:
+lm_robust(formula = log(black_arrest_rate) ~ decriminilization_status_fraction_of_year_legalized_by_city + 
+    total_violent_arrest_rate + log_total_pop + pct_black + pct_in_poverty, 
+    data = df, weights = unweighted_sample_count_of_popE, subset = ACS_city_name %in% 
+        common_support, clusters = State, fixed_effects = ~City + 
+        Year, se_type = "stata")
+
+Weighted, Standard error type:  stata 
+
+Coefficients:
+                                                            Estimate Std. Error t value   Pr(>|t|) CI Lower CI Upper DF
+decriminilization_status_fraction_of_year_legalized_by_city -0.03237    0.05103 -0.6343 0.53217172 -0.13794  0.07320 23
+total_violent_arrest_rate                                    0.06277    0.01177  5.3322 0.00002054  0.03842  0.08712 23
+log_total_pop                                                0.51407    0.66082  0.7779 0.44454412 -0.85294  1.88107 23
+pct_black                                                   -0.95673    2.00444 -0.4773 0.63765058 -5.10323  3.18977 23
+pct_in_poverty                                              -1.42810    2.82375 -0.5057 0.61784933 -7.26947  4.41328 23
+
+Multiple R-squared:  0.9361 ,	Adjusted R-squared:  0.9247
+Multiple R-squared (proj. model):  0.3959 ,	Adjusted R-squared (proj. model):  0.2874 
+F-statistic (proj. model): 9.532 on 5 and 23 DF,  p-value: 0.00004979
+
+Call:
+lm_robust(formula = log(total_arrest_rate_disparity) ~ decriminilization_status_fraction_of_year_legalized_by_city + 
+    total_violent_arrest_rate + log_total_pop + pct_black + pct_in_poverty, 
+    data = df, weights = unweighted_sample_count_of_popE, subset = ACS_city_name %in% 
+        common_support, clusters = State, fixed_effects = ~City + 
+        Year, se_type = "stata")
+
+Weighted, Standard error type:  stata 
+
+Coefficients:
+                                                             Estimate Std. Error  t value Pr(>|t|) CI Lower CI Upper DF
+decriminilization_status_fraction_of_year_legalized_by_city -0.027844    0.03664 -0.76003  0.45496 -0.10363  0.04794 23
+total_violent_arrest_rate                                   -0.000235    0.00511 -0.04599  0.96372 -0.01081  0.01034 23
+log_total_pop                                                0.544320    0.47251  1.15197  0.26117 -0.43314  1.52178 23
+pct_black                                                   -3.556158    1.90304 -1.86867  0.07446 -7.49290  0.38058 23
+pct_in_poverty                                               0.041256    1.35751  0.03039  0.97602 -2.76697  2.84948 23
+
+Multiple R-squared:  0.9793 ,	Adjusted R-squared:  0.9756
+Multiple R-squared (proj. model):  0.07423 ,	Adjusted R-squared (proj. model):  -0.09214 
+F-statistic (proj. model): 2.641 on 5 and 23 DF,  p-value: 0.04992
+
+Call:
+lm_robust(formula = log(marijuana_possession_arrest_rate) ~ legalization_status_fraction_of_year_legalized + 
+    total_violent_arrest_rate + log_total_pop + pct_black + pct_in_poverty, 
+    data = df, weights = unweighted_sample_count_of_popE, subset = ACS_city_name %in% 
+        common_support, clusters = State, fixed_effects = ~City + 
+        Year, se_type = "stata")
+
+Weighted, Standard error type:  stata 
+
+Coefficients:
+                                                Estimate Std. Error t value Pr(>|t|) CI Lower CI Upper DF
+legalization_status_fraction_of_year_legalized   0.17942    0.48776  0.3678  0.71635  -0.8296   1.1884 23
+total_violent_arrest_rate                        0.05594    0.05789  0.9665  0.34387  -0.0638   0.1757 23
+log_total_pop                                    1.02132    2.07181  0.4930  0.62672  -3.2646   5.3072 23
+pct_black                                       29.71195   13.09705  2.2686  0.03299   2.6186  56.8053 23
+pct_in_poverty                                 -10.77282    6.44377 -1.6718  0.10811 -24.1028   2.5571 23
+
+Multiple R-squared:  0.8772 ,	Adjusted R-squared:  0.8552
+Multiple R-squared (proj. model):  0.1139 ,	Adjusted R-squared (proj. model):  -0.04535 
+F-statistic (proj. model):  7.21 on 5 and 23 DF,  p-value: 0.000344
+
+Call:
+lm_robust(formula = log(marijuana_possession_and_sale_arrest_rate) ~ 
+    legalization_status_fraction_of_year_legalized + total_violent_arrest_rate + 
+        log_total_pop + pct_black + pct_in_poverty, data = df, 
+    weights = unweighted_sample_count_of_popE, subset = ACS_city_name %in% 
+        common_support, clusters = State, fixed_effects = ~City + 
+
+Weighted, Standard error type:  stata 
+
+Coefficients:
+                                                Estimate Std. Error  t value Pr(>|t|)  CI Lower CI Upper DF
+legalization_status_fraction_of_year_legalized -0.004511    0.27903 -0.01617  0.98724  -0.58174   0.5727 23
+total_violent_arrest_rate                       0.058824    0.03583  1.64154  0.11429  -0.01531   0.1330 23
+log_total_pop                                   0.716772    1.43340  0.50005  0.62179  -2.24845   3.6820 23
+pct_black                                      16.684570    6.69804  2.49096  0.02040   2.82863  30.5405 23
+pct_in_poverty                                 -8.210551    4.65929 -1.76219  0.09132 -17.84903   1.4279 23
+
+Multiple R-squared:  0.8943 ,	Adjusted R-squared:  0.8753
+Multiple R-squared (proj. model):  0.1348 ,	Adjusted R-squared (proj. model):  -0.02063 
+F-statistic (proj. model):  8.85 on 5 and 23 DF,  p-value: 0.00008512
+
+Call:
+lm_robust(formula = log(black_marijuana_possession_arrest_rate) ~ 
+    legalization_status_fraction_of_year_legalized + total_violent_arrest_rate + 
+        log_total_pop + pct_black + pct_in_poverty, data = df, 
+    weights = unweighted_sample_count_of_popE, subset = ACS_city_name %in% 
+        common_support, clusters = State, fixed_effects = ~City + 
+
+Weighted, Standard error type:  stata 
+
+Coefficients: (5 not defined because the design matrix is rank deficient)
+                                               Estimate Std. Error t value Pr(>|t|) CI Lower CI Upper DF
+legalization_status_fraction_of_year_legalized      NaN         NA     NaN       NA      NaN      NaN NA
+total_violent_arrest_rate                           NaN         NA     NaN       NA      NaN      NaN NA
+log_total_pop                                       NaN         NA     NaN       NA      NaN      NaN NA
+pct_black                                           NaN         NA     NaN       NA      NaN      NaN NA
+pct_in_poverty                                      NaN         NA     NaN       NA      NaN      NaN NA
+
+Multiple R-squared:    NaN ,	Adjusted R-squared:    NaN
+
+Call:
+lm_robust(formula = log(black_marijuana_possession_and_sale_arrest_rate) ~ 
+    legalization_status_fraction_of_year_legalized + total_violent_arrest_rate + 
+        log_total_pop + pct_black + pct_in_poverty, data = df, 
+    weights = unweighted_sample_count_of_popE, subset = ACS_city_name %in% 
+        common_support, clusters = State, fixed_effects = ~City + 
+
+Weighted, Standard error type:  stata 
+
+Coefficients:
+                                                Estimate Std. Error t value Pr(>|t|)   CI Lower CI Upper DF
+legalization_status_fraction_of_year_legalized  -0.10684    0.19607 -0.5449  0.59106  -0.512429   0.2988 23
+total_violent_arrest_rate                        0.05308    0.03049  1.7408  0.09508  -0.009997   0.1162 23
+log_total_pop                                    0.39063    1.56230  0.2500  0.80478  -2.841226   3.6225 23
+pct_black                                       14.48727    6.43301  2.2520  0.03417   1.179569  27.7950 23
+pct_in_poverty                                 -10.01905    3.69195 -2.7138  0.01239 -17.656421  -2.3817 23
+
+Multiple R-squared:   0.85 ,	Adjusted R-squared:  0.8231
+Multiple R-squared (proj. model):  0.1014 ,	Adjusted R-squared (proj. model):  -0.06009 
+F-statistic (proj. model): 6.836 on 5 and 23 DF,  p-value: 0.0004844
+
+Call:
+lm_robust(formula = log(marijuana_possession_arrest_rate_disparity) ~ 
+    legalization_status_fraction_of_year_legalized + total_violent_arrest_rate + 
+        log_total_pop + pct_black + pct_in_poverty, data = df, 
+    weights = unweighted_sample_count_of_popE, subset = ACS_city_name %in% 
+        common_support, clusters = State, fixed_effects = ~City + 
+
+Weighted, Standard error type:  stata 
+
+Coefficients: (5 not defined because the design matrix is rank deficient)
+                                               Estimate Std. Error t value Pr(>|t|) CI Lower CI Upper DF
+legalization_status_fraction_of_year_legalized      NaN         NA     NaN       NA      NaN      NaN NA
+total_violent_arrest_rate                           NaN         NA     NaN       NA      NaN      NaN NA
+log_total_pop                                       NaN         NA     NaN       NA      NaN      NaN NA
+pct_black                                           NaN         NA     NaN       NA      NaN      NaN NA
+pct_in_poverty                                      NaN         NA     NaN       NA      NaN      NaN NA
+
+Multiple R-squared:    NaN ,	Adjusted R-squared:    NaN
+
+Call:
+lm_robust(formula = log(marijuana_possession_and_sale_arrest_rate_disparity) ~ 
+    legalization_status_fraction_of_year_legalized + total_violent_arrest_rate + 
+        log_total_pop + pct_black + pct_in_poverty, data = df, 
+    weights = unweighted_sample_count_of_popE, subset = ACS_city_name %in% 
+        common_support, clusters = State, fixed_effects = ~City + 
+
+Weighted, Standard error type:  stata 
+
+Coefficients:
+                                                Estimate Std. Error t value Pr(>|t|) CI Lower CI Upper DF
+legalization_status_fraction_of_year_legalized -0.138307    0.24500 -0.5645   0.5779 -0.64513   0.3685 23
+total_violent_arrest_rate                      -0.009439    0.01191 -0.7926   0.4361 -0.03408   0.0152 23
+log_total_pop                                   0.360504    0.82178  0.4387   0.6650 -1.33947   2.0605 23
+pct_black                                      -3.399319    2.68665 -1.2653   0.2184 -8.95708   2.1584 23
+pct_in_poverty                                 -1.288173    3.46931 -0.3713   0.7138 -8.46498   5.8886 23
+
+Multiple R-squared:  0.9223 ,	Adjusted R-squared:  0.9083
+Multiple R-squared (proj. model):  0.02663 ,	Adjusted R-squared (proj. model):  -0.1483 
+F-statistic (proj. model): 2.552 on 5 and 23 DF,  p-value: 0.05608
+
+Call:
+lm_robust(formula = log(non_drug_misdemeanor_arrest_rate) ~ legalization_status_fraction_of_year_legalized + 
+    total_violent_arrest_rate + log_total_pop + pct_black + pct_in_poverty, 
+    data = df, weights = unweighted_sample_count_of_popE, subset = ACS_city_name %in% 
+        common_support, clusters = State, fixed_effects = ~City + 
+        Year, se_type = "stata")
+
+Weighted, Standard error type:  stata 
+
+Coefficients:
+                                               Estimate Std. Error t value Pr(>|t|)   CI Lower CI Upper DF
+legalization_status_fraction_of_year_legalized   0.6920    0.24732  2.7980  0.01022   0.180368   1.2036 23
+total_violent_arrest_rate                        0.0736    0.03075  2.3932  0.02525   0.009981   0.1372 23
+log_total_pop                                   -1.4137    0.99271 -1.4241  0.16786  -3.467233   0.6399 23
+pct_black                                       -5.7258    4.88228 -1.1728  0.25289 -15.825556   4.3740 23
+pct_in_poverty                                  -2.6638    4.12832 -0.6452  0.52515 -11.203850   5.8763 23
+
+Multiple R-squared:  0.8977 ,	Adjusted R-squared:  0.8793
+Multiple R-squared (proj. model):  0.2509 ,	Adjusted R-squared (proj. model):  0.1163 
+F-statistic (proj. model):  4.07 on 5 and 23 DF,  p-value: 0.00858
+
+Call:
+lm_robust(formula = log(black_non_drug_misdemeanor_arrest_rate) ~ 
+    legalization_status_fraction_of_year_legalized + total_violent_arrest_rate + 
+        log_total_pop + pct_black + pct_in_poverty, data = df, 
+    weights = unweighted_sample_count_of_popE, subset = ACS_city_name %in% 
+        common_support, clusters = State, fixed_effects = ~City + 
+
+Weighted, Standard error type:  stata 
+
+Coefficients:
+                                                Estimate Std. Error t value Pr(>|t|)  CI Lower CI Upper DF
+legalization_status_fraction_of_year_legalized   0.73072    0.26852  2.7213 0.012176   0.17524   1.2862 23
+total_violent_arrest_rate                        0.09427    0.03244  2.9059 0.007962   0.02716   0.1614 23
+log_total_pop                                   -1.23512    1.01044 -1.2224 0.233953  -3.32538   0.8551 23
+pct_black                                      -12.97460    5.71904 -2.2687 0.032986 -24.80533  -1.1439 23
+pct_in_poverty                                  -2.59352    4.57759 -0.5666 0.576494 -12.06299   6.8759 23
+
+Multiple R-squared:  0.8893 ,	Adjusted R-squared:  0.8694
+Multiple R-squared (proj. model):  0.308 ,	Adjusted R-squared (proj. model):  0.1836 
+F-statistic (proj. model): 3.899 on 5 and 23 DF,  p-value: 0.01049
+
+Call:
+lm_robust(formula = log(non_drug_misdemeanor_arrest_rate_disparity) ~ 
+    legalization_status_fraction_of_year_legalized + total_violent_arrest_rate + 
+        log_total_pop + pct_black + pct_in_poverty, data = df, 
+    weights = unweighted_sample_count_of_popE, subset = ACS_city_name %in% 
+        common_support, clusters = State, fixed_effects = ~City + 
+
+Weighted, Standard error type:  stata 
+
+Coefficients:
+                                                Estimate Std. Error  t value Pr(>|t|)   CI Lower CI Upper DF
+legalization_status_fraction_of_year_legalized   0.03861    0.07339  0.52615 0.603823  -0.113198  0.19042 23
+total_violent_arrest_rate                        0.02843    0.01099  2.58729 0.016472   0.005699  0.05116 23
+log_total_pop                                    0.71597    0.84303  0.84929 0.404473  -1.027957  2.45991 23
+pct_black                                      -12.07415    4.25054 -2.84061 0.009262 -20.867069 -3.28123 23
+pct_in_poverty                                  -0.11702    1.70635 -0.06858 0.945920  -3.646867  3.41284 23
+
+Multiple R-squared:  0.9515 ,	Adjusted R-squared:  0.9428
+Multiple R-squared (proj. model):  0.2024 ,	Adjusted R-squared (proj. model):  0.05906 
+F-statistic (proj. model): 9.629 on 5 and 23 DF,  p-value: 0.00004622
+
+Call:
+lm_robust(formula = log(total_arrest_rate) ~ legalization_status_fraction_of_year_legalized + 
+    total_violent_arrest_rate + log_total_pop + pct_black + pct_in_poverty, 
+    data = df, weights = unweighted_sample_count_of_popE, subset = ACS_city_name %in% 
+        common_support, clusters = State, fixed_effects = ~City + 
+        Year, se_type = "stata")
+
+Weighted, Standard error type:  stata 
+
+Coefficients:
+                                               Estimate Std. Error t value   Pr(>|t|) CI Lower CI Upper DF
+legalization_status_fraction_of_year_legalized  0.12690    0.13242  0.9583 0.34787335 -0.14703  0.40082 23
+total_violent_arrest_rate                       0.05959    0.01118  5.3282 0.00002074  0.03646  0.08273 23
+log_total_pop                                   0.57789    0.71587  0.8072 0.42779353 -0.90301  2.05878 23
+pct_black                                       2.35044    1.82862  1.2854 0.21145845 -1.43235  6.13324 23
+pct_in_poverty                                 -1.10604    2.72329 -0.4061 0.68839237 -6.73960  4.52751 23
+
+Multiple R-squared:  0.9349 ,	Adjusted R-squared:  0.9233
+Multiple R-squared (proj. model):  0.4163 ,	Adjusted R-squared (proj. model):  0.3114 
+F-statistic (proj. model): 8.597 on 5 and 23 DF,  p-value: 0.0001045
+
+Call:
+lm_robust(formula = log(black_arrest_rate) ~ legalization_status_fraction_of_year_legalized + 
+    total_violent_arrest_rate + log_total_pop + pct_black + pct_in_poverty, 
+    data = df, weights = unweighted_sample_count_of_popE, subset = ACS_city_name %in% 
+        common_support, clusters = State, fixed_effects = ~City + 
+        Year, se_type = "stata")
+
+Weighted, Standard error type:  stata 
+
+Coefficients:
+                                               Estimate Std. Error t value    Pr(>|t|) CI Lower CI Upper DF
+legalization_status_fraction_of_year_legalized  0.08393    0.10580  0.7933 0.435719585 -0.13494  0.30280 23
+total_violent_arrest_rate                       0.06019    0.01041  5.7838 0.000006828  0.03866  0.08172 23
+log_total_pop                                   0.48312    0.63746  0.7579 0.456216236 -0.83557  1.80181 23
+pct_black                                      -0.44486    1.94249 -0.2290 0.820880171 -4.46321  3.57349 23
+pct_in_poverty                                 -1.33226    2.65013 -0.5027 0.619945709 -6.81448  4.14996 23
+
+Multiple R-squared:  0.9363 ,	Adjusted R-squared:  0.9249
+Multiple R-squared (proj. model):  0.3975 ,	Adjusted R-squared (proj. model):  0.2892 
+F-statistic (proj. model):  8.14 on 5 and 23 DF,  p-value: 0.0001527
+
+Call:
+lm_robust(formula = log(total_arrest_rate_disparity) ~ legalization_status_fraction_of_year_legalized + 
+    total_violent_arrest_rate + log_total_pop + pct_black + pct_in_poverty, 
+    data = df, weights = unweighted_sample_count_of_popE, subset = ACS_city_name %in% 
+        common_support, clusters = State, fixed_effects = ~City + 
+        Year, se_type = "stata")
+
+Weighted, Standard error type:  stata 
+
+Coefficients:
+                                                 Estimate Std. Error t value Pr(>|t|) CI Lower CI Upper DF
+legalization_status_fraction_of_year_legalized -0.0553952   0.053976 -1.0263  0.31542 -0.16705  0.05626 23
+total_violent_arrest_rate                       0.0006662   0.005428  0.1227  0.90339 -0.01056  0.01189 23
+log_total_pop                                   0.5970934   0.482588  1.2373  0.22847 -0.40122  1.59540 23
+pct_black                                      -3.1566151   1.756082 -1.7975  0.08539 -6.78935  0.47612 23
+pct_in_poverty                                 -0.1519397   1.343902 -0.1131  0.91097 -2.93201  2.62813 23
+
+Multiple R-squared:  0.9793 ,	Adjusted R-squared:  0.9756
+Multiple R-squared (proj. model):  0.07432 ,	Adjusted R-squared (proj. model):  -0.09203 
+F-statistic (proj. model): 2.855 on 5 and 23 DF,  p-value: 0.03791
